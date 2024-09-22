@@ -38,15 +38,15 @@ jobs:
     - name: tree
       run: cd .. && tree
     - name: Generate
-      run: : |
+      run: |
         cd gopath/github.com/katydid/validator-go
         PATH=$HOME/bin:$PATH make regenerate
     - name: Build
-      run: : |
+      run: |
         cd gopath/github.com/katydid/validator-go
         make build
     - name: Test
-      run: : |
+      run: |
         cd gopath/github.com/katydid/validator-go
         make test
     - name: Vet
