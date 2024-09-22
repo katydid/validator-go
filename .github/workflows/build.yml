@@ -15,7 +15,7 @@ jobs:
       with:
         repository: gogo/protobuf
         path: gopath/github.com/gogo/protobuf
-    - name: Checkout testuit
+    - name: Checkout testsuite
       uses: actions/checkout@v4
       with:
         repository: katydid/testsuite
