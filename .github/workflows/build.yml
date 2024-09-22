@@ -23,7 +23,7 @@ jobs:
     - name: env
       run: env && go env && pwd
     - name: Generate
-      run: make regenerate
+      run: PATH=$HOME/bin:$PATH make regenerate
     - name: Build
       run: make build
     - name: Test
