@@ -119,7 +119,7 @@ func (this *compare) CName() string {
 }
 
 func (this *compare) Hash() uint64 {
-	return deriveHashStr(this.Name)
+	return hashStr(this.Name)
 }
 
 const newFuncStr = `
@@ -198,7 +198,7 @@ type conster struct {
 }
 
 func (this *conster) Hash() uint64 {
-	return deriveHashStr(this.CType)
+	return hashStr(this.CType)
 }
 
 const listStr = `
@@ -292,7 +292,7 @@ type list struct {
 }
 
 func (this *list) Hash() uint64 {
-	return deriveHashStr(this.CType)
+	return hashStr(this.CType)
 }
 
 const printStr = `
@@ -356,7 +356,7 @@ type printer struct {
 }
 
 func (this *printer) Hash() uint64 {
-	return deriveHashStr(this.Name)
+	return hashStr(this.Name)
 }
 
 const lengthStr = `
@@ -500,7 +500,7 @@ type elemer struct {
 }
 
 func (this *elemer) Hash() uint64 {
-	return deriveHashStr(this.ListType)
+	return hashStr(this.ListType)
 }
 
 const rangeStr = `
@@ -604,7 +604,7 @@ type ranger struct {
 }
 
 func (this *ranger) Hash() uint64 {
-	return deriveHashStr(this.ListType)
+	return hashStr(this.ListType)
 }
 
 const variableStr = `
@@ -678,7 +678,7 @@ type varer struct {
 }
 
 func (this *varer) Hash() uint64 {
-	return deriveHashStr(this.Name)
+	return hashStr(this.Name)
 }
 
 const typStr = `
@@ -740,7 +740,7 @@ type typer struct {
 }
 
 func (this *typer) Hash() uint64 {
-	return deriveHashStr(this.Name)
+	return hashStr(this.Name)
 }
 
 const inSetStr = `
@@ -826,7 +826,7 @@ type inSeter struct {
 }
 
 func (this *inSeter) Hash() uint64 {
-	return deriveHashStr(this.Name)
+	return hashStr(this.Name)
 }
 
 func main() {
