@@ -16,6 +16,8 @@ jobs:
         go-version: 1.19
     - name: Fetch dependencies
       run: go mod download -x
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Install tools
       run: go install -x github.com/goccmack/gocc github.com/awalterschulze/goderive github.com/gogo/protobuf/protoc-gen-gogo
     - name: Setup protoc
@@ -26,15 +28,29 @@ jobs:
       run: env && go env && pwd
     - name: Generate
       run: PATH=$HOME/bin:$PATH make regenerate
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Build
       run: make build
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Test
       run: make test
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Vet
       run: make vet
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Errcheck
       run: make errcheck
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Checklicencse
       run: make checklicense
+      with:
+        path: gopath/src/github.com/katydid/validator-go
     - name: Diff
       run: make diff
+      with:
+        path: gopath/src/github.com/katydid/validator-go
