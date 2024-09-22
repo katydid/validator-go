@@ -7,7 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+    - name: Checkout gogoprotobuf
+      uses: actions/checkout@v4
+      with:
+        repository: github.com/gogo/protobuf
+        path: ../protobuf
     - name: Setup Go
       uses: actions/setup-go@v3
       with:
@@ -23,7 +28,7 @@ jobs:
     - name: env
       run: env && go env && pwd
     - name: tree
-      run: tree
+      run: cd .. && tree
     - name: Generate
       run: PATH=$HOME/bin:$PATH make regenerate
     - name: Build
