@@ -17,10 +17,7 @@ jobs:
     - name: Install tools
       run: go install -x github.com/goccmack/gocc github.com/awalterschulze/goderive github.com/gogo/protobuf/protoc-gen-gogo
     - name: Setup protoc
-      run: |
-        ls -la
-        tree
-        bash ${GITHUB_WORKSPACE}/install-protoc.sh
+      run: ./install_protoc.sh
     - name: Generate
       run: make regenerate
     - name: Build
