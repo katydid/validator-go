@@ -1,6 +1,6 @@
 module github.com/katydid/validator-go
 
-go 1.19
+go 1.22
 
 require (
 	github.com/awalterschulze/goderive v0.0.0-20240621165703-0a721d5b1d72
