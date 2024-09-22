@@ -22,6 +22,8 @@ jobs:
       run: PATH=$HOME/bin:$PATH protoc --version
     - name: env
       run: env && go env && pwd
+    - name: tree
+      run: tree
     - name: Generate
       run: PATH=$HOME/bin:$PATH make regenerate
     - name: Build
