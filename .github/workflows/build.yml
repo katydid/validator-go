@@ -8,11 +8,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        path: gopath/github.com/katydid/validator-go
     - name: Checkout gogoprotobuf
       uses: actions/checkout@v4
       with:
         repository: gogo/protobuf
-        path: ../protobuf
+        path: gopath/github.com/gogo/protobuf
     - name: Setup Go
       uses: actions/setup-go@v3
       with:
