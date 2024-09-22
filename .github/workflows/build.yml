@@ -15,6 +15,11 @@ jobs:
       with:
         repository: gogo/protobuf
         path: gopath/github.com/gogo/protobuf
+    - name: Checkout testuit
+      uses: actions/checkout@v4
+      with:
+        repository: katydid/testsuite
+        path: gopath/github.com/katydid/testsuite
     - name: Setup Go
       uses: actions/setup-go@v3
       with:
