@@ -14,15 +14,13 @@
 
 package debug
 
-import proto "github.com/gogo/protobuf/proto"
-
 // Input is a sample instance of the Debug struct.
 var Input = &Debug{
 	A: int64(1),
 	B: []string{"b2", "b3"},
 	C: &Debug{
 		A: int64(2),
-		D: proto.Int32(3),
+		D: ptr(int32(3)),
 		E: []*Debug{
 			{
 				B: []string{"b4"},
@@ -32,7 +30,7 @@ var Input = &Debug{
 			},
 		},
 	},
-	D: proto.Int32(4),
+	D: ptr(int32(4)),
 	F: []uint32{5},
 }
 
@@ -65,4 +63,8 @@ var Output = Nodes{
 	Nested(`F`,
 		Field(`0`, `5`),
 	),
+}
+
+func ptr[A any](a A) *A {
+	return &a
 }

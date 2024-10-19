@@ -14,8 +14,6 @@
 
 regenerate:
 	(cd bnf && ./build.sh)
-	(cd types && make regenerate)
-	(cd ast && make regenerate)
 	rm ./util/litconv.go
 	rm ./util/rune.go
 	rmdir util

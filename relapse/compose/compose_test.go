@@ -18,11 +18,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gogo/protobuf/proto"
 	"github.com/katydid/validator-go/parser/debug"
 	"github.com/katydid/validator-go/relapse/ast"
 	"github.com/katydid/validator-go/relapse/funcs"
 )
+
+func ptr[A any](a A) *A {
+	return &a
+}
 
 func TestComposeNot(t *testing.T) {
 	expr := &ast.Expr{
@@ -31,7 +34,7 @@ func TestComposeNot(t *testing.T) {
 			Params: []*ast.Expr{
 				{
 					Terminal: &ast.Terminal{
-						BoolValue: proto.Bool(false),
+						BoolValue: ptr(false),
 					},
 				},
 			},

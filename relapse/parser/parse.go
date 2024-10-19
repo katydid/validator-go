@@ -75,3 +75,7 @@ func ParseExpr(s string) (*ast.Expr, error) {
 	p := NewParser()
 	return p.ParseExpr(s)
 }
+
+func ptr[A any](a A) *A {
+	return &a
+}

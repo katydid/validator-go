@@ -31,7 +31,7 @@ func New(g *ast.Grammar) (*Mem, error) {
 }
 
 // New creates a new memoizable grammar which is optimized for records.
-// A record can be json, protobuf, reflected go structures or any structure that have unique field names for each structure.
+// A record can be json, a protocol buffer, a reflected go structures or any structure that have unique field names for each structure.
 // XML would be an example of a structure for which this simplification is NOT appropriate.
 func NewRecord(g *ast.Grammar) (*Mem, error) {
 	return new(g, true)
