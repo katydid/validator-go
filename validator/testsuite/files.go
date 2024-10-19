@@ -39,8 +39,8 @@ var benchpath string
 
 func init() {
 	gopath := os.Getenv("GOPATH")
-	testpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/relapse/tests")
-	benchpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/relapse/benches")
+	testpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/validator/tests")
+	benchpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/validator/benches")
 }
 
 func TestSuiteExists() bool {
@@ -260,14 +260,14 @@ func capFirst(s string) string {
 }
 
 func readGrammar(path string) (*ast.Grammar, error) {
-	relapseTxt := filepath.Join(path, "relapse.txt")
-	relapseBytes, err := ioutil.ReadFile(relapseTxt)
+	validatorTxt := filepath.Join(path, "validator.txt")
+	validatorBytes, err := ioutil.ReadFile(validatorTxt)
 	if err != nil {
-		return nil, fmt.Errorf("err <%v> reading file <%s>", err, relapseTxt)
+		return nil, fmt.Errorf("err <%v> reading file <%s>", err, validatorTxt)
 	}
-	g, err := validator.Parse(string(relapseBytes))
+	g, err := validator.Parse(string(validatorBytes))
 	if err != nil {
-		return nil, fmt.Errorf("err <%v> parsing grammar from file <%s>", err, relapseTxt)
+		return nil, fmt.Errorf("err <%v> parsing grammar from file <%s>", err, validatorTxt)
 	}
 	return g, nil
 }
