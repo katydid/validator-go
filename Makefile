@@ -39,7 +39,6 @@ checklicense:
 	COPIED_FROM_GO \
 	go.mod \
 	go.sum \
-	install_protoc.sh \
 	parser/yaml/issues.md
 
 test:
