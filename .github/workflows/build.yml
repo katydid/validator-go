@@ -29,10 +29,6 @@ jobs:
         go install -x github.com/goccmack/gocc
         go install -x github.com/awalterschulze/goderive
         go install -x github.com/katydid/checklicense
-    - name: Setup protoc
-      run: |
-        cd gopath/github.com/katydid/validator-go
-        ./install_protoc.sh
     - name: Protoc version
       run: |
         cd gopath/github.com/katydid/validator-go
