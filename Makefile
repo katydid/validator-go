@@ -23,14 +23,6 @@ dep:
 checklicense:
 	go get github.com/katydid/checklicense
 	checklicense . \
-	person.proto \
-	srctree.proto \
-	puddingmilkshake.proto \
-	taxonomy.proto \
-	treeregister.proto \
-	typewriterprison.proto \
-	proto/tokens/test.proto \
-	parser/debug/debug.proto \
 	bnf \
 	doc.go \
 	tools/tools.go \
