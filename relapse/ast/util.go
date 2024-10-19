@@ -20,10 +20,13 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/gogo/protobuf/proto"
 	"github.com/katydid/validator-go/relapse/token"
 	"github.com/katydid/validator-go/relapse/types"
 )
+
+func ptr[A any](a A) *A {
+	return &a
+}
 
 // NewKeyword is a parser utility function that returns a Keyword given a space and a token.
 func NewKeyword(space interface{}, v interface{}) *Keyword {
@@ -89,15 +92,15 @@ func NewVariableTerminal(typ types.Type) (*Terminal, error) {
 func NewBoolTerminal(v interface{}) *Terminal {
 	b := v.(bool)
 	if b {
-		return &Terminal{BoolValue: proto.Bool(b), Literal: "true"}
+		return &Terminal{BoolValue: ptr(b), Literal: "true"}
 	}
-	return &Terminal{BoolValue: proto.Bool(b), Literal: "false"}
+	return &Terminal{BoolValue: ptr(b), Literal: "false"}
 }
 
 // NewStringTerminal is a parser utility function that returns a Terminal of type string given a string literal.
 // The input string is also unquoted.
 func NewStringTerminal(slit string) (*Terminal, error) {
-	return &Terminal{StringValue: proto.String(ToString(slit)), Literal: slit}, nil
+	return &Terminal{StringValue: ptr(ToString(slit)), Literal: slit}, nil
 }
 
 // ToString unquotes a quoted string or returns the original string.

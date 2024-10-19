@@ -97,7 +97,6 @@ bytes_cast_lit : _bytes '{' { _ws } [ _byte_elem { { _ws } ',' { _ws } _byte_ele
 import (
   . "github.com/katydid/validator-go/relapse/ast"
   "github.com/katydid/validator-go/relapse/types"
-  "github.com/gogo/protobuf/proto"
   "github.com/katydid/validator-go/relapse/token"
   "strconv"
 )
@@ -366,8 +365,8 @@ Expr
 Name
   : Space Literal << NewSDTName($0.(*Space), $1.(*Terminal)), nil >>
   | Literal       << NewSDTName(nil, $0.(*Terminal)), nil >>
-  | Space id          << NewSDTName($0.(*Space), &Terminal{StringValue: proto.String(newString($1))}), nil >>
-  | id                << NewSDTName(nil, &Terminal{StringValue: proto.String(newString($0))}), nil >>
+  | Space id          << NewSDTName($0.(*Space), &Terminal{StringValue: ptr(newString($1))}), nil >>
+  | id                << NewSDTName(nil, &Terminal{StringValue: ptr(newString($0))}), nil >>
   ;
 
 NameExpr

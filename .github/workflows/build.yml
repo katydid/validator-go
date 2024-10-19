@@ -10,11 +10,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: gopath/github.com/katydid/validator-go
-    - name: Checkout gogoprotobuf
-      uses: actions/checkout@v4
-      with:
-        repository: gogo/protobuf
-        path: gopath/github.com/gogo/protobuf
     - name: Checkout testsuite
       uses: actions/checkout@v4
       with:
@@ -33,7 +28,6 @@ jobs:
         cd gopath/github.com/katydid/validator-go
         go install -x github.com/goccmack/gocc
         go install -x github.com/awalterschulze/goderive
-        go install -x github.com/gogo/protobuf/protoc-gen-gogo
         go install -x github.com/katydid/checklicense
     - name: Setup protoc
       run: |

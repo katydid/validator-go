@@ -31,7 +31,7 @@ type Simplifier interface {
 	//Grammar returns a grammar that has been simplified, transformed to an equivalent, but smaller or equal grammar.
 	Grammar() *ast.Grammar
 	//OptimizeForRecord optimizes the simplifier to also takes into account the fact the structure being validated is a record.
-	//A record can be json, protobuf, reflected go structures or any structure that have unique field names for each structure.
+	//A record can be json, a protocol buffer, a reflected go structures or any structure that have unique field names for each structure.
 	//XML would be an example of a structure for which this simplification is NOT appropriate.
 	OptimizeForRecord() Simplifier
 }

@@ -2,7 +2,6 @@
 import (
   . "github.com/katydid/validator-go/relapse/ast"
   "github.com/katydid/validator-go/relapse/types"
-  "github.com/gogo/protobuf/proto"
   "github.com/katydid/validator-go/relapse/token"
   "strconv"
 )

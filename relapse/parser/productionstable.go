@@ -3,7 +3,6 @@
 package parser
 
 import (
-	"github.com/gogo/protobuf/proto"
 	. "github.com/katydid/validator-go/relapse/ast"
 	"github.com/katydid/validator-go/relapse/token"
 	"github.com/katydid/validator-go/relapse/types"
@@ -765,23 +764,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `Name : Space id	<< NewSDTName(X[0].(*Space), &Terminal{StringValue: proto.String(newString(X[1]))}), nil >>`,
+		String:     `Name : Space id	<< NewSDTName(X[0].(*Space), &Terminal{StringValue: ptr(newString(X[1]))}), nil >>`,
 		Id:         "Name",
 		NTType:     20,
 		Index:      53,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return NewSDTName(X[0].(*Space), &Terminal{StringValue: proto.String(newString(X[1]))}), nil
+			return NewSDTName(X[0].(*Space), &Terminal{StringValue: ptr(newString(X[1]))}), nil
 		},
 	},
 	ProdTabEntry{
-		String:     `Name : id	<< NewSDTName(nil, &Terminal{StringValue: proto.String(newString(X[0]))}), nil >>`,
+		String:     `Name : id	<< NewSDTName(nil, &Terminal{StringValue: ptr(newString(X[0]))}), nil >>`,
 		Id:         "Name",
 		NTType:     20,
 		Index:      54,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return NewSDTName(nil, &Terminal{StringValue: proto.String(newString(X[0]))}), nil
+			return NewSDTName(nil, &Terminal{StringValue: ptr(newString(X[0]))}), nil
 		},
 	},
 	ProdTabEntry{

@@ -17,7 +17,6 @@ package ast
 import (
 	"sort"
 
-	"github.com/gogo/protobuf/proto"
 	"github.com/katydid/validator-go/relapse/types"
 )
 
@@ -493,7 +492,7 @@ func NewBytesVar() *Expr {
 func NewDoubleConst(d float64) *Expr {
 	return &Expr{
 		Terminal: &Terminal{
-			DoubleValue: proto.Float64(d),
+			DoubleValue: ptr(d),
 		},
 	}
 }
@@ -504,7 +503,7 @@ func NewDoubleConst(d float64) *Expr {
 func NewIntConst(i int64) *Expr {
 	return &Expr{
 		Terminal: &Terminal{
-			IntValue: proto.Int64(i),
+			IntValue: ptr(i),
 		},
 	}
 }
@@ -515,7 +514,7 @@ func NewIntConst(i int64) *Expr {
 func NewUintConst(i uint64) *Expr {
 	return &Expr{
 		Terminal: &Terminal{
-			UintValue: proto.Uint64(i),
+			UintValue: ptr(i),
 		},
 	}
 }
@@ -545,7 +544,7 @@ func NewFalse() *Expr {
 func NewStringConst(s string) *Expr {
 	return &Expr{
 		Terminal: &Terminal{
-			StringValue: proto.String(s),
+			StringValue: ptr(s),
 		},
 	}
 }
