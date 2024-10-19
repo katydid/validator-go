@@ -1,0 +1,22 @@
+<<
+import (
+  . "github.com/katydid/validator-go/validator/ast"
+  "github.com/katydid/validator-go/validator/types"
+  "github.com/katydid/validator-go/validator/token"
+  "strconv"
+)
+
+func newString(v interface{}) string {
+  t := v.(*token.Token)
+  return string(t.Lit)
+}
+
+func unquote(s1 string) string {
+  s, err := strconv.Unquote(s1)
+  if err != nil {
+    return s1
+  }
+  return s
+}
+
+>>
