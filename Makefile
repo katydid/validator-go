@@ -56,21 +56,21 @@ bench:
 vet:
 	go vet ./encode/...
 	go vet ./gen/...
-	go vet ./relapse/...
+	go vet ./validator/...
 
 regenerate:
 	goderive ./...
 	(cd parser && make regenerate)
-	(cd relapse && make regenerate)
-	(cd relapse/funcs && go test -test.run=GenFuncList | grep "func\ " >../../list_of_functions.txt)
+	(cd validator && make regenerate)
+	(cd validator/funcs && go test -test.run=GenFuncList | grep "func\ " >../../list_of_functions.txt)
 
 clean:
 	go clean ./...
-	(cd relapse && make clean)
+	(cd validator && make clean)
 
 nuke: clean
 	(cd parser && make nuke)
-	(cd relapse && make nuke)
+	(cd validator && make nuke)
 	rm list_of_functions.txt || true
 	go clean -i ./...
 
