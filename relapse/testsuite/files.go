@@ -21,12 +21,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gogo/protobuf/proto"
-	"github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
 	"github.com/katydid/validator-go/gen"
 	"github.com/katydid/validator-go/parser"
 	"github.com/katydid/validator-go/parser/json"
-	protoparser "github.com/katydid/validator-go/parser/proto"
 	"github.com/katydid/validator-go/parser/xml"
 	"github.com/katydid/validator-go/relapse"
 	"github.com/katydid/validator-go/relapse/ast"
@@ -89,7 +86,7 @@ func ReadTestSuite() ([]Test, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "pb", "json", "xml":
+		case "json", "xml":
 		default:
 			// codec not supported
 			continue
@@ -113,7 +110,7 @@ func ReadBenchmarkSuite() ([]Bench, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "pb", "json", "xml":
+		case "json", "xml":
 		default:
 			// codec not supported
 			continue
@@ -165,15 +162,6 @@ func readTestFolder(path string) (*Test, error) {
 		expected = valid
 		codecName = names[len(names)-1]
 		switch codecName {
-		case "pb":
-			pkgName, msgName, desc, err := getProtoDesc(filename)
-			if err != nil {
-				return nil, err
-			}
-			p, err = newProtoParser(pkgName, msgName, desc, filename)
-			if err != nil {
-				return nil, err
-			}
 		case "json":
 			p, err = newJsonParser(filename)
 			if err != nil {
@@ -225,9 +213,7 @@ func readBenchFolder(path string) (*Bench, error) {
 		return nil, fmt.Errorf("err <%v> reading folder <%s>", err, path)
 	}
 	var parsers []ResetParser
-	var pkgName, msgName string
 	var codecName string
-	var desc *descriptor.FileDescriptorSet
 	for _, fileInfo := range fileInfos {
 		if fileInfo.IsDir() {
 			continue
@@ -242,18 +228,6 @@ func readBenchFolder(path string) (*Bench, error) {
 		filename := filepath.Join(path, filebase)
 		codecName = filepath.Ext(filename)[1:]
 		switch codecName {
-		case "pb":
-			if desc == nil {
-				pkgName, msgName, desc, err = getProtoDesc(filename)
-				if err != nil {
-					return nil, err
-				}
-			}
-			p, err := newProtoParser(pkgName, msgName, desc, filename)
-			if err != nil {
-				return nil, err
-			}
-			parsers = append(parsers, p)
 		case "json":
 			p, err := newJsonParser(filename)
 			if err != nil {
@@ -320,36 +294,4 @@ func newJsonParser(filename string) (ResetParser, error) {
 		return nil, fmt.Errorf("err <%v> parser.Init with bytes from filename <%s>", err, filename)
 	}
 	return j, nil
-}
-
-func getProtoDesc(filename string) (pkgName, msgName string, desc *descriptor.FileDescriptorSet, err error) {
-	names := strings.Split(filepath.Base(filename), ".")
-	schemaName := strings.Join(names[1:len(names)-1], ".")
-	schemaFilename := filepath.Clean(filepath.Join(filepath.Join(filepath.Dir(filename), ".."), schemaName))
-	descData, err := ioutil.ReadFile(schemaFilename)
-	if err != nil {
-		return "", "", nil, fmt.Errorf("err <%v> reading filename <%s>", err, schemaFilename)
-	}
-	desc = &descriptor.FileDescriptorSet{}
-	if err := proto.Unmarshal(descData, desc); err != nil {
-		return "", "", nil, fmt.Errorf("err <%v> unmarshaling descriptor from filename <%s>", err, schemaFilename)
-	}
-	pkgName = names[1]
-	msgName = names[2]
-	return pkgName, msgName, desc, nil
-}
-
-func newProtoParser(pkgName, msgName string, desc *descriptor.FileDescriptorSet, filename string) (ResetParser, error) {
-	pp, err := protoparser.NewProtoParser(pkgName, msgName, desc)
-	if err != nil {
-		return nil, fmt.Errorf("err <%v> createing proto parser", err)
-	}
-	bytes, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
-	}
-	if err := pp.Init(bytes); err != nil {
-		return nil, fmt.Errorf("err <%v> parser.Init with bytes from filename <%s>", err, filename)
-	}
-	return pp, nil
 }
