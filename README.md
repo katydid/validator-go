@@ -2,9 +2,9 @@
 
 [Katydid](http://katydid.github.io) is a toolkit for trees.
 
-[![GoDoc](https://godoc.org/github.com/katydid/katydid?status.svg)](https://godoc.org/github.com/katydid/katydid) [![Build Status](https://travis-ci.org/katydid/katydid.svg?branch=master)](https://travis-ci.org/katydid/katydid)
+[![GoDoc](https://godoc.org/github.com/katydid/validator-go?status.svg)](https://godoc.org/github.com/katydid/validator-go) [![Build Status](https://github.com/katydid/validator-go/actions/workflows/build.yml/badge.svg)](https://github.com/katydid/validator-go/actions)
 
-![Katydid Logo](https://cdn.rawgit.com/katydid/katydid.github.io/master/logo.png)
+![Katydid Logo](https://cdn.rawgit.com/katydid/katydid.github.io/main/logo.png)
 
 Currently there are three tools in the katydid toolkit:
 
