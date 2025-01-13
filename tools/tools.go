@@ -5,6 +5,7 @@
 package tools
 
 import (
+	_ "github.com/awalterschulze/checklicense"
 	_ "github.com/awalterschulze/goderive"
 	_ "github.com/goccmack/gocc"
 )
