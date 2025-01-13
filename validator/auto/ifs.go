@@ -15,7 +15,7 @@
 package auto
 
 import (
-	"github.com/katydid/validator-go/parser"
+	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"

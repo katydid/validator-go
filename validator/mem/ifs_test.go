@@ -18,8 +18,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/katydid/validator-go/parser"
-	"github.com/katydid/validator-go/parser/debug"
+	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parser/debug"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
 )

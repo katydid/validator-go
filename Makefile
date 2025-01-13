@@ -27,9 +27,7 @@ checklicense:
 	doc.go \
 	tools/tools.go \
 	.svg \
-	.txt \
-	COPIED_FROM_GO \
-	parser/yaml/issues.md
+	.txt
 
 test:
 	go test ./...

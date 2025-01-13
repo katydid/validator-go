@@ -17,7 +17,7 @@ package compose_test
 import (
 	"testing"
 
-	"github.com/katydid/validator-go/parser/debug"
+	"github.com/katydid/parser-go/parser/debug"
 	"github.com/katydid/validator-go/validator/compose"
 	. "github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/parser"

@@ -17,7 +17,7 @@
 package validator
 
 import (
-	"github.com/katydid/validator-go/parser"
+	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/mem"
 	validatorparser "github.com/katydid/validator-go/validator/parser"
