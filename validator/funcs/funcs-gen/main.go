@@ -944,7 +944,7 @@ func main() {
 		&varer{"Bool", "bool", "bool", "false"},
 		&varer{"String", "string", "string", `""`},
 		&varer{"Bytes", "[]byte", "[]byte", "nil"},
-	}, `"strings"`, `"github.com/katydid/validator-go/parser"`)
+	}, `"strings"`, `"github.com/katydid/parser-go/parser"`)
 	gen(typStr, "type.gen.go", []interface{}{
 		&typer{"Double"},
 		&typer{"Int"},

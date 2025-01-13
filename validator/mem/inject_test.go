@@ -20,7 +20,7 @@ import (
 	"strings"
 	"testing"
 
-	reflectparser "github.com/katydid/validator-go/parser/reflect"
+	reflectparser "github.com/katydid/parser-go-reflect/reflect"
 	"github.com/katydid/validator-go/validator/ast"
 	. "github.com/katydid/validator-go/validator/combinator"
 	"github.com/katydid/validator-go/validator/funcs"

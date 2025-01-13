@@ -15,7 +15,7 @@
 package funcs
 
 import (
-	"github.com/katydid/validator-go/parser"
+	"github.com/katydid/parser-go/parser"
 )
 
 type aVariable interface {

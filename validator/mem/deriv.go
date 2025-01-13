@@ -17,7 +17,7 @@ package mem
 import (
 	"io"
 
-	"github.com/katydid/validator-go/parser"
+	"github.com/katydid/parser-go/parser"
 )
 
 func deriv(mem *Mem, patterns int, tree parser.Interface) (int, error) {
