@@ -28,7 +28,6 @@ jobs:
         cd gopath/github.com/katydid/validator-go
         go install -x github.com/goccmack/gocc
         go install -x github.com/awalterschulze/goderive
-        go install -x github.com/katydid/checklicense
     - name: env
       run: env && go env && pwd
     - name: tree
