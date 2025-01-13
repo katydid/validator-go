@@ -2,8 +2,6 @@ github.com/awalterschulze/goderive v0.0.0-20240621165703-0a721d5b1d72 h1:G6rewDn
 github.com/awalterschulze/goderive v0.0.0-20240621165703-0a721d5b1d72/go.mod h1:rXccmDQDJN/4aGqWxWhq+UmBJeQEkFV/2/rkluP+ipA=
 github.com/goccmack/gocc v0.0.0-20230228185258-2292f9e40198 h1:FSii2UQeSLngl3jFoR4tUKZLprO7qUlh/TKKticc0BM=
 github.com/goccmack/gocc v0.0.0-20230228185258-2292f9e40198/go.mod h1:DTh/Y2+NbnOVVoypCCQrovMPDKUGp4yZpSbWg5D0XIM=
-github.com/katydid/checklicense v0.0.0-20160404130115-fde9b404b192 h1:to6Z5a2KsdLrbtSF6A0x+XsVglZBy3/7JrjCcwuKQdY=
-github.com/katydid/checklicense v0.0.0-20160404130115-fde9b404b192/go.mod h1:4jBNOR9RCOsFJ5goipiJ4bxzXA0xghxRD79Dy08cXpQ=
 github.com/kisielk/gotool v1.0.0 h1:AV2c/EiW3KqPNT9ZKl07ehoAGi4C5/01Cfbblndcapg=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 golang.org/x/mod v0.8.0 h1:LUYupSeNrTNCGzR/hVBk2NHZO4hXcVaW1k4Qx7rjPx8=
