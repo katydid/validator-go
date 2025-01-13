@@ -50,7 +50,6 @@ vet:
 
 regenerate:
 	goderive ./...
-	(cd parser && make regenerate)
 	(cd validator && make regenerate)
 	(cd validator/funcs && go test -test.run=GenFuncList | grep "func\ " >../../list_of_functions.txt)
 
@@ -59,7 +58,6 @@ clean:
 	(cd validator && make clean)
 
 nuke: clean
-	(cd parser && make nuke)
 	(cd validator && make nuke)
 	rm list_of_functions.txt || true
 	go clean -i ./...
