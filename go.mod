@@ -1,11 +1,10 @@
 module github.com/katydid/validator-go
 
-go 1.22
+go 1.23
 
 require (
 	github.com/awalterschulze/goderive v0.0.0-20240621165703-0a721d5b1d72
 	github.com/goccmack/gocc v0.0.0-20230228185258-2292f9e40198
-	github.com/katydid/checklicense v0.0.0-20160404130115-fde9b404b192
 )
 
 require (
