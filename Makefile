@@ -21,7 +21,7 @@ dep:
 	go install -v github.com/awalterschulze/goderive
 
 checklicense:
-	go get github.com/katydid/checklicense
+	go get github.com/awalterschulze/checklicense
 	checklicense . \
 	bnf \
 	doc.go \
@@ -29,8 +29,6 @@ checklicense:
 	.svg \
 	.txt \
 	COPIED_FROM_GO \
-	go.mod \
-	go.sum \
 	parser/yaml/issues.md
 
 test:
