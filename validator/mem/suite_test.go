@@ -26,7 +26,7 @@ import (
 
 func TestSuite(t *testing.T) {
 	if !testsuite.TestSuiteExists() {
-		t.Skip("testsuite not avaliable")
+		t.Fatal("testsuite not avaliable")
 	}
 	tests, err := testsuite.ReadTestSuite()
 	if err != nil {
