@@ -21,7 +21,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/katydid/validator-go/gen"
 	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/parser-go-json/json"
 	"github.com/katydid/parser-go-xml/xml"
@@ -189,7 +188,7 @@ func readTestFolder(path string) (*Test, error) {
 	if p == nil {
 		return nil, fmt.Errorf("couldn't find valid.* or invalid.* filename inside <%s>", path)
 	}
-	name = name + gen.CapFirst(codecName)
+	name = name + capFirst(codecName)
 	return &Test{
 		Name:     name,
 		Grammar:  g,
