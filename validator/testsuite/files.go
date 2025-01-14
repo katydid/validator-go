@@ -55,11 +55,14 @@ func TestSuiteExists() (bool, error) {
 	return false, nil
 }
 
-func BenchSuiteExists() error {
+func BenchSuiteExists() (bool, error) {
 	if exists(testpath) {
-		return nil
+		return true, nil
 	}
-	return fmt.Errorf("benchsuite does not exist at %v", testpath)
+	if os.Getenv("TESTSUITE") == "MUST" {
+		return false, fmt.Errorf("testsuite does not exist at %v", testpath)
+	}
+	return false, fmt.Errorf("benchsuite does not exist at %v", testpath)
 }
 
 func getFolders(path string) (map[string][]string, error) {

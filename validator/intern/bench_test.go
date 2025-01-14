@@ -22,8 +22,12 @@ import (
 )
 
 func BenchmarkSuite(b *testing.B) {
-	if err := testsuite.BenchSuiteExists(); err != nil {
-		b.Fatal(err)
+	exists, err := testsuite.BenchSuiteExists()
+	if !exists {
+		if err != nil {
+			b.Fatal(err)
+		}
+		b.Skip()
 	}
 	benches, err := testsuite.ReadBenchmarkSuite()
 	if err != nil {
