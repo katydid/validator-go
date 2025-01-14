@@ -8,10 +8,8 @@
 
 Katydid consists of:
 
-  * Validator: a regular expression type language for serialized data that matches up to 1000000s of records per second,
+  * A validator: a regular expression type language for serialized data that matches up to 1000000s of records per second,
   * A collection of parsers (protobuf, json, xml, reflected go structures, yaml) which are easily extendable.
-
-[more...](http://katydid.github.io)
 
 ## Usage Example
 
