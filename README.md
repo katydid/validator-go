@@ -15,7 +15,7 @@ Katydid consists of:
 
 ## Usage Example
 
-```
+```go
 package main
 
 import (
