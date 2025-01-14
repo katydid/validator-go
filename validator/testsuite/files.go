@@ -21,9 +21,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/parser-go-json/json"
 	"github.com/katydid/parser-go-xml/xml"
+	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator"
 	"github.com/katydid/validator-go/validator/ast"
 )
@@ -45,11 +45,14 @@ func init() {
 	benchpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/validator/benches")
 }
 
-func TestSuiteExists() error {
+func TestSuiteExists() (bool, error) {
 	if exists(testpath) {
-		return nil
+		return true, nil
 	}
-	return fmt.Errorf("testsuite does not exist at %v", testpath)
+	if os.Getenv("TESTSUITE") == "MUST" {
+		return false, fmt.Errorf("testsuite does not exist at %v", testpath)
+	}
+	return false, nil
 }
 
 func BenchSuiteExists() error {
