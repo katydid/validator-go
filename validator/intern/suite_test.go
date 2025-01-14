@@ -25,8 +25,12 @@ import (
 )
 
 func TestSuite(t *testing.T) {
-	if err := testsuite.TestSuiteExists(); err != nil {
-		t.Fatal(err)
+	exists, err := testsuite.TestSuiteExists()
+	if !exists {
+		if err != nil {
+			t.Fatal(err)
+		}
+		t.Skip()
 	}
 	tests, err := testsuite.ReadTestSuite()
 	if err != nil {
