@@ -39,6 +39,9 @@ var benchpath string
 
 func init() {
 	gopath := os.Getenv("GOPATH")
+	if gopath == "" {
+		gopath = "../../../../../../"
+	}
 	testpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/validator/tests")
 	benchpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/validator/benches")
 }
