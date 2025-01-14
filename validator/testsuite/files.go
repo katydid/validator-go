@@ -46,12 +46,18 @@ func init() {
 	benchpath = filepath.Join(gopath, "src/github.com/katydid/testsuite/validator/benches")
 }
 
-func TestSuiteExists() bool {
-	return exists(testpath)
+func TestSuiteExists() error {
+	if exists(testpath) {
+		return nil
+	}
+	return fmt.Errorf("testsuite does not exist at %v", testpath)
 }
 
-func BenchSuiteExists() bool {
-	return exists(benchpath)
+func BenchSuiteExists() error {
+	if exists(testpath) {
+		return nil
+	}
+	return fmt.Errorf("benchsuite does not exist at %v", testpath)
 }
 
 func getFolders(path string) (map[string][]string, error) {

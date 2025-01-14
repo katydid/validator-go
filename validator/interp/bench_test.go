@@ -22,8 +22,8 @@ import (
 )
 
 func BenchmarkSuite(b *testing.B) {
-	if !testsuite.BenchSuiteExists() {
-		b.Skip("benchsuite not available")
+	if err := testsuite.BenchSuiteExists(); err != nil {
+		b.Fatal(err)
 	}
 	benches, err := testsuite.ReadBenchmarkSuite()
 	if err != nil {
