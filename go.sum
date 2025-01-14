@@ -8,8 +8,6 @@ github.com/katydid/parser-go v0.6.0 h1:8VFYXEp9pZsq4CCxYLDavPPqOSX+JXsmhjfU4XMB8
 github.com/katydid/parser-go v0.6.0/go.mod h1:1BwRfDlyRgDlAaURZ4FXi7IzHqWKTsrCdsstLsFeQho=
 github.com/katydid/parser-go-json v0.1.0 h1:r3+YkDtf9A4JYO+MrdQsN2azxITrgO+2Sc5SSNhp+YI=
 github.com/katydid/parser-go-json v0.1.0/go.mod h1:iLjxtkGLdPROUPBHZAhOTIdQerUPl/FEplS10rlq9Nc=
-github.com/katydid/parser-go-reflect v0.1.0 h1:GsmmOjPC9eLVVHx/Q8nzOPAiOhSan6UP8z9oDOEbYiY=
-github.com/katydid/parser-go-reflect v0.1.0/go.mod h1:v+FO4WoxNNIhpjzF7nam4YuUzWCe8LFclO4B0f3OaPI=
 github.com/katydid/parser-go-xml v0.1.0 h1:8AL0X9hQbNLbQeqRbOdKBOwx4WTSWjy7kxEMmWqHMXc=
 github.com/katydid/parser-go-xml v0.1.0/go.mod h1:7rEHS3YuEv/8/ep+uQnLgcvT1znZs8JEc3ZaBbpygjA=
 github.com/kisielk/gotool v1.0.0 h1:AV2c/EiW3KqPNT9ZKl07ehoAGi4C5/01Cfbblndcapg=

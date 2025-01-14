@@ -15,12 +15,10 @@
 package mem_test
 
 import (
-	"fmt"
-	"reflect"
 	"strings"
 	"testing"
 
-	reflectparser "github.com/katydid/parser-go-reflect/reflect"
+	jsonparser "github.com/katydid/parser-go-json/json"
 	"github.com/katydid/validator-go/validator/ast"
 	. "github.com/katydid/validator-go/validator/combinator"
 	"github.com/katydid/validator-go/validator/funcs"
@@ -28,8 +26,7 @@ import (
 	validatorparser "github.com/katydid/validator-go/validator/parser"
 )
 
-func NewInjectable() *injectableInt {
-	fmt.Printf("NewInjectable\n")
+func newInjectable() *injectableInt {
 	return &injectableInt{}
 }
 
@@ -39,7 +36,6 @@ type injectableInt struct {
 
 func (this *injectableInt) Eval() (int64, error) {
 	v := this.context.Value.(int64)
-	fmt.Printf("eval = %d\n", v)
 	return v, nil
 }
 
@@ -66,7 +62,6 @@ func (this *injectableInt) Hash() uint64 {
 
 func (this *injectableInt) SetContext(context *funcs.Context) {
 	this.context = context
-	fmt.Printf("context set\n")
 }
 
 func (this *injectableInt) HasVariable() bool {
@@ -74,7 +69,7 @@ func (this *injectableInt) HasVariable() bool {
 }
 
 func init() {
-	funcs.Register("inject", NewInjectable)
+	funcs.Register("inject", newInjectable)
 
 	parsedGrammar, err := validatorparser.ParseGrammar("Num:->eq($int, inject())")
 	if err != nil {
@@ -90,8 +85,10 @@ type Number struct {
 }
 
 func testInject(t *testing.T, m *mem.Mem) bool {
-	parser := reflectparser.NewReflectParser()
-	parser.Init(reflect.ValueOf(&Number{Num: 456}))
+	parser := jsonparser.NewJsonParser()
+	if err := parser.Init([]byte(`{"Num": 456}`)); err != nil {
+		t.Fatal(err)
+	}
 	res, err := m.Validate(parser)
 	if err != nil {
 		t.Fatal(err)
@@ -101,15 +98,15 @@ func testInject(t *testing.T, m *mem.Mem) bool {
 
 func TestInject(t *testing.T) {
 	grammar := injectNumber.Grammar()
-	fmt.Printf("parsed Grammar: %s\n", grammar)
+	t.Logf("parsed Grammar: %s\n", grammar)
 	m, err := mem.New(grammar)
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Printf("trying to set context...\n")
+	t.Logf("trying to set context...\n")
 	c := &funcs.Context{Value: int64(0)}
 	m.SetContext(c)
-	fmt.Printf("hopefully context was set\n")
+	t.Logf("hopefully context was set\n")
 	c.Value = int64(456)
 	if !testInject(t, m) {
 		t.Fatalf("expected match")
