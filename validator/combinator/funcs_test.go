@@ -48,6 +48,12 @@ func TestInt(t *testing.T) {
 	t.Log(Value(ast.NewFunction("print", intFunc(IntVar(), IntConst(rand.Int63())))).String())
 }
 
+func TestDouble1(t *testing.T) {
+	t.Log(Value(GT(DoubleVar(), DoubleConst(1))).String())
+	// checks that double is printed out as `double(1.1)`` surrounded by double(), since `1.1`` alone will not parse.
+	t.Log(Value(GT(DoubleVar(), DoubleConst(1.1))).String())
+}
+
 // TestImmutability tests that the `Value` function does not change the input expression and remove a comma.
 func TestImmutability(t *testing.T) {
 	eq := Eq(UintVar(), UintConst(10))
