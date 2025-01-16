@@ -166,7 +166,7 @@ func isId(s string) bool {
 // String returns the validator string representation of the Name instance.
 func (this *Name) String() string {
 	if this.DoubleValue != nil {
-		return this.Before.String() + strconv.FormatFloat(this.GetDoubleValue(), 'f', -1, 64)
+		return this.Before.String() + "double(" + strconv.FormatFloat(this.GetDoubleValue(), 'f', -1, 64) + ")"
 	}
 	if this.IntValue != nil {
 		return this.Before.String() + strconv.FormatInt(this.GetIntValue(), 10)
@@ -251,7 +251,7 @@ func (this *BuiltIn) String() string {
 // String returns the validator string representation of the Terminal instance.
 func (this *Terminal) String() string {
 	if this.DoubleValue != nil {
-		return this.Before.String() + strconv.FormatFloat(this.GetDoubleValue(), 'f', -1, 64)
+		return this.Before.String() + "double(" + strconv.FormatFloat(this.GetDoubleValue(), 'f', -1, 64) + ")"
 	}
 	if this.IntValue != nil {
 		return this.Before.String() + strconv.FormatInt(this.GetIntValue(), 10)
