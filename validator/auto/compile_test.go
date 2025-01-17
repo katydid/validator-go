@@ -12,11 +12,12 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package auto
+package auto_test
 
 import (
 	"testing"
 
+	"github.com/katydid/validator-go/validator/auto"
 	"github.com/katydid/validator-go/validator/parser"
 )
 
@@ -27,7 +28,7 @@ func benchCompile(b *testing.B, str string) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if _, err := Compile(st); err != nil {
+		if _, err := auto.Compile(st); err != nil {
 			b.Fatal(err)
 		}
 	}
@@ -85,7 +86,7 @@ func BenchmarkCompileOrProtoName(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if _, err := Compile(st); err != nil {
+		if _, err := auto.Compile(st); err != nil {
 			b.Fatal(err)
 		}
 	}
@@ -111,7 +112,7 @@ func BenchmarkCompileAndProtoName(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if _, err := Compile(st); err != nil {
+		if _, err := auto.Compile(st); err != nil {
 			b.Fatal(err)
 		}
 	}
@@ -139,7 +140,7 @@ func BenchmarkCompileInterleaveProtoName(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if _, err := Compile(st); err != nil {
+		if _, err := auto.Compile(st); err != nil {
 			b.Fatal(err)
 		}
 	}
