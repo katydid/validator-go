@@ -162,8 +162,6 @@ func TestSimplifyRecordLeaf1(t *testing.T) {
 		combinator.Contains(combinator.StringVar(), combinator.StringConst("a")),
 	))))
 	output := NewSimplifier(input.Grammar()).OptimizeForRecord().Simplify(input)
-	expected.Format()
-	output.Format()
 	t.Logf("%v", output)
 	if !expected.Equal(output) {
 		t.Fatalf("want <%#v>, but got <%#v>", expected, output)
@@ -181,8 +179,6 @@ func TestSimplifyRecordLeaf2(t *testing.T) {
 		combinator.Contains(combinator.StringVar(), combinator.StringConst("a")),
 	))))))
 	output := NewSimplifier(input.Grammar()).OptimizeForRecord().Simplify(input)
-	expected.Format()
-	output.Format()
 	t.Logf("%v", output)
 	if !expected.Equal(output) {
 		t.Fatalf("want <%v>, but got <%v>", expected, output)
