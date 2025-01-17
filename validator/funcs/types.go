@@ -33,73 +33,73 @@ type Func interface {
 	HasVariable() bool
 }
 
-//Double is an interface that represents a function that returns a double.
+// Double is an interface that represents a function that returns a double.
 type Double interface {
 	Func
 	Eval() (float64, error)
 }
 
-//Int is an interface that represents a function that returns an int.
+// Int is an interface that represents a function that returns an int.
 type Int interface {
 	Func
 	Eval() (int64, error)
 }
 
-//Uint is an interface that represents a function that returns a uint.
+// Uint is an interface that represents a function that returns a uint.
 type Uint interface {
 	Func
 	Eval() (uint64, error)
 }
 
-//Bool is an interface that represents a function that returns a bool.
+// Bool is an interface that represents a function that returns a bool.
 type Bool interface {
 	Func
 	Eval() (bool, error)
 }
 
-//String is an interface that represents a function that returns a string.
+// String is an interface that represents a function that returns a string.
 type String interface {
 	Func
 	Eval() (string, error)
 }
 
-//Bytes is an interface that represents a function that returns []byte.
+// Bytes is an interface that represents a function that returns []byte.
 type Bytes interface {
 	Func
 	Eval() ([]byte, error)
 }
 
-//Doubles is an interface that represents a function that returns a list of doubles.
+// Doubles is an interface that represents a function that returns a list of doubles.
 type Doubles interface {
 	Func
 	Eval() ([]float64, error)
 }
 
-//Ints is an interface that represents a function that returns a list of ints.
+// Ints is an interface that represents a function that returns a list of ints.
 type Ints interface {
 	Func
 	Eval() ([]int64, error)
 }
 
-//Uints is an interface that represents a function that returns a list of uints.
+// Uints is an interface that represents a function that returns a list of uints.
 type Uints interface {
 	Func
 	Eval() ([]uint64, error)
 }
 
-//Bools is an interface that represents a function that returns a list of bools.
+// Bools is an interface that represents a function that returns a list of bools.
 type Bools interface {
 	Func
 	Eval() ([]bool, error)
 }
 
-//Strings is an interface that represents a function that returns a list of strings.
+// Strings is an interface that represents a function that returns a list of strings.
 type Strings interface {
 	Func
 	Eval() ([]string, error)
 }
 
-//ListOfBytes is an interface that represents a function that returns a list of []byte.
+// ListOfBytes is an interface that represents a function that returns a list of []byte.
 type ListOfBytes interface {
 	Func
 	Eval() ([][]byte, error)

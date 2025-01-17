@@ -20,7 +20,7 @@ import (
 
 func TestTrim(t *testing.T) {
 	out := Sprint(IntGE(ElemInts(IntsConst([]int64{1, 2}), IntConst(1)), IntVar()))
-	exp := ">= int(2)"
+	exp := "->ge(int(2),$int)"
 	if out != exp {
 		t.Fatalf("expected %s, but got %s", exp, out)
 	}

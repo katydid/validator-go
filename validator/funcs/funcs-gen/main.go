@@ -60,20 +60,6 @@ func (this *{{.Type}}{{.CName}}) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *{{.Type}}{{.CName}}) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "{{.Operator}} " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "{{.Operator}} " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *{{.Type}}{{.CName}}) String() string {
 	return "{{.Name}}" + "(" + sjoin(this.V1, this.V2) + ")"
 }
