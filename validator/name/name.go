@@ -22,7 +22,6 @@ import (
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
-	validatorparser "github.com/katydid/validator-go/validator/parser"
 )
 
 // EvalName evaluates a name expression given a name value.
@@ -66,79 +65,4 @@ func NameToFunc(n *ast.NameExpr) funcs.Bool {
 		return funcs.Or(NameToFunc(v.GetLeft()), NameToFunc(v.GetRight()))
 	}
 	panic(fmt.Sprintf("unknown name expr typ %T", typ))
-}
-
-// FuncToName decompiles a function back into a name expression, if possible.
-func FuncToName(f funcs.Bool) (*ast.NameExpr, error) {
-	exprStr := funcs.Sprint(f)
-	expr, err := validatorparser.NewParser().ParseExpr(exprStr)
-	if err != nil {
-		return nil, err
-	}
-	return exprToName(expr)
-}
-
-func exprToName(e *ast.Expr) (*ast.NameExpr, error) {
-	if e.GetBuiltIn() != nil {
-		if e.GetBuiltIn().GetSymbol().String() == "==" {
-			if e.GetBuiltIn().GetExpr().GetTerminal() != nil {
-				t := e.GetBuiltIn().GetExpr().GetTerminal()
-				if t.DoubleValue != nil {
-					return ast.NewDoubleName(t.GetDoubleValue()), nil
-				}
-				if t.IntValue != nil {
-					return ast.NewIntName(t.GetIntValue()), nil
-				}
-				if t.UintValue != nil {
-					return ast.NewUintName(t.GetUintValue()), nil
-				}
-				if t.BoolValue != nil {
-					return ast.NewBoolName(t.GetBoolValue()), nil
-				}
-				if t.StringValue != nil {
-					return ast.NewStringName(t.GetStringValue()), nil
-				}
-				if t.BytesValue != nil {
-					return ast.NewBytesName(t.GetBytesValue()), nil
-				}
-			} else {
-				return nil, fmt.Errorf("unknown terminal: %v", e.GetBuiltIn().GetExpr())
-			}
-		} else {
-			return nil, fmt.Errorf("not equal: %v", e)
-		}
-	}
-	if e.GetFunction() != nil {
-		if e.GetFunction().GetName() == "not" {
-			e, err := exprToName(e.GetFunction().GetParams()[0])
-			if err != nil {
-				return nil, err
-			}
-			return ast.NewAnyNameExcept(e), nil
-		}
-		if e.GetFunction().GetName() == "or" {
-			e1, err := exprToName(e.GetFunction().GetParams()[0])
-			if err != nil {
-				return nil, err
-			}
-			e2, err := exprToName(e.GetFunction().GetParams()[1])
-			if err != nil {
-				return nil, err
-			}
-			return ast.NewNameChoice(e1, e2), nil
-		}
-		return nil, fmt.Errorf("unsupported function: %v", e)
-	}
-	if e.GetTerminal() != nil {
-		if e.GetTerminal().BoolValue != nil {
-			if e.GetTerminal().GetBoolValue() {
-				return ast.NewAnyName(), nil
-			} else {
-				return nil, fmt.Errorf("not true")
-			}
-		} else {
-			return nil, fmt.Errorf("not bool")
-		}
-	}
-	return nil, fmt.Errorf("unsupported expression: %v", e)
 }

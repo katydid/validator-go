@@ -16,7 +16,6 @@ package combinator
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/parser"
 	"github.com/katydid/validator-go/validator/types"
 )
 
@@ -40,11 +39,7 @@ func Value(expr *ast.Expr) *ast.Pattern {
 			}
 		}
 	}
-	e, err := parser.ParseExpr(expr.String())
-	if err != nil {
-		panic(err)
-	}
-	return ast.NewLeafNode(e)
+	return ast.NewLeafNode(expr)
 }
 
 func Eq(left, right *ast.Expr) *ast.Expr {

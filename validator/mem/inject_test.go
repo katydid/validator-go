@@ -23,7 +23,6 @@ import (
 	. "github.com/katydid/validator-go/validator/combinator"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/mem"
-	validatorparser "github.com/katydid/validator-go/validator/parser"
 )
 
 func newInjectable() *injectableInt {
@@ -70,15 +69,9 @@ func (this *injectableInt) HasVariable() bool {
 
 func init() {
 	funcs.Register("inject", newInjectable)
-
-	parsedGrammar, err := validatorparser.ParseGrammar("Num:->eq($int, inject())")
-	if err != nil {
-		panic(err)
-	}
-	injectNumber = G(ast.NewRefLookup(parsedGrammar))
 }
 
-var injectNumber = G{}
+var injectNumber = G(map[string]*ast.Pattern{"main": In("Num", Value(Eq(IntVar(), ast.NewFunction("inject"))))})
 
 type Number struct {
 	Num int64
