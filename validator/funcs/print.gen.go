@@ -4,7 +4,6 @@ package funcs
 import (
 	"fmt"
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type printDouble struct {
@@ -35,11 +34,7 @@ func (this *printDouble) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printDouble) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printDouble) ToExpr() *ast.Expr {
@@ -92,11 +87,7 @@ func (this *printInt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printInt) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printInt) ToExpr() *ast.Expr {
@@ -149,11 +140,7 @@ func (this *printUint) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printUint) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printUint) ToExpr() *ast.Expr {
@@ -206,11 +193,7 @@ func (this *printBool) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printBool) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printBool) ToExpr() *ast.Expr {
@@ -263,11 +246,7 @@ func (this *printString) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printString) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printString) ToExpr() *ast.Expr {
@@ -320,11 +299,7 @@ func (this *printBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printBytes) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printBytes) ToExpr() *ast.Expr {
@@ -377,11 +352,7 @@ func (this *printDoubles) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printDoubles) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printDoubles) ToExpr() *ast.Expr {
@@ -434,11 +405,7 @@ func (this *printInts) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printInts) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printInts) ToExpr() *ast.Expr {
@@ -491,11 +458,7 @@ func (this *printUints) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printUints) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printUints) ToExpr() *ast.Expr {
@@ -548,11 +511,7 @@ func (this *printBools) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printBools) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printBools) ToExpr() *ast.Expr {
@@ -605,11 +564,7 @@ func (this *printStrings) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printStrings) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printStrings) ToExpr() *ast.Expr {
@@ -662,11 +617,7 @@ func (this *printListOfBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *printListOfBytes) String() string {
-	return "print(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *printListOfBytes) ToExpr() *ast.Expr {

@@ -59,7 +59,7 @@ func (this *ifNode) String() string {
 	if this.f == nil {
 		return "...\n"
 	}
-	return "if (" + funcs.Sprint(this.f) + ") then {\n" + this.thn.String() + "} else {\n" + this.els.String() + "}"
+	return "if (" + this.f.ToExpr().String() + ") then {\n" + this.thn.String() + "} else {\n" + this.els.String() + "}"
 }
 
 var falseConst = funcs.BoolConst(false)

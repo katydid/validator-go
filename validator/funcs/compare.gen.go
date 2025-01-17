@@ -4,7 +4,6 @@ package funcs
 import (
 	"bytes"
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type doubleGE struct {
@@ -42,11 +41,7 @@ func (this *doubleGE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *doubleGE) String() string {
-	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *doubleGE) ToExpr() *ast.Expr {
@@ -110,11 +105,7 @@ func (this *intGE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intGE) String() string {
-	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *intGE) ToExpr() *ast.Expr {
@@ -178,11 +169,7 @@ func (this *uintGE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *uintGE) String() string {
-	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *uintGE) ToExpr() *ast.Expr {
@@ -246,11 +233,7 @@ func (this *bytesGE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesGE) String() string {
-	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *bytesGE) ToExpr() *ast.Expr {
@@ -314,11 +297,7 @@ func (this *doubleGt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *doubleGt) String() string {
-	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *doubleGt) ToExpr() *ast.Expr {
@@ -382,11 +361,7 @@ func (this *intGt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intGt) String() string {
-	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *intGt) ToExpr() *ast.Expr {
@@ -450,11 +425,7 @@ func (this *uintGt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *uintGt) String() string {
-	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *uintGt) ToExpr() *ast.Expr {
@@ -518,11 +489,7 @@ func (this *bytesGt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesGt) String() string {
-	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *bytesGt) ToExpr() *ast.Expr {
@@ -586,11 +553,7 @@ func (this *doubleLE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *doubleLE) String() string {
-	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *doubleLE) ToExpr() *ast.Expr {
@@ -654,11 +617,7 @@ func (this *intLE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intLE) String() string {
-	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *intLE) ToExpr() *ast.Expr {
@@ -722,11 +681,7 @@ func (this *uintLE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *uintLE) String() string {
-	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *uintLE) ToExpr() *ast.Expr {
@@ -790,11 +745,7 @@ func (this *bytesLE) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesLE) String() string {
-	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *bytesLE) ToExpr() *ast.Expr {
@@ -858,11 +809,7 @@ func (this *doubleLt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *doubleLt) String() string {
-	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *doubleLt) ToExpr() *ast.Expr {
@@ -926,11 +873,7 @@ func (this *intLt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intLt) String() string {
-	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *intLt) ToExpr() *ast.Expr {
@@ -994,11 +937,7 @@ func (this *uintLt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *uintLt) String() string {
-	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *uintLt) ToExpr() *ast.Expr {
@@ -1062,11 +1001,7 @@ func (this *bytesLt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesLt) String() string {
-	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *bytesLt) ToExpr() *ast.Expr {
@@ -1130,11 +1065,7 @@ func (this *doubleEq) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *doubleEq) String() string {
-	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *doubleEq) ToExpr() *ast.Expr {
@@ -1198,11 +1129,7 @@ func (this *intEq) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intEq) String() string {
-	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *intEq) ToExpr() *ast.Expr {
@@ -1266,11 +1193,7 @@ func (this *uintEq) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *uintEq) String() string {
-	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *uintEq) ToExpr() *ast.Expr {
@@ -1334,11 +1257,7 @@ func (this *boolEq) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *boolEq) String() string {
-	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *boolEq) ToExpr() *ast.Expr {
@@ -1402,11 +1321,7 @@ func (this *stringEq) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *stringEq) String() string {
-	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *stringEq) ToExpr() *ast.Expr {
@@ -1470,11 +1385,7 @@ func (this *bytesEq) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesEq) String() string {
-	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *bytesEq) ToExpr() *ast.Expr {
@@ -1538,11 +1449,7 @@ func (this *doubleNe) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *doubleNe) String() string {
-	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *doubleNe) ToExpr() *ast.Expr {
@@ -1606,11 +1513,7 @@ func (this *intNe) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intNe) String() string {
-	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *intNe) ToExpr() *ast.Expr {
@@ -1674,11 +1577,7 @@ func (this *uintNe) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *uintNe) String() string {
-	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *uintNe) ToExpr() *ast.Expr {
@@ -1742,11 +1641,7 @@ func (this *boolNe) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *boolNe) String() string {
-	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *boolNe) ToExpr() *ast.Expr {
@@ -1810,11 +1705,7 @@ func (this *stringNe) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *stringNe) String() string {
-	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *stringNe) ToExpr() *ast.Expr {
@@ -1878,11 +1769,7 @@ func (this *bytesNe) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesNe) String() string {
-	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *bytesNe) ToExpr() *ast.Expr {

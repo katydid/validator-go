@@ -3,7 +3,6 @@ package funcs
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type rangeDoubles struct {
@@ -69,15 +68,11 @@ func (this *rangeDoubles) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *rangeDoubles) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *rangeDoubles) String() string {
-	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
 func (this *rangeDoubles) ToExpr() *ast.Expr {
@@ -166,15 +161,11 @@ func (this *rangeInts) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *rangeInts) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *rangeInts) String() string {
-	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
 func (this *rangeInts) ToExpr() *ast.Expr {
@@ -263,15 +254,11 @@ func (this *rangeUints) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *rangeUints) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *rangeUints) String() string {
-	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
 func (this *rangeUints) ToExpr() *ast.Expr {
@@ -360,15 +347,11 @@ func (this *rangeBools) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *rangeBools) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *rangeBools) String() string {
-	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
 func (this *rangeBools) ToExpr() *ast.Expr {
@@ -457,15 +440,11 @@ func (this *rangeStrings) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *rangeStrings) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *rangeStrings) String() string {
-	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
 func (this *rangeStrings) ToExpr() *ast.Expr {
@@ -554,15 +533,11 @@ func (this *rangeListOfBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *rangeListOfBytes) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *rangeListOfBytes) String() string {
-	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
 func (this *rangeListOfBytes) ToExpr() *ast.Expr {

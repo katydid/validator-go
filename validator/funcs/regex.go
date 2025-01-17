@@ -56,10 +56,6 @@ func (this *regex) HasVariable() bool {
 	return this.hasVariable
 }
 
-func (this *regex) String() string {
-	return "regex(" + this.expr + "," + this.S.String() + ")"
-}
-
 func (this *regex) ToExpr() *ast.Expr {
 	return ast.NewFunction("regex", ast.NewStringConst(this.expr), this.S.ToExpr())
 }
@@ -88,7 +84,7 @@ func (this *regex) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *regex) Hash() uint64 {

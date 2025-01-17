@@ -19,7 +19,7 @@ import (
 )
 
 func TestString1(t *testing.T) {
-	out := Sprint(BoolEq(BoolConst(true), BoolVar()))
+	out := BoolEq(BoolConst(true), BoolVar()).ToExpr().String()
 	exp := "->eq(true,$bool)"
 	if out != exp {
 		t.Fatalf("expected %s, but got %s", exp, out)
@@ -27,8 +27,8 @@ func TestString1(t *testing.T) {
 }
 
 func TestString2(t *testing.T) {
-	out := Sprint(IntGE(ElemInts(IntsConst([]int64{1, 2}), IntVar()), IntVar()))
-	exp := "->ge(elem([]int{int(1),int(2)},$int),$int)"
+	out := IntGE(ElemInts(IntsConst([]int64{1, 2}), IntVar()), IntVar()).ToExpr().String()
+	exp := "->ge(elem([]int{1,2},$int),$int)"
 	if out != exp {
 		t.Fatalf("expected %s, but got %s", exp, out)
 	}

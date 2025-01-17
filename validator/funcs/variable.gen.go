@@ -4,7 +4,6 @@ package funcs
 import (
 	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type varDouble struct {
@@ -42,7 +41,7 @@ func (this *varDouble) Compare(that Comparable) int {
 	if _, ok := that.(*varDouble); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *varDouble) Hash() uint64 {
@@ -55,10 +54,6 @@ func (this *varDouble) isVariable() {}
 
 func (this *varDouble) SetValue(v parser.Value) {
 	this.Value = v
-}
-
-func (this *varDouble) String() string {
-	return "$double"
 }
 
 func (this *varDouble) ToExpr() *ast.Expr {
@@ -107,7 +102,7 @@ func (this *varInt) Compare(that Comparable) int {
 	if _, ok := that.(*varInt); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *varInt) Hash() uint64 {
@@ -120,10 +115,6 @@ func (this *varInt) isVariable() {}
 
 func (this *varInt) SetValue(v parser.Value) {
 	this.Value = v
-}
-
-func (this *varInt) String() string {
-	return "$int"
 }
 
 func (this *varInt) ToExpr() *ast.Expr {
@@ -172,7 +163,7 @@ func (this *varUint) Compare(that Comparable) int {
 	if _, ok := that.(*varUint); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *varUint) Hash() uint64 {
@@ -185,10 +176,6 @@ func (this *varUint) isVariable() {}
 
 func (this *varUint) SetValue(v parser.Value) {
 	this.Value = v
-}
-
-func (this *varUint) String() string {
-	return "$uint"
 }
 
 func (this *varUint) ToExpr() *ast.Expr {
@@ -237,7 +224,7 @@ func (this *varBool) Compare(that Comparable) int {
 	if _, ok := that.(*varBool); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *varBool) Hash() uint64 {
@@ -250,10 +237,6 @@ func (this *varBool) isVariable() {}
 
 func (this *varBool) SetValue(v parser.Value) {
 	this.Value = v
-}
-
-func (this *varBool) String() string {
-	return "$bool"
 }
 
 func (this *varBool) ToExpr() *ast.Expr {
@@ -302,7 +285,7 @@ func (this *varString) Compare(that Comparable) int {
 	if _, ok := that.(*varString); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *varString) Hash() uint64 {
@@ -315,10 +298,6 @@ func (this *varString) isVariable() {}
 
 func (this *varString) SetValue(v parser.Value) {
 	this.Value = v
-}
-
-func (this *varString) String() string {
-	return "$string"
 }
 
 func (this *varString) ToExpr() *ast.Expr {
@@ -367,7 +346,7 @@ func (this *varBytes) Compare(that Comparable) int {
 	if _, ok := that.(*varBytes); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *varBytes) Hash() uint64 {
@@ -380,10 +359,6 @@ func (this *varBytes) isVariable() {}
 
 func (this *varBytes) SetValue(v parser.Value) {
 	this.Value = v
-}
-
-func (this *varBytes) String() string {
-	return "$[]byte"
 }
 
 func (this *varBytes) ToExpr() *ast.Expr {

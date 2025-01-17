@@ -3,7 +3,6 @@ package funcs
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type inSetInt struct {
@@ -39,11 +38,7 @@ func (this *inSetInt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *inSetInt) String() string {
-	return "contains(" + sjoin(this.Elem, this.List) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *inSetInt) ToExpr() *ast.Expr {
@@ -117,11 +112,7 @@ func (this *inSetUint) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *inSetUint) String() string {
-	return "contains(" + sjoin(this.Elem, this.List) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *inSetUint) ToExpr() *ast.Expr {
@@ -195,11 +186,7 @@ func (this *inSetString) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *inSetString) String() string {
-	return "contains(" + sjoin(this.Elem, this.List) + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *inSetString) ToExpr() *ast.Expr {

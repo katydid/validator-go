@@ -3,7 +3,6 @@ package funcs
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type typDouble struct {
@@ -30,15 +29,11 @@ func (this *typDouble) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *typDouble) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *typDouble) String() string {
-	return "type(" + this.E.String() + ")"
 }
 
 func (this *typDouble) ToExpr() *ast.Expr {
@@ -86,15 +81,11 @@ func (this *typInt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *typInt) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *typInt) String() string {
-	return "type(" + this.E.String() + ")"
 }
 
 func (this *typInt) ToExpr() *ast.Expr {
@@ -142,15 +133,11 @@ func (this *typUint) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *typUint) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *typUint) String() string {
-	return "type(" + this.E.String() + ")"
 }
 
 func (this *typUint) ToExpr() *ast.Expr {
@@ -198,15 +185,11 @@ func (this *typBool) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *typBool) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *typBool) String() string {
-	return "type(" + this.E.String() + ")"
 }
 
 func (this *typBool) ToExpr() *ast.Expr {
@@ -254,15 +237,11 @@ func (this *typString) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *typString) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *typString) String() string {
-	return "type(" + this.E.String() + ")"
 }
 
 func (this *typString) ToExpr() *ast.Expr {
@@ -310,15 +289,11 @@ func (this *typBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *typBytes) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *typBytes) String() string {
-	return "type(" + this.E.String() + ")"
 }
 
 func (this *typBytes) ToExpr() *ast.Expr {
