@@ -158,8 +158,8 @@ func TestSimplifyRecordLeaf1(t *testing.T) {
 	)
 	t.Logf("input: %v", input)
 	expected := ast.NewContains(ast.NewTreeNode(ast.NewStringName("A"), combinator.Value(combinator.And(
-		combinator.Contains(combinator.StringVar(), combinator.StringConst("b")),
 		combinator.Contains(combinator.StringVar(), combinator.StringConst("a")),
+		combinator.Contains(combinator.StringVar(), combinator.StringConst("b")),
 	))))
 	output := NewSimplifier(input.Grammar()).OptimizeForRecord().Simplify(input)
 	t.Logf("%v", output)

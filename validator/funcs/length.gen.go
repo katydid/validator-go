@@ -2,6 +2,7 @@
 package funcs
 
 import (
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -37,6 +38,10 @@ func (this *lenDoubles) Compare(that Comparable) int {
 
 func (this *lenDoubles) String() string {
 	return "length(" + this.E.String() + ")"
+}
+
+func (this *lenDoubles) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
 }
 
 func (this *lenDoubles) HasVariable() bool {
@@ -94,6 +99,10 @@ func (this *lenInts) String() string {
 	return "length(" + this.E.String() + ")"
 }
 
+func (this *lenInts) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
+}
+
 func (this *lenInts) HasVariable() bool {
 	return this.hasVariable
 }
@@ -147,6 +156,10 @@ func (this *lenUints) Compare(that Comparable) int {
 
 func (this *lenUints) String() string {
 	return "length(" + this.E.String() + ")"
+}
+
+func (this *lenUints) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
 }
 
 func (this *lenUints) HasVariable() bool {
@@ -204,6 +217,10 @@ func (this *lenBools) String() string {
 	return "length(" + this.E.String() + ")"
 }
 
+func (this *lenBools) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
+}
+
 func (this *lenBools) HasVariable() bool {
 	return this.hasVariable
 }
@@ -257,6 +274,10 @@ func (this *lenStrings) Compare(that Comparable) int {
 
 func (this *lenStrings) String() string {
 	return "length(" + this.E.String() + ")"
+}
+
+func (this *lenStrings) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
 }
 
 func (this *lenStrings) HasVariable() bool {
@@ -314,6 +335,10 @@ func (this *lenListOfBytes) String() string {
 	return "length(" + this.E.String() + ")"
 }
 
+func (this *lenListOfBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
+}
+
 func (this *lenListOfBytes) HasVariable() bool {
 	return this.hasVariable
 }
@@ -369,6 +394,10 @@ func (this *lenString) String() string {
 	return "length(" + this.E.String() + ")"
 }
 
+func (this *lenString) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
+}
+
 func (this *lenString) HasVariable() bool {
 	return this.hasVariable
 }
@@ -422,6 +451,10 @@ func (this *lenBytes) Compare(that Comparable) int {
 
 func (this *lenBytes) String() string {
 	return "length(" + this.E.String() + ")"
+}
+
+func (this *lenBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
 }
 
 func (this *lenBytes) HasVariable() bool {

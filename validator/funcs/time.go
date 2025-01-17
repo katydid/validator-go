@@ -17,9 +17,11 @@ package funcs
 import (
 	"strings"
 	"time"
+
+	"github.com/katydid/validator-go/validator/ast"
 )
 
-//Now returns a new now function.
+// Now returns a new now function.
 func Now() Int {
 	return &now{}
 }
@@ -49,6 +51,10 @@ func (this *now) Compare(that Comparable) int {
 
 func (this *now) String() string {
 	return "now()"
+}
+
+func (this *now) ToExpr() *ast.Expr {
+	return ast.NewFunction("now")
 }
 
 func (this *now) HasVariable() bool { return true }

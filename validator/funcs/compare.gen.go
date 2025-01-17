@@ -3,6 +3,7 @@ package funcs
 
 import (
 	"bytes"
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -46,6 +47,10 @@ func (this *doubleGE) Compare(that Comparable) int {
 
 func (this *doubleGE) String() string {
 	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *doubleGE) ToExpr() *ast.Expr {
+	return ast.NewFunction("ge", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *doubleGE) HasVariable() bool {
@@ -112,6 +117,10 @@ func (this *intGE) String() string {
 	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *intGE) ToExpr() *ast.Expr {
+	return ast.NewFunction("ge", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *intGE) HasVariable() bool {
 	return this.hasVariable
 }
@@ -174,6 +183,10 @@ func (this *uintGE) Compare(that Comparable) int {
 
 func (this *uintGE) String() string {
 	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *uintGE) ToExpr() *ast.Expr {
+	return ast.NewFunction("ge", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *uintGE) HasVariable() bool {
@@ -240,6 +253,10 @@ func (this *bytesGE) String() string {
 	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *bytesGE) ToExpr() *ast.Expr {
+	return ast.NewFunction("ge", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *bytesGE) HasVariable() bool {
 	return this.hasVariable
 }
@@ -302,6 +319,10 @@ func (this *doubleGt) Compare(that Comparable) int {
 
 func (this *doubleGt) String() string {
 	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *doubleGt) ToExpr() *ast.Expr {
+	return ast.NewFunction("gt", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *doubleGt) HasVariable() bool {
@@ -368,6 +389,10 @@ func (this *intGt) String() string {
 	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *intGt) ToExpr() *ast.Expr {
+	return ast.NewFunction("gt", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *intGt) HasVariable() bool {
 	return this.hasVariable
 }
@@ -430,6 +455,10 @@ func (this *uintGt) Compare(that Comparable) int {
 
 func (this *uintGt) String() string {
 	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *uintGt) ToExpr() *ast.Expr {
+	return ast.NewFunction("gt", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *uintGt) HasVariable() bool {
@@ -496,6 +525,10 @@ func (this *bytesGt) String() string {
 	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *bytesGt) ToExpr() *ast.Expr {
+	return ast.NewFunction("gt", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *bytesGt) HasVariable() bool {
 	return this.hasVariable
 }
@@ -558,6 +591,10 @@ func (this *doubleLE) Compare(that Comparable) int {
 
 func (this *doubleLE) String() string {
 	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *doubleLE) ToExpr() *ast.Expr {
+	return ast.NewFunction("le", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *doubleLE) HasVariable() bool {
@@ -624,6 +661,10 @@ func (this *intLE) String() string {
 	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *intLE) ToExpr() *ast.Expr {
+	return ast.NewFunction("le", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *intLE) HasVariable() bool {
 	return this.hasVariable
 }
@@ -686,6 +727,10 @@ func (this *uintLE) Compare(that Comparable) int {
 
 func (this *uintLE) String() string {
 	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *uintLE) ToExpr() *ast.Expr {
+	return ast.NewFunction("le", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *uintLE) HasVariable() bool {
@@ -752,6 +797,10 @@ func (this *bytesLE) String() string {
 	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *bytesLE) ToExpr() *ast.Expr {
+	return ast.NewFunction("le", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *bytesLE) HasVariable() bool {
 	return this.hasVariable
 }
@@ -814,6 +863,10 @@ func (this *doubleLt) Compare(that Comparable) int {
 
 func (this *doubleLt) String() string {
 	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *doubleLt) ToExpr() *ast.Expr {
+	return ast.NewFunction("lt", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *doubleLt) HasVariable() bool {
@@ -880,6 +933,10 @@ func (this *intLt) String() string {
 	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *intLt) ToExpr() *ast.Expr {
+	return ast.NewFunction("lt", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *intLt) HasVariable() bool {
 	return this.hasVariable
 }
@@ -942,6 +999,10 @@ func (this *uintLt) Compare(that Comparable) int {
 
 func (this *uintLt) String() string {
 	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *uintLt) ToExpr() *ast.Expr {
+	return ast.NewFunction("lt", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *uintLt) HasVariable() bool {
@@ -1008,6 +1069,10 @@ func (this *bytesLt) String() string {
 	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *bytesLt) ToExpr() *ast.Expr {
+	return ast.NewFunction("lt", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *bytesLt) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1070,6 +1135,10 @@ func (this *doubleEq) Compare(that Comparable) int {
 
 func (this *doubleEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *doubleEq) ToExpr() *ast.Expr {
+	return ast.NewFunction("eq", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *doubleEq) HasVariable() bool {
@@ -1136,6 +1205,10 @@ func (this *intEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *intEq) ToExpr() *ast.Expr {
+	return ast.NewFunction("eq", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *intEq) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1198,6 +1271,10 @@ func (this *uintEq) Compare(that Comparable) int {
 
 func (this *uintEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *uintEq) ToExpr() *ast.Expr {
+	return ast.NewFunction("eq", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *uintEq) HasVariable() bool {
@@ -1264,6 +1341,10 @@ func (this *boolEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *boolEq) ToExpr() *ast.Expr {
+	return ast.NewFunction("eq", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *boolEq) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1326,6 +1407,10 @@ func (this *stringEq) Compare(that Comparable) int {
 
 func (this *stringEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *stringEq) ToExpr() *ast.Expr {
+	return ast.NewFunction("eq", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *stringEq) HasVariable() bool {
@@ -1392,6 +1477,10 @@ func (this *bytesEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *bytesEq) ToExpr() *ast.Expr {
+	return ast.NewFunction("eq", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *bytesEq) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1454,6 +1543,10 @@ func (this *doubleNe) Compare(that Comparable) int {
 
 func (this *doubleNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *doubleNe) ToExpr() *ast.Expr {
+	return ast.NewFunction("ne", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *doubleNe) HasVariable() bool {
@@ -1520,6 +1613,10 @@ func (this *intNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *intNe) ToExpr() *ast.Expr {
+	return ast.NewFunction("ne", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *intNe) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1582,6 +1679,10 @@ func (this *uintNe) Compare(that Comparable) int {
 
 func (this *uintNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *uintNe) ToExpr() *ast.Expr {
+	return ast.NewFunction("ne", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *uintNe) HasVariable() bool {
@@ -1648,6 +1749,10 @@ func (this *boolNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *boolNe) ToExpr() *ast.Expr {
+	return ast.NewFunction("ne", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *boolNe) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1712,6 +1817,10 @@ func (this *stringNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *stringNe) ToExpr() *ast.Expr {
+	return ast.NewFunction("ne", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *stringNe) HasVariable() bool {
 	return this.hasVariable
 }
@@ -1774,6 +1883,10 @@ func (this *bytesNe) Compare(that Comparable) int {
 
 func (this *bytesNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *bytesNe) ToExpr() *ast.Expr {
+	return ast.NewFunction("ne", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *bytesNe) HasVariable() bool {

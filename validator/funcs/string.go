@@ -16,9 +16,11 @@ package funcs
 
 import (
 	"strings"
+
+	"github.com/katydid/validator-go/validator/ast"
 )
 
-//ToLower returns a toLower function with the input function as its parameter.
+// ToLower returns a toLower function with the input function as its parameter.
 func ToLower(s String) String {
 	return TrimString(&toLower{
 		S:           s,
@@ -65,6 +67,10 @@ func (this *toLower) String() string {
 	return "toLower(" + this.S.String() + ")"
 }
 
+func (this *toLower) ToExpr() *ast.Expr {
+	return ast.NewFunction("toLower", this.S.ToExpr())
+}
+
 func (this *toLower) Hash() uint64 {
 	return this.hash
 }
@@ -73,7 +79,7 @@ func init() {
 	Register("toLower", ToLower)
 }
 
-//ToUpper returns a toUpper function with the input function as its parameter.
+// ToUpper returns a toUpper function with the input function as its parameter.
 func ToUpper(s String) String {
 	return TrimString(&toUpper{
 		S:           s,
@@ -120,6 +126,10 @@ func (this *toUpper) String() string {
 	return "toUpper(" + this.S.String() + ")"
 }
 
+func (this *toUpper) ToExpr() *ast.Expr {
+	return ast.NewFunction("toUpper", this.S.ToExpr())
+}
+
 func (this *toUpper) Hash() uint64 {
 	return this.hash
 }
@@ -128,7 +138,7 @@ func init() {
 	Register("toUpper", ToUpper)
 }
 
-//Contains returns a contains function with the two input function as its parameter.
+// Contains returns a contains function with the two input function as its parameter.
 func Contains(s, sub String) Bool {
 	return TrimBool(&contains{
 		S:           s,
@@ -184,6 +194,10 @@ func (this *contains) String() string {
 	return "contains(" + sjoin(this.S, this.Substr) + ")"
 }
 
+func (this *contains) ToExpr() *ast.Expr {
+	return ast.NewFunction("contains", this.S.ToExpr(), this.Substr.ToExpr())
+}
+
 func (this *contains) Hash() uint64 {
 	return this.hash
 }
@@ -192,7 +206,7 @@ func init() {
 	Register("contains", Contains)
 }
 
-//EqualFold returns a eqFold function with the two input functions as its parameters.
+// EqualFold returns a eqFold function with the two input functions as its parameters.
 func EqualFold(s, t String) Bool {
 	return TrimBool(&equalFold{
 		S:           s,
@@ -248,6 +262,10 @@ func (this *equalFold) String() string {
 	return "eqFold(" + sjoin(this.S, this.T) + ")"
 }
 
+func (this *equalFold) ToExpr() *ast.Expr {
+	return ast.NewFunction("eqFold", this.S.ToExpr(), this.T.ToExpr())
+}
+
 func (this *equalFold) Hash() uint64 {
 	return this.hash
 }
@@ -256,7 +274,7 @@ func init() {
 	Register("eqFold", EqualFold)
 }
 
-//HasPrefix returns a hasPrefix function with the two input functions as its parameters.
+// HasPrefix returns a hasPrefix function with the two input functions as its parameters.
 func HasPrefix(a, b String) Bool {
 	return TrimBool(&hasPrefix{
 		V1:          a,
@@ -312,6 +330,10 @@ func (this *hasPrefix) String() string {
 	return "hasPrefix(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *hasPrefix) ToExpr() *ast.Expr {
+	return ast.NewFunction("hasPrefix", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *hasPrefix) Hash() uint64 {
 	return this.hash
 }
@@ -320,7 +342,7 @@ func init() {
 	Register("hasPrefix", HasPrefix)
 }
 
-//HasSuffix returns a hasSuffix function with the two input functions as its parameters.
+// HasSuffix returns a hasSuffix function with the two input functions as its parameters.
 func HasSuffix(a, b String) Bool {
 	return TrimBool(&hasSuffix{
 		V1:          a,
@@ -374,6 +396,10 @@ func (this *hasSuffix) HasVariable() bool {
 
 func (this *hasSuffix) String() string {
 	return "hasSuffix(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *hasSuffix) ToExpr() *ast.Expr {
+	return ast.NewFunction("hasSuffix", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *hasSuffix) Hash() uint64 {

@@ -14,9 +14,13 @@
 
 package funcs
 
-import "strings"
+import (
+	"strings"
 
-//Not returns a new not function with the input function as its parameter.
+	"github.com/katydid/validator-go/validator/ast"
+)
+
+// Not returns a new not function with the input function as its parameter.
 func Not(v1 Bool) Bool {
 	if vv, ok := v1.(*not); ok {
 		return vv.V1
@@ -101,6 +105,10 @@ func (this *not) String() string {
 	return "not(" + this.V1.String() + ")"
 }
 
+func (this *not) ToExpr() *ast.Expr {
+	return ast.NewFunction("not", this.V1.ToExpr())
+}
+
 func (this *not) Hash() uint64 {
 	return this.hash
 }
@@ -109,7 +117,7 @@ func init() {
 	Register("not", Not)
 }
 
-//And returns a new and function with the two input functions as its parameters.
+// And returns a new and function with the two input functions as its parameters.
 func And(v1, v2 Bool) Bool {
 	if l, ok := v1.(*constBool); ok {
 		if l.v == false {
@@ -289,6 +297,10 @@ func (this *and) String() string {
 	return "and(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *and) ToExpr() *ast.Expr {
+	return ast.NewFunction("and", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *and) Hash() uint64 {
 	return this.hash
 }
@@ -297,7 +309,7 @@ func init() {
 	Register("and", And)
 }
 
-//Or returns a new or function with the two input functions as its parameters.
+// Or returns a new or function with the two input functions as its parameters.
 func Or(v1, v2 Bool) Bool {
 	if l, ok := v1.(*constBool); ok {
 		if l.v == true {
@@ -374,6 +386,10 @@ func (this *or) HasVariable() bool {
 
 func (this *or) String() string {
 	return "or(" + sjoin(this.V1, this.V2) + ")"
+}
+
+func (this *or) ToExpr() *ast.Expr {
+	return ast.NewFunction("or", this.V1.ToExpr(), this.V2.ToExpr())
 }
 
 func (this *or) Hash() uint64 {

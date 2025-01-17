@@ -2,6 +2,7 @@
 package funcs
 
 import (
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -77,6 +78,10 @@ func (this *rangeDoubles) HasVariable() bool {
 
 func (this *rangeDoubles) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
+}
+
+func (this *rangeDoubles) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
 }
 
 func (this *rangeDoubles) Hash() uint64 {
@@ -172,6 +177,10 @@ func (this *rangeInts) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
+func (this *rangeInts) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
+}
+
 func (this *rangeInts) Hash() uint64 {
 	return this.hash
 }
@@ -263,6 +272,10 @@ func (this *rangeUints) HasVariable() bool {
 
 func (this *rangeUints) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
+}
+
+func (this *rangeUints) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
 }
 
 func (this *rangeUints) Hash() uint64 {
@@ -358,6 +371,10 @@ func (this *rangeBools) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
+func (this *rangeBools) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
+}
+
 func (this *rangeBools) Hash() uint64 {
 	return this.hash
 }
@@ -451,6 +468,10 @@ func (this *rangeStrings) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
 }
 
+func (this *rangeStrings) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
+}
+
 func (this *rangeStrings) Hash() uint64 {
 	return this.hash
 }
@@ -542,6 +563,10 @@ func (this *rangeListOfBytes) HasVariable() bool {
 
 func (this *rangeListOfBytes) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) + ")"
+}
+
+func (this *rangeListOfBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
 }
 
 func (this *rangeListOfBytes) Hash() uint64 {

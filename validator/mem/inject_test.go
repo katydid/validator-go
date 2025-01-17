@@ -55,6 +55,10 @@ func (this *injectableInt) String() string {
 	return "inject()"
 }
 
+func (this *injectableInt) ToExpr() *ast.Expr {
+	return ast.NewFunction("inject")
+}
+
 func (this *injectableInt) Hash() uint64 {
 	return 17
 }

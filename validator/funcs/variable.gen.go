@@ -3,6 +3,7 @@ package funcs
 
 import (
 	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -58,6 +59,10 @@ func (this *varDouble) SetValue(v parser.Value) {
 
 func (this *varDouble) String() string {
 	return "$double"
+}
+
+func (this *varDouble) ToExpr() *ast.Expr {
+	return ast.NewDoubleVar()
 }
 
 // DoubleVar returns a variable of type Double
@@ -121,6 +126,10 @@ func (this *varInt) String() string {
 	return "$int"
 }
 
+func (this *varInt) ToExpr() *ast.Expr {
+	return ast.NewIntVar()
+}
+
 // IntVar returns a variable of type Int
 func IntVar() *varInt {
 	h := uint64(17)
@@ -180,6 +189,10 @@ func (this *varUint) SetValue(v parser.Value) {
 
 func (this *varUint) String() string {
 	return "$uint"
+}
+
+func (this *varUint) ToExpr() *ast.Expr {
+	return ast.NewUintVar()
 }
 
 // UintVar returns a variable of type Uint
@@ -243,6 +256,10 @@ func (this *varBool) String() string {
 	return "$bool"
 }
 
+func (this *varBool) ToExpr() *ast.Expr {
+	return ast.NewBoolVar()
+}
+
 // BoolVar returns a variable of type Bool
 func BoolVar() *varBool {
 	h := uint64(17)
@@ -304,6 +321,10 @@ func (this *varString) String() string {
 	return "$string"
 }
 
+func (this *varString) ToExpr() *ast.Expr {
+	return ast.NewStringVar()
+}
+
 // StringVar returns a variable of type String
 func StringVar() *varString {
 	h := uint64(17)
@@ -363,6 +384,10 @@ func (this *varBytes) SetValue(v parser.Value) {
 
 func (this *varBytes) String() string {
 	return "$[]byte"
+}
+
+func (this *varBytes) ToExpr() *ast.Expr {
+	return ast.NewBytesVar()
 }
 
 // BytesVar returns a variable of type Bytes

@@ -2,6 +2,7 @@
 package funcs
 
 import (
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -43,6 +44,10 @@ func (this *inSetInt) Compare(that Comparable) int {
 
 func (this *inSetInt) String() string {
 	return "contains(" + sjoin(this.Elem, this.List) + ")"
+}
+
+func (this *inSetInt) ToExpr() *ast.Expr {
+	return ast.NewFunction("contains", this.Elem.ToExpr(), this.List.ToExpr())
 }
 
 func (this *inSetInt) HasVariable() bool {
@@ -119,6 +124,10 @@ func (this *inSetUint) String() string {
 	return "contains(" + sjoin(this.Elem, this.List) + ")"
 }
 
+func (this *inSetUint) ToExpr() *ast.Expr {
+	return ast.NewFunction("contains", this.Elem.ToExpr(), this.List.ToExpr())
+}
+
 func (this *inSetUint) HasVariable() bool {
 	return this.hasVariable
 }
@@ -191,6 +200,10 @@ func (this *inSetString) Compare(that Comparable) int {
 
 func (this *inSetString) String() string {
 	return "contains(" + sjoin(this.Elem, this.List) + ")"
+}
+
+func (this *inSetString) ToExpr() *ast.Expr {
+	return ast.NewFunction("contains", this.Elem.ToExpr(), this.List.ToExpr())
 }
 
 func (this *inSetString) HasVariable() bool {

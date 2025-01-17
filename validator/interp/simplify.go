@@ -21,7 +21,6 @@ import (
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
 	nameexpr "github.com/katydid/validator-go/validator/name"
-	"github.com/katydid/validator-go/validator/parser"
 )
 
 // Simplifier simplifies the patterns of a given grammar.
@@ -127,11 +126,7 @@ func (this *simplifier) simplify(p *ast.Pattern, top bool) *ast.Pattern {
 		if funcs.IsFalse(b) {
 			return emptyset
 		}
-		e, err := parser.ParseExpr(funcs.Sprint(b))
-		if err != nil {
-			//Don't simplify if there is an error to keep this function signature simple.
-			return p
-		}
+		e := b.ToExpr()
 		return ast.NewLeafNode(e)
 	case *ast.Concat:
 		return cRef(simplifyConcat(
