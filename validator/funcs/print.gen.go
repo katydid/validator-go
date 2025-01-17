@@ -3,6 +3,7 @@ package funcs
 
 import (
 	"fmt"
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -39,6 +40,10 @@ func (this *printDouble) Compare(that Comparable) int {
 
 func (this *printDouble) String() string {
 	return "print(" + this.E.String() + ")"
+}
+
+func (this *printDouble) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *printDouble) Hash() uint64 {
@@ -94,6 +99,10 @@ func (this *printInt) String() string {
 	return "print(" + this.E.String() + ")"
 }
 
+func (this *printInt) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
+}
+
 func (this *printInt) Hash() uint64 {
 	return this.hash
 }
@@ -145,6 +154,10 @@ func (this *printUint) Compare(that Comparable) int {
 
 func (this *printUint) String() string {
 	return "print(" + this.E.String() + ")"
+}
+
+func (this *printUint) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *printUint) Hash() uint64 {
@@ -200,6 +213,10 @@ func (this *printBool) String() string {
 	return "print(" + this.E.String() + ")"
 }
 
+func (this *printBool) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
+}
+
 func (this *printBool) Hash() uint64 {
 	return this.hash
 }
@@ -251,6 +268,10 @@ func (this *printString) Compare(that Comparable) int {
 
 func (this *printString) String() string {
 	return "print(" + this.E.String() + ")"
+}
+
+func (this *printString) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *printString) Hash() uint64 {
@@ -306,6 +327,10 @@ func (this *printBytes) String() string {
 	return "print(" + this.E.String() + ")"
 }
 
+func (this *printBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
+}
+
 func (this *printBytes) Hash() uint64 {
 	return this.hash
 }
@@ -357,6 +382,10 @@ func (this *printDoubles) Compare(that Comparable) int {
 
 func (this *printDoubles) String() string {
 	return "print(" + this.E.String() + ")"
+}
+
+func (this *printDoubles) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *printDoubles) Hash() uint64 {
@@ -412,6 +441,10 @@ func (this *printInts) String() string {
 	return "print(" + this.E.String() + ")"
 }
 
+func (this *printInts) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
+}
+
 func (this *printInts) Hash() uint64 {
 	return this.hash
 }
@@ -463,6 +496,10 @@ func (this *printUints) Compare(that Comparable) int {
 
 func (this *printUints) String() string {
 	return "print(" + this.E.String() + ")"
+}
+
+func (this *printUints) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *printUints) Hash() uint64 {
@@ -518,6 +555,10 @@ func (this *printBools) String() string {
 	return "print(" + this.E.String() + ")"
 }
 
+func (this *printBools) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
+}
+
 func (this *printBools) Hash() uint64 {
 	return this.hash
 }
@@ -571,6 +612,10 @@ func (this *printStrings) String() string {
 	return "print(" + this.E.String() + ")"
 }
 
+func (this *printStrings) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
+}
+
 func (this *printStrings) Hash() uint64 {
 	return this.hash
 }
@@ -622,6 +667,10 @@ func (this *printListOfBytes) Compare(that Comparable) int {
 
 func (this *printListOfBytes) String() string {
 	return "print(" + this.E.String() + ")"
+}
+
+func (this *printListOfBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *printListOfBytes) Hash() uint64 {

@@ -14,6 +14,12 @@
 
 package funcs
 
+import "github.com/katydid/validator-go/validator/ast"
+
+type Repr interface {
+	ToExpr() *ast.Expr
+}
+
 type Stringer interface {
 	String() string
 }
@@ -26,6 +32,7 @@ type Comparable interface {
 	Compare(Comparable) int
 	Hashable
 	Stringer
+	Repr
 }
 
 type Func interface {

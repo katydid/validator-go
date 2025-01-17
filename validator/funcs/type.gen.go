@@ -2,6 +2,7 @@
 package funcs
 
 import (
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -38,6 +39,10 @@ func (this *typDouble) HasVariable() bool {
 
 func (this *typDouble) String() string {
 	return "type(" + this.E.String() + ")"
+}
+
+func (this *typDouble) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
 }
 
 func (this *typDouble) Hash() uint64 {
@@ -92,6 +97,10 @@ func (this *typInt) String() string {
 	return "type(" + this.E.String() + ")"
 }
 
+func (this *typInt) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
+}
+
 func (this *typInt) Hash() uint64 {
 	return this.hash
 }
@@ -142,6 +151,10 @@ func (this *typUint) HasVariable() bool {
 
 func (this *typUint) String() string {
 	return "type(" + this.E.String() + ")"
+}
+
+func (this *typUint) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
 }
 
 func (this *typUint) Hash() uint64 {
@@ -196,6 +209,10 @@ func (this *typBool) String() string {
 	return "type(" + this.E.String() + ")"
 }
 
+func (this *typBool) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
+}
+
 func (this *typBool) Hash() uint64 {
 	return this.hash
 }
@@ -248,6 +265,10 @@ func (this *typString) String() string {
 	return "type(" + this.E.String() + ")"
 }
 
+func (this *typString) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
+}
+
 func (this *typString) Hash() uint64 {
 	return this.hash
 }
@@ -298,6 +319,10 @@ func (this *typBytes) HasVariable() bool {
 
 func (this *typBytes) String() string {
 	return "type(" + this.E.String() + ")"
+}
+
+func (this *typBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
 }
 
 func (this *typBytes) Hash() uint64 {

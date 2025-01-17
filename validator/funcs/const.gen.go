@@ -3,6 +3,7 @@ package funcs
 
 import (
 	"fmt"
+	"github.com/katydid/validator-go/validator/ast"
 	"reflect"
 	"strings"
 )
@@ -40,6 +41,10 @@ func (this *constDouble) Hash() uint64 {
 
 func (this *constDouble) String() string {
 	return fmt.Sprintf("double(%f)", this.v)
+}
+
+func (this *constDouble) ToExpr() *ast.Expr {
+	return ast.NewDoubleConst(this.v)
 }
 
 // TrimDouble turns functions into constants, if they can be evaluated at compile time.
@@ -92,6 +97,10 @@ func (this *constInt) String() string {
 	return fmt.Sprintf("int(%d)", this.v)
 }
 
+func (this *constInt) ToExpr() *ast.Expr {
+	return ast.NewIntConst(this.v)
+}
+
 // TrimInt turns functions into constants, if they can be evaluated at compile time.
 func TrimInt(f Int) Int {
 	if _, ok := f.(Const); ok {
@@ -140,6 +149,10 @@ func (this *constUint) Hash() uint64 {
 
 func (this *constUint) String() string {
 	return fmt.Sprintf("uint(%d)", this.v)
+}
+
+func (this *constUint) ToExpr() *ast.Expr {
+	return ast.NewUintConst(this.v)
 }
 
 // TrimUint turns functions into constants, if they can be evaluated at compile time.
@@ -192,6 +205,10 @@ func (this *constBool) String() string {
 	return fmt.Sprintf("%v", this.v)
 }
 
+func (this *constBool) ToExpr() *ast.Expr {
+	return ast.NewBoolConst(this.v)
+}
+
 // TrimBool turns functions into constants, if they can be evaluated at compile time.
 func TrimBool(f Bool) Bool {
 	if _, ok := f.(Const); ok {
@@ -242,6 +259,10 @@ func (this *constString) String() string {
 	return fmt.Sprintf("`%s`", this.v)
 }
 
+func (this *constString) ToExpr() *ast.Expr {
+	return ast.NewStringConst(this.v)
+}
+
 // TrimString turns functions into constants, if they can be evaluated at compile time.
 func TrimString(f String) String {
 	if _, ok := f.(Const); ok {
@@ -290,6 +311,10 @@ func (this *constBytes) Hash() uint64 {
 
 func (this *constBytes) String() string {
 	return fmt.Sprintf("%#v", this.v)
+}
+
+func (this *constBytes) ToExpr() *ast.Expr {
+	return ast.NewBytesConst(this.v)
 }
 
 // TrimBytes turns functions into constants, if they can be evaluated at compile time.
@@ -346,6 +371,14 @@ func (this *constDoubles) String() string {
 	return "[]double{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *constDoubles) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.NewDoubleConst(this.v[i])
+	}
+	return ast.NewDoubleList(es...)
+}
+
 // TrimDoubles turns functions into constants, if they can be evaluated at compile time.
 func TrimDoubles(f Doubles) Doubles {
 	if _, ok := f.(Const); ok {
@@ -398,6 +431,14 @@ func (this *constInts) String() string {
 		ss[i] = fmt.Sprintf("int(%d)", this.v[i])
 	}
 	return "[]int{" + strings.Join(ss, ",") + "}"
+}
+
+func (this *constInts) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.NewIntConst(this.v[i])
+	}
+	return ast.NewIntList(es...)
 }
 
 // TrimInts turns functions into constants, if they can be evaluated at compile time.
@@ -454,6 +495,14 @@ func (this *constUints) String() string {
 	return "[]uint{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *constUints) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.NewUintConst(this.v[i])
+	}
+	return ast.NewUintList(es...)
+}
+
 // TrimUints turns functions into constants, if they can be evaluated at compile time.
 func TrimUints(f Uints) Uints {
 	if _, ok := f.(Const); ok {
@@ -506,6 +555,14 @@ func (this *constBools) String() string {
 		ss[i] = fmt.Sprintf("%v", this.v[i])
 	}
 	return "[]bool{" + strings.Join(ss, ",") + "}"
+}
+
+func (this *constBools) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.NewBoolConst(this.v[i])
+	}
+	return ast.NewBoolList(es...)
 }
 
 // TrimBools turns functions into constants, if they can be evaluated at compile time.
@@ -562,6 +619,14 @@ func (this *constStrings) String() string {
 	return "[]string{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *constStrings) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.NewStringConst(this.v[i])
+	}
+	return ast.NewStringList(es...)
+}
+
 // TrimStrings turns functions into constants, if they can be evaluated at compile time.
 func TrimStrings(f Strings) Strings {
 	if _, ok := f.(Const); ok {
@@ -614,6 +679,14 @@ func (this *constListOfBytes) String() string {
 		ss[i] = fmt.Sprintf("%#v", this.v[i])
 	}
 	return "[][]byte{" + strings.Join(ss, ",") + "}"
+}
+
+func (this *constListOfBytes) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.NewBytesConst(this.v[i])
+	}
+	return ast.NewBytesList(es...)
 }
 
 // TrimListOfBytes turns functions into constants, if they can be evaluated at compile time.

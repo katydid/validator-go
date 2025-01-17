@@ -18,9 +18,11 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/katydid/validator-go/validator/ast"
 )
 
-//Regex returns a new regex function given the first parameter as the expression string that needs to compiled and the second as the regex that should be matched.
+// Regex returns a new regex function given the first parameter as the expression string that needs to compiled and the second as the regex that should be matched.
 func Regex(expr ConstString, input String) (Bool, error) {
 	if expr.HasVariable() {
 		return nil, fmt.Errorf("regex requires a constant expression as its first parameter, but it has a variable parameter")
@@ -56,6 +58,10 @@ func (this *regex) HasVariable() bool {
 
 func (this *regex) String() string {
 	return "regex(" + this.expr + "," + this.S.String() + ")"
+}
+
+func (this *regex) ToExpr() *ast.Expr {
+	return ast.NewFunction("regex", ast.NewStringConst(this.expr), this.S.ToExpr())
 }
 
 func (this *regex) Eval() (bool, error) {

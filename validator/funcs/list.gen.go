@@ -2,6 +2,7 @@
 package funcs
 
 import (
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -82,6 +83,14 @@ func (this *listOfDouble) String() string {
 		ss[i] = this.List[i].String()
 	}
 	return "[]double{" + strings.Join(ss, ",") + "}"
+}
+
+func (this *listOfDouble) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.NewDoubleList(es...)
 }
 
 func (this *listOfDouble) IsListOf() {}
@@ -165,6 +174,14 @@ func (this *listOfInt) String() string {
 	return "[]int{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *listOfInt) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.NewIntList(es...)
+}
+
 func (this *listOfInt) IsListOf() {}
 
 type listOfUint struct {
@@ -244,6 +261,14 @@ func (this *listOfUint) String() string {
 		ss[i] = this.List[i].String()
 	}
 	return "[]uint{" + strings.Join(ss, ",") + "}"
+}
+
+func (this *listOfUint) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.NewUintList(es...)
 }
 
 func (this *listOfUint) IsListOf() {}
@@ -327,6 +352,14 @@ func (this *listOfBool) String() string {
 	return "[]bool{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *listOfBool) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.NewBoolList(es...)
+}
+
 func (this *listOfBool) IsListOf() {}
 
 type listOfString struct {
@@ -408,6 +441,14 @@ func (this *listOfString) String() string {
 	return "[]string{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *listOfString) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.NewStringList(es...)
+}
+
 func (this *listOfString) IsListOf() {}
 
 type listOfBytes struct {
@@ -487,6 +528,14 @@ func (this *listOfBytes) String() string {
 		ss[i] = this.List[i].String()
 	}
 	return "[][]byte{" + strings.Join(ss, ",") + "}"
+}
+
+func (this *listOfBytes) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.NewBytesList(es...)
 }
 
 func (this *listOfBytes) IsListOf() {}

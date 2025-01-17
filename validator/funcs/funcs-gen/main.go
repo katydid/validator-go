@@ -64,6 +64,10 @@ func (this *{{.Type}}{{.CName}}) String() string {
 	return "{{.Name}}" + "(" + sjoin(this.V1, this.V2) + ")"
 }
 
+func (this *{{.Type}}{{.CName}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("{{.Name}}", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
 func (this *{{.Type}}{{.CName}}) HasVariable() bool {
 	return this.hasVariable
 }
@@ -160,6 +164,14 @@ func (this *const{{.CType}}) String() string {
 	return "[]{{.ListType}}{" + strings.Join(ss, ",") + "}"{{else}}return fmt.Sprintf("{{.String}}", this.v){{end}}
 }
 
+func (this *const{{.CType}}) ToExpr() *ast.Expr {
+	{{if .ListType}}es := make([]*ast.Expr, len(this.v))
+	for i := range this.v {
+		es[i] = ast.New{{.SingleType}}Const(this.v[i])
+	}
+	return ast.New{{.SingleType}}List(es...){{else}}return ast.New{{.CType}}Const(this.v){{end}}
+}
+
 // Trim{{.CType}} turns functions into constants, if they can be evaluated at compile time.
 func Trim{{.CType}}(f {{.CType}}) {{.CType}} {
 	if _, ok := f.(Const); ok {
@@ -177,10 +189,11 @@ func Trim{{.CType}}(f {{.CType}}) {{.CType}} {
 `
 
 type conster struct {
-	CType    string
-	GoType   string
-	String   string
-	ListType string
+	CType      string
+	SingleType string
+	GoType     string
+	String     string
+	ListType   string
 }
 
 func (this *conster) Hash() uint64 {
@@ -267,6 +280,14 @@ func (this *listOf{{.FuncType}}) String() string {
 	return "[]{{.Type}}{" + strings.Join(ss, ",") + "}"
 }
 
+func (this *listOf{{.FuncType}}) ToExpr() *ast.Expr {
+	es := make([]*ast.Expr, len(this.List))
+	for i := range this.List {
+		es[i] = this.List[i].ToExpr()
+	}
+	return ast.New{{.FuncType}}List(es...)
+}
+
 func (this *listOf{{.FuncType}}) IsListOf() {}
 `
 
@@ -315,6 +336,10 @@ func (this *print{{.Name}}) Compare(that Comparable) int {
 
 func (this *print{{.Name}}) String() string {
 	return "print(" + this.E.String() +")"
+}
+
+func (this *print{{.Name}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("print", this.E.ToExpr())
 }
 
 func (this *print{{.Name}}) Hash() uint64 {
@@ -378,6 +403,10 @@ func (this *len{{.}}) Compare(that Comparable) int {
 
 func (this *len{{.}}) String() string {
 	return "length(" + this.E.String() + ")"
+}
+
+func (this *len{{.}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("length", this.E.ToExpr())
 }
 
 func (this *len{{.}}) HasVariable() bool {
@@ -457,6 +486,10 @@ func (this *elem{{.ListType}}) HasVariable() bool {
 
 func (this *elem{{.ListType}}) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
+}
+
+func (this *elem{{.ListType}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
 }
 
 func (this *elem{{.ListType}}) Hash() uint64 {
@@ -564,6 +597,10 @@ func (this *range{{.ListType}}) String() string {
 	return "range(" + sjoin(this.List, this.First, this.Last) +")"
 }
 
+func (this *range{{.ListType}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("range", this.List.ToExpr(), this.First.ToExpr(), this.Last.ToExpr())
+}
+
 func (this *range{{.ListType}}) Hash() uint64 {
 	return this.hash
 }
@@ -648,6 +685,10 @@ func (this *var{{.Name}}) String() string {
 	return "${{.Decode}}"
 }
 
+func (this *var{{.Name}}) ToExpr() *ast.Expr {
+	return ast.New{{.Name}}Var()
+}
+
 //{{.Name}}Var returns a variable of type {{.Name}}
 func {{.Name}}Var() *var{{.Name}} {
 	h := uint64(17)
@@ -701,6 +742,10 @@ func (this *typ{{.Name}}) HasVariable() bool {
 
 func (this *typ{{.Name}}) String() string {
 	return "type(" + this.E.String() + ")"
+}
+
+func (this *typ{{.Name}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("type", this.E.ToExpr())
 }
 
 func (this *typ{{.Name}}) Hash() uint64 {
@@ -768,6 +813,10 @@ func (this *inSet{{.Name}}) Compare(that Comparable) int {
 
 func (this *inSet{{.Name}}) String() string {
 	return "contains(" + sjoin(this.Elem, this.List) + ")"
+}
+
+func (this *inSet{{.Name}}) ToExpr() *ast.Expr {
+	return ast.NewFunction("contains", this.Elem.ToExpr(), this.List.ToExpr())
 }
 
 func (this *inSet{{.Name}}) HasVariable() bool {
@@ -846,7 +895,7 @@ func main() {
 		&compare{"ne", "!=", "bool", "", "Bool", "false", "not equal"},
 		&compare{"ne", "!=", "string", "", "String", "false", "not equal"},
 		&compare{"ne", "!=", "bytes", "return !bytes.Equal(v1, v2), nil", "Bytes", "false", "not equal"},
-	}, `"bytes"`, `"strings"`)
+	}, `"bytes"`, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(newFuncStr, "newfunc.gen.go", []interface{}{
 		"Double",
 		"Int",
@@ -862,19 +911,19 @@ func main() {
 		"ListOfBytes",
 	})
 	gen(constStr, "const.gen.go", []interface{}{
-		&conster{"Double", "float64", "double(%f)", ""},
-		&conster{"Int", "int64", "int(%d)", ""},
-		&conster{"Uint", "uint64", "uint(%d)", ""},
-		&conster{"Bool", "bool", "%v", ""},
-		&conster{"String", "string", "`%s`", ""},
-		&conster{"Bytes", "[]byte", "%#v", ""},
-		&conster{"Doubles", "[]float64", "double(%f)", "double"},
-		&conster{"Ints", "[]int64", "int(%d)", "int"},
-		&conster{"Uints", "[]uint64", "uint(%d)", "uint"},
-		&conster{"Bools", "[]bool", "%v", "bool"},
-		&conster{"Strings", "[]string", "`%s`", "string"},
-		&conster{"ListOfBytes", "[][]byte", "%#v", "[]byte"},
-	}, `"fmt"`, `"strings"`, `"reflect"`)
+		&conster{"Double", "Double", "float64", "double(%f)", ""},
+		&conster{"Int", "Int", "int64", "int(%d)", ""},
+		&conster{"Uint", "Uint", "uint64", "uint(%d)", ""},
+		&conster{"Bool", "Bool", "bool", "%v", ""},
+		&conster{"String", "String", "string", "`%s`", ""},
+		&conster{"Bytes", "Bytes", "[]byte", "%#v", ""},
+		&conster{"Doubles", "Double", "[]float64", "double(%f)", "double"},
+		&conster{"Ints", "Int", "[]int64", "int(%d)", "int"},
+		&conster{"Uints", "Uint", "[]uint64", "uint(%d)", "uint"},
+		&conster{"Bools", "Bool", "[]bool", "%v", "bool"},
+		&conster{"Strings", "String", "[]string", "`%s`", "string"},
+		&conster{"ListOfBytes", "Bytes", "[][]byte", "%#v", "[]byte"},
+	}, `"fmt"`, `"strings"`, `"reflect"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(listStr, "list.gen.go", []interface{}{
 		&list{"double", "Doubles", "Double", "float64"},
 		&list{"int", "Ints", "Int", "int64"},
@@ -882,7 +931,7 @@ func main() {
 		&list{"bool", "Bools", "Bool", "bool"},
 		&list{"string", "Strings", "String", "string"},
 		&list{"[]byte", "ListOfBytes", "Bytes", "[]byte"},
-	}, `"strings"`)
+	}, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(printStr, "print.gen.go", []interface{}{
 		&printer{"Double", "float64"},
 		&printer{"Int", "int64"},
@@ -896,7 +945,7 @@ func main() {
 		&printer{"Bools", "[]bool"},
 		&printer{"Strings", "[]string"},
 		&printer{"ListOfBytes", "[][]byte"},
-	}, `"fmt"`, `"strings"`)
+	}, `"fmt"`, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(lengthStr, "length.gen.go", []interface{}{
 		"Doubles",
 		"Ints",
@@ -906,7 +955,7 @@ func main() {
 		"ListOfBytes",
 		"String",
 		"Bytes",
-	}, `"strings"`)
+	}, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(elemStr, "elem.gen.go", []interface{}{
 		&elemer{"Doubles", "float64", "Double", "0"},
 		&elemer{"Ints", "int64", "Int", "0"},
@@ -914,7 +963,7 @@ func main() {
 		&elemer{"Bools", "bool", "Bool", "false"},
 		&elemer{"Strings", "string", "String", `""`},
 		&elemer{"ListOfBytes", "[]byte", "Bytes", "nil"},
-	}, `"strings"`)
+	}, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(rangeStr, "range.gen.go", []interface{}{
 		&ranger{"Doubles", "[]float64"},
 		&ranger{"Ints", "[]int64"},
@@ -922,7 +971,7 @@ func main() {
 		&ranger{"Bools", "[]bool"},
 		&ranger{"Strings", "[]string"},
 		&ranger{"ListOfBytes", "[][]byte"},
-	}, `"strings"`)
+	}, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(variableStr, "variable.gen.go", []interface{}{
 		&varer{"Double", "double", "float64", "0"},
 		&varer{"Int", "int", "int64", "0"},
@@ -930,7 +979,7 @@ func main() {
 		&varer{"Bool", "bool", "bool", "false"},
 		&varer{"String", "string", "string", `""`},
 		&varer{"Bytes", "[]byte", "[]byte", "nil"},
-	}, `"strings"`, `"github.com/katydid/parser-go/parser"`)
+	}, `"strings"`, `"github.com/katydid/parser-go/parser"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(typStr, "type.gen.go", []interface{}{
 		&typer{"Double"},
 		&typer{"Int"},
@@ -938,10 +987,10 @@ func main() {
 		&typer{"Bool"},
 		&typer{"String"},
 		&typer{"Bytes"},
-	}, `"strings"`)
+	}, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(inSetStr, "inset.gen.go", []interface{}{
 		&inSeter{"Int", "ConstInts", "int64"},
 		&inSeter{"Uint", "ConstUints", "uint64"},
 		&inSeter{"String", "ConstStrings", "string"},
-	}, `"strings"`)
+	}, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
 }

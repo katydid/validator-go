@@ -519,6 +519,15 @@ func NewUintConst(i uint64) *Expr {
 	}
 }
 
+// NewBoolConst returns a new terminal expression containing the given bool value.
+//
+//	uint(i)
+func NewBoolConst(b bool) *Expr {
+	return &Expr{
+		Terminal: NewBoolTerminal(b),
+	}
+}
+
 // NewTrue returns a new terminal expression containing a true value.
 //
 //	true

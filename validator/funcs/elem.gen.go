@@ -2,6 +2,7 @@
 package funcs
 
 import (
+	"github.com/katydid/validator-go/validator/ast"
 	"strings"
 )
 
@@ -59,6 +60,10 @@ func (this *elemDoubles) HasVariable() bool {
 
 func (this *elemDoubles) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
+}
+
+func (this *elemDoubles) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
 }
 
 func (this *elemDoubles) Hash() uint64 {
@@ -135,6 +140,10 @@ func (this *elemInts) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
+func (this *elemInts) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
+}
+
 func (this *elemInts) Hash() uint64 {
 	return this.hash
 }
@@ -207,6 +216,10 @@ func (this *elemUints) HasVariable() bool {
 
 func (this *elemUints) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
+}
+
+func (this *elemUints) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
 }
 
 func (this *elemUints) Hash() uint64 {
@@ -283,6 +296,10 @@ func (this *elemBools) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
+func (this *elemBools) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
+}
+
 func (this *elemBools) Hash() uint64 {
 	return this.hash
 }
@@ -357,6 +374,10 @@ func (this *elemStrings) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
+func (this *elemStrings) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
+}
+
 func (this *elemStrings) Hash() uint64 {
 	return this.hash
 }
@@ -429,6 +450,10 @@ func (this *elemListOfBytes) HasVariable() bool {
 
 func (this *elemListOfBytes) String() string {
 	return "elem(" + sjoin(this.List, this.Index) + ")"
+}
+
+func (this *elemListOfBytes) ToExpr() *ast.Expr {
+	return ast.NewFunction("elem", this.List.ToExpr(), this.Index.ToExpr())
 }
 
 func (this *elemListOfBytes) Hash() uint64 {
