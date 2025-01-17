@@ -43,6 +43,10 @@ func (auto *Auto) Validate(p parser.Interface) (bool, error) {
 	return auto.accept[final], nil
 }
 
+func (auto *Auto) MetricNumberOfStates() int {
+	return len(auto.accept)
+}
+
 func deriv(auto *Auto, current int, tree parser.Interface) (int, error) {
 	for {
 		if !auto.escapables[current] {

@@ -17,24 +17,40 @@ package interp
 import (
 	"testing"
 
-	"github.com/katydid/validator-go/validator/parser"
+	"github.com/katydid/validator-go/validator/ast"
+	. "github.com/katydid/validator-go/validator/combinator"
 )
 
 func TestRecursionPositive(t *testing.T) {
-	positives := []string{
-		`@main`,
-		`#main = @main`,
-		`#main = (A:* | @main)`,
-		`#main = (A:* | @ref)
-		 #ref = @main`,
-		`#main = (A:* | @ref)	#ref = (B:* | @main | <empty>)`,
-		`#main = A:@ref 		#ref = @ref`,
+	a := In("A", Any()) // .A:*
+	b := In("B", Any()) // .B:*
+	positives := []*ast.Grammar{
+		// @main
+		{TopPattern: ast.NewReference("main")},
+		// #main = @main
+		{PatternDecls: []*ast.PatternDecl{ast.NewPatternDecl("main", ast.NewReference("main"))}},
+		// #main = (.A:* | @main)
+		{PatternDecls: []*ast.PatternDecl{ast.NewPatternDecl("main", ast.NewOr(a, ast.NewReference("main")))}},
+		// 	#main = (A:* | @ref)
+		// 	#ref = @main
+		{PatternDecls: []*ast.PatternDecl{
+			ast.NewPatternDecl("main", ast.NewOr(a, ast.NewReference("ref"))),
+			ast.NewPatternDecl("ref", ast.NewReference("main")),
+		}},
+		// #main = (A:* | @ref)
+		// #ref = (B:* | @main | <empty>)
+		{PatternDecls: []*ast.PatternDecl{
+			ast.NewPatternDecl("main", ast.NewOr(a, ast.NewReference("ref"))),
+			ast.NewPatternDecl("ref", ast.NewOr(b, ast.NewReference("main"), ast.NewEmpty())),
+		}},
+		// #main = A:@ref
+		// #ref = @ref
+		{PatternDecls: []*ast.PatternDecl{
+			ast.NewPatternDecl("main", ast.NewOr(a, ast.NewReference("ref"))),
+			ast.NewPatternDecl("ref", ast.NewReference("ref")),
+		}},
 	}
-	for _, p := range positives {
-		g, err := parser.ParseGrammar(p)
-		if err != nil {
-			t.Fatal(err)
-		}
+	for _, g := range positives {
 		if !HasRecursion(g) {
 			t.Errorf("expected recursion for %v", g)
 		}
@@ -42,20 +58,27 @@ func TestRecursionPositive(t *testing.T) {
 }
 
 func TestRecursionNegative(t *testing.T) {
-	negatives := []string{
-		`A:@main`,
-		`#main = A:@main`,
-		`#main = (A:* | B:@main)`,
-		`#main = (A:* | @ref)
-		 #ref = C:@main`,
-		`#main = (A:* | @ref)
-		 #ref = (B:* | D:@main | <empty>)`,
+	negatives := []*ast.Grammar{
+		// .A:@main
+		{TopPattern: In("A", ast.NewReference("main"))},
+		// #main = .A:@main
+		{PatternDecls: []*ast.PatternDecl{ast.NewPatternDecl("main", In("A", ast.NewReference("main")))}},
+		// #main = (.A:* | .B:@main)
+		{PatternDecls: []*ast.PatternDecl{ast.NewPatternDecl("main", ast.NewOr(In("A", Any()), In("B", ast.NewReference("main"))))}},
+		// #main = (.A:* | @ref)
+		// #ref = .C:@main
+		{PatternDecls: []*ast.PatternDecl{
+			ast.NewPatternDecl("main", ast.NewOr(In("A", Any()), ast.NewReference("ref"))),
+			ast.NewPatternDecl("ref", In("C", ast.NewReference("main"))),
+		}},
+		// #main = (.A:* | @ref)
+		// #ref = (.B:* | .D:@main | <empty>)
+		{PatternDecls: []*ast.PatternDecl{
+			ast.NewPatternDecl("main", ast.NewOr(In("A", Any()), ast.NewReference("ref"))),
+			ast.NewPatternDecl("ref", ast.NewOr(In("B", Any(), In("D", ast.NewReference("main"), ast.NewEmpty())))),
+		}},
 	}
-	for _, n := range negatives {
-		g, err := parser.ParseGrammar(n)
-		if err != nil {
-			t.Fatal(err)
-		}
+	for _, g := range negatives {
 		if HasRecursion(g) {
 			t.Errorf("unexpected recursion for %v", g)
 		}

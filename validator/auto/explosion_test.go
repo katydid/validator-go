@@ -12,11 +12,12 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package auto
+package auto_test
 
 import (
 	"testing"
 
+	"github.com/katydid/validator-go/validator/auto"
 	"github.com/katydid/validator-go/validator/interp"
 	"github.com/katydid/validator-go/validator/parser"
 )
@@ -55,12 +56,12 @@ func TestExplosionAndSameTree(t *testing.T) {
 	// Since we know field names can't repeat the simplification can be made for record (JSON and proto) like serialization formats, but not for XML.
 	g = interp.NewSimplifier(g).OptimizeForRecord().Grammar()
 	t.Logf("%v", g)
-	a, err := Compile(g)
+	a, err := auto.Compile(g)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("number of states %d", len(a.accept))
-	if len(a.accept) > 1000 {
+	t.Logf("number of states %d", a.MetricNumberOfStates())
+	if a.MetricNumberOfStates() > 1000 {
 		t.Fatal("number of states exploded")
 	}
 }
