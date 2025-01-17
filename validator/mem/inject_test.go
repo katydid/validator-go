@@ -15,7 +15,6 @@
 package mem_test
 
 import (
-	"strings"
 	"testing"
 
 	jsonparser "github.com/katydid/parser-go-json/json"
@@ -48,7 +47,7 @@ func (this *injectableInt) Compare(that funcs.Comparable) int {
 	if _, ok := that.(*injectableInt); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *injectableInt) String() string {

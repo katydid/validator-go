@@ -2,10 +2,8 @@
 package funcs
 
 import (
-	"fmt"
 	"github.com/katydid/validator-go/validator/ast"
 	"reflect"
-	"strings"
 )
 
 type ConstDouble interface {
@@ -37,10 +35,6 @@ func (this *constDouble) HasVariable() bool { return false }
 
 func (this *constDouble) Hash() uint64 {
 	return this.hash
-}
-
-func (this *constDouble) String() string {
-	return fmt.Sprintf("double(%f)", this.v)
 }
 
 func (this *constDouble) ToExpr() *ast.Expr {
@@ -93,10 +87,6 @@ func (this *constInt) Hash() uint64 {
 	return this.hash
 }
 
-func (this *constInt) String() string {
-	return fmt.Sprintf("int(%d)", this.v)
-}
-
 func (this *constInt) ToExpr() *ast.Expr {
 	return ast.NewIntConst(this.v)
 }
@@ -145,10 +135,6 @@ func (this *constUint) HasVariable() bool { return false }
 
 func (this *constUint) Hash() uint64 {
 	return this.hash
-}
-
-func (this *constUint) String() string {
-	return fmt.Sprintf("uint(%d)", this.v)
 }
 
 func (this *constUint) ToExpr() *ast.Expr {
@@ -201,10 +187,6 @@ func (this *constBool) Hash() uint64 {
 	return this.hash
 }
 
-func (this *constBool) String() string {
-	return fmt.Sprintf("%v", this.v)
-}
-
 func (this *constBool) ToExpr() *ast.Expr {
 	return ast.NewBoolConst(this.v)
 }
@@ -253,10 +235,6 @@ func (this *constString) HasVariable() bool { return false }
 
 func (this *constString) Hash() uint64 {
 	return this.hash
-}
-
-func (this *constString) String() string {
-	return fmt.Sprintf("`%s`", this.v)
 }
 
 func (this *constString) ToExpr() *ast.Expr {
@@ -309,10 +287,6 @@ func (this *constBytes) Hash() uint64 {
 	return this.hash
 }
 
-func (this *constBytes) String() string {
-	return fmt.Sprintf("%#v", this.v)
-}
-
 func (this *constBytes) ToExpr() *ast.Expr {
 	return ast.NewBytesConst(this.v)
 }
@@ -361,14 +335,6 @@ func (this *constDoubles) HasVariable() bool { return false }
 
 func (this *constDoubles) Hash() uint64 {
 	return this.hash
-}
-
-func (this *constDoubles) String() string {
-	ss := make([]string, len(this.v))
-	for i := range this.v {
-		ss[i] = fmt.Sprintf("double(%f)", this.v[i])
-	}
-	return "[]double{" + strings.Join(ss, ",") + "}"
 }
 
 func (this *constDoubles) ToExpr() *ast.Expr {
@@ -425,14 +391,6 @@ func (this *constInts) Hash() uint64 {
 	return this.hash
 }
 
-func (this *constInts) String() string {
-	ss := make([]string, len(this.v))
-	for i := range this.v {
-		ss[i] = fmt.Sprintf("int(%d)", this.v[i])
-	}
-	return "[]int{" + strings.Join(ss, ",") + "}"
-}
-
 func (this *constInts) ToExpr() *ast.Expr {
 	es := make([]*ast.Expr, len(this.v))
 	for i := range this.v {
@@ -485,14 +443,6 @@ func (this *constUints) HasVariable() bool { return false }
 
 func (this *constUints) Hash() uint64 {
 	return this.hash
-}
-
-func (this *constUints) String() string {
-	ss := make([]string, len(this.v))
-	for i := range this.v {
-		ss[i] = fmt.Sprintf("uint(%d)", this.v[i])
-	}
-	return "[]uint{" + strings.Join(ss, ",") + "}"
 }
 
 func (this *constUints) ToExpr() *ast.Expr {
@@ -549,14 +499,6 @@ func (this *constBools) Hash() uint64 {
 	return this.hash
 }
 
-func (this *constBools) String() string {
-	ss := make([]string, len(this.v))
-	for i := range this.v {
-		ss[i] = fmt.Sprintf("%v", this.v[i])
-	}
-	return "[]bool{" + strings.Join(ss, ",") + "}"
-}
-
 func (this *constBools) ToExpr() *ast.Expr {
 	es := make([]*ast.Expr, len(this.v))
 	for i := range this.v {
@@ -611,14 +553,6 @@ func (this *constStrings) Hash() uint64 {
 	return this.hash
 }
 
-func (this *constStrings) String() string {
-	ss := make([]string, len(this.v))
-	for i := range this.v {
-		ss[i] = fmt.Sprintf("`%s`", this.v[i])
-	}
-	return "[]string{" + strings.Join(ss, ",") + "}"
-}
-
 func (this *constStrings) ToExpr() *ast.Expr {
 	es := make([]*ast.Expr, len(this.v))
 	for i := range this.v {
@@ -671,14 +605,6 @@ func (this *constListOfBytes) HasVariable() bool { return false }
 
 func (this *constListOfBytes) Hash() uint64 {
 	return this.hash
-}
-
-func (this *constListOfBytes) String() string {
-	ss := make([]string, len(this.v))
-	for i := range this.v {
-		ss[i] = fmt.Sprintf("%#v", this.v[i])
-	}
-	return "[][]byte{" + strings.Join(ss, ",") + "}"
 }
 
 func (this *constListOfBytes) ToExpr() *ast.Expr {

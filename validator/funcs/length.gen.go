@@ -3,7 +3,6 @@ package funcs
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type lenDoubles struct {
@@ -33,11 +32,7 @@ func (this *lenDoubles) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenDoubles) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenDoubles) ToExpr() *ast.Expr {
@@ -92,11 +87,7 @@ func (this *lenInts) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenInts) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenInts) ToExpr() *ast.Expr {
@@ -151,11 +142,7 @@ func (this *lenUints) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenUints) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenUints) ToExpr() *ast.Expr {
@@ -210,11 +197,7 @@ func (this *lenBools) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenBools) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenBools) ToExpr() *ast.Expr {
@@ -269,11 +252,7 @@ func (this *lenStrings) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenStrings) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenStrings) ToExpr() *ast.Expr {
@@ -328,11 +307,7 @@ func (this *lenListOfBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenListOfBytes) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenListOfBytes) ToExpr() *ast.Expr {
@@ -387,11 +362,7 @@ func (this *lenString) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenString) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenString) ToExpr() *ast.Expr {
@@ -446,11 +417,7 @@ func (this *lenBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *lenBytes) String() string {
-	return "length(" + this.E.String() + ")"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *lenBytes) ToExpr() *ast.Expr {

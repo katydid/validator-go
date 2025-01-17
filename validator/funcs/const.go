@@ -48,7 +48,7 @@ func (this *constDouble) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constInt) Compare(that Comparable) int {
@@ -61,7 +61,7 @@ func (this *constInt) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constUint) Compare(that Comparable) int {
@@ -74,7 +74,7 @@ func (this *constUint) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constBool) Compare(that Comparable) int {
@@ -87,21 +87,21 @@ func (this *constBool) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constString) Compare(that Comparable) int {
 	if other, ok := that.(*constString); ok {
 		return strings.Compare(this.v, other.v)
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constBytes) Compare(that Comparable) int {
 	if other, ok := that.(*constBytes); ok {
 		return bytes.Compare(this.v, other.v)
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constDoubles) Compare(that Comparable) int {
@@ -128,7 +128,7 @@ func (this *constDoubles) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constInts) Compare(that Comparable) int {
@@ -155,7 +155,7 @@ func (this *constInts) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constUints) Compare(that Comparable) int {
@@ -182,7 +182,7 @@ func (this *constUints) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constBools) Compare(that Comparable) int {
@@ -209,7 +209,7 @@ func (this *constBools) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constStrings) Compare(that Comparable) int {
@@ -233,7 +233,7 @@ func (this *constStrings) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *constListOfBytes) Compare(that Comparable) int {
@@ -257,5 +257,5 @@ func (this *constListOfBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }

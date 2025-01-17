@@ -15,7 +15,6 @@
 package funcs
 
 import (
-	"strings"
 	"time"
 
 	"github.com/katydid/validator-go/validator/ast"
@@ -46,11 +45,7 @@ func (this *now) Compare(that Comparable) int {
 	if _, ok := that.(*now); ok {
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
-}
-
-func (this *now) String() string {
-	return "now()"
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *now) ToExpr() *ast.Expr {

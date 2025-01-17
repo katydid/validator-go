@@ -70,9 +70,9 @@ func (p *Pattern) String() string {
 		return ast.NewEmpty().String()
 	case Node:
 		if isEmpty(p.Patterns[0]) {
-			return funcs.Sprint(p.Func)
+			return p.Func.ToExpr().String()
 		} else {
-			return p.Func.String() + ":" + p.Patterns[0].String()
+			return p.Func.ToExpr().String() + ":" + p.Patterns[0].String()
 		}
 	case Concat:
 		return "[" + joinPatterns(p.Patterns, ", ") + "]"

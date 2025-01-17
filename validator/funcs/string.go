@@ -56,15 +56,11 @@ func (this *toLower) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *toLower) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *toLower) String() string {
-	return "toLower(" + this.S.String() + ")"
 }
 
 func (this *toLower) ToExpr() *ast.Expr {
@@ -115,15 +111,11 @@ func (this *toUpper) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *toUpper) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *toUpper) String() string {
-	return "toUpper(" + this.S.String() + ")"
 }
 
 func (this *toUpper) ToExpr() *ast.Expr {
@@ -183,15 +175,11 @@ func (this *contains) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *contains) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *contains) String() string {
-	return "contains(" + sjoin(this.S, this.Substr) + ")"
 }
 
 func (this *contains) ToExpr() *ast.Expr {
@@ -251,15 +239,11 @@ func (this *equalFold) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *equalFold) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *equalFold) String() string {
-	return "eqFold(" + sjoin(this.S, this.T) + ")"
 }
 
 func (this *equalFold) ToExpr() *ast.Expr {
@@ -319,15 +303,11 @@ func (this *hasPrefix) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *hasPrefix) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *hasPrefix) String() string {
-	return "hasPrefix(" + sjoin(this.V1, this.V2) + ")"
 }
 
 func (this *hasPrefix) ToExpr() *ast.Expr {
@@ -387,15 +367,11 @@ func (this *hasSuffix) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *hasSuffix) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *hasSuffix) String() string {
-	return "hasSuffix(" + sjoin(this.V1, this.V2) + ")"
 }
 
 func (this *hasSuffix) ToExpr() *ast.Expr {

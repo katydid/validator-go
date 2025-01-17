@@ -20,10 +20,6 @@ type Repr interface {
 	ToExpr() *ast.Expr
 }
 
-type Stringer interface {
-	String() string
-}
-
 type Hashable interface {
 	Hash() uint64
 }
@@ -31,7 +27,6 @@ type Hashable interface {
 type Comparable interface {
 	Compare(Comparable) int
 	Hashable
-	Stringer
 	Repr
 }
 

@@ -34,6 +34,10 @@ func (p *Pattern) Hash() uint64 {
 	return deriveHash(p)
 }
 
+func (this *Expr) Compare(that *Expr) int {
+	return deriveCompareExpr(this, that)
+}
+
 func (this *NameExpr) Equal(that *NameExpr) bool {
 	return deriveEqualNameExpr(this, that)
 }

@@ -15,8 +15,6 @@
 package funcs
 
 import (
-	"strings"
-
 	"github.com/katydid/validator-go/validator/ast"
 )
 
@@ -94,15 +92,11 @@ func (this *not) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *not) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *not) String() string {
-	return "not(" + this.V1.String() + ")"
 }
 
 func (this *not) ToExpr() *ast.Expr {
@@ -286,15 +280,11 @@ func (this *and) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *and) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *and) String() string {
-	return "and(" + sjoin(this.V1, this.V2) + ")"
 }
 
 func (this *and) ToExpr() *ast.Expr {
@@ -377,15 +367,11 @@ func (this *or) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *or) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *or) String() string {
-	return "or(" + sjoin(this.V1, this.V2) + ")"
 }
 
 func (this *or) ToExpr() *ast.Expr {

@@ -3,7 +3,6 @@ package funcs
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"strings"
 )
 
 type elemDoubles struct {
@@ -51,15 +50,11 @@ func (this *elemDoubles) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *elemDoubles) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *elemDoubles) String() string {
-	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
 func (this *elemDoubles) ToExpr() *ast.Expr {
@@ -129,15 +124,11 @@ func (this *elemInts) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *elemInts) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *elemInts) String() string {
-	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
 func (this *elemInts) ToExpr() *ast.Expr {
@@ -207,15 +198,11 @@ func (this *elemUints) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *elemUints) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *elemUints) String() string {
-	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
 func (this *elemUints) ToExpr() *ast.Expr {
@@ -285,15 +272,11 @@ func (this *elemBools) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *elemBools) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *elemBools) String() string {
-	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
 func (this *elemBools) ToExpr() *ast.Expr {
@@ -363,15 +346,11 @@ func (this *elemStrings) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *elemStrings) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *elemStrings) String() string {
-	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
 func (this *elemStrings) ToExpr() *ast.Expr {
@@ -441,15 +420,11 @@ func (this *elemListOfBytes) Compare(that Comparable) int {
 		}
 		return 0
 	}
-	return strings.Compare(this.String(), that.String())
+	return this.ToExpr().Compare(that.ToExpr())
 }
 
 func (this *elemListOfBytes) HasVariable() bool {
 	return this.hasVariable
-}
-
-func (this *elemListOfBytes) String() string {
-	return "elem(" + sjoin(this.List, this.Index) + ")"
 }
 
 func (this *elemListOfBytes) ToExpr() *ast.Expr {
