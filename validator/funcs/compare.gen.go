@@ -44,20 +44,6 @@ func (this *doubleGE) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *doubleGE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return ">= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return ">= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *doubleGE) String() string {
 	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -120,20 +106,6 @@ func (this *intGE) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intGE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return ">= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return ">= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *intGE) String() string {
@@ -200,20 +172,6 @@ func (this *uintGE) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *uintGE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return ">= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return ">= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *uintGE) String() string {
 	return "ge" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -276,20 +234,6 @@ func (this *bytesGE) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesGE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return ">= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return ">= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *bytesGE) String() string {
@@ -356,20 +300,6 @@ func (this *doubleGt) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *doubleGt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "> " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "> " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *doubleGt) String() string {
 	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -432,20 +362,6 @@ func (this *intGt) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intGt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "> " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "> " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *intGt) String() string {
@@ -512,20 +428,6 @@ func (this *uintGt) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *uintGt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "> " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "> " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *uintGt) String() string {
 	return "gt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -588,20 +490,6 @@ func (this *bytesGt) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesGt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "> " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "> " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *bytesGt) String() string {
@@ -668,20 +556,6 @@ func (this *doubleLE) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *doubleLE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "<= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "<= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *doubleLE) String() string {
 	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -744,20 +618,6 @@ func (this *intLE) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intLE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "<= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "<= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *intLE) String() string {
@@ -824,20 +684,6 @@ func (this *uintLE) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *uintLE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "<= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "<= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *uintLE) String() string {
 	return "le" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -900,20 +746,6 @@ func (this *bytesLE) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesLE) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "<= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "<= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *bytesLE) String() string {
@@ -980,20 +812,6 @@ func (this *doubleLt) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *doubleLt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "< " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "< " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *doubleLt) String() string {
 	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1056,20 +874,6 @@ func (this *intLt) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intLt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "< " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "< " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *intLt) String() string {
@@ -1136,20 +940,6 @@ func (this *uintLt) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *uintLt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "< " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "< " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *uintLt) String() string {
 	return "lt" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1212,20 +1002,6 @@ func (this *bytesLt) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesLt) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "< " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "< " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *bytesLt) String() string {
@@ -1292,20 +1068,6 @@ func (this *doubleEq) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *doubleEq) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "== " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "== " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *doubleEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1368,20 +1130,6 @@ func (this *intEq) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intEq) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "== " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "== " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *intEq) String() string {
@@ -1448,20 +1196,6 @@ func (this *uintEq) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *uintEq) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "== " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "== " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *uintEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1524,20 +1258,6 @@ func (this *boolEq) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *boolEq) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "== " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "== " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *boolEq) String() string {
@@ -1604,20 +1324,6 @@ func (this *stringEq) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *stringEq) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "== " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "== " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *stringEq) String() string {
 	return "eq" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1680,20 +1386,6 @@ func (this *bytesEq) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesEq) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "== " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "== " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *bytesEq) String() string {
@@ -1760,20 +1452,6 @@ func (this *doubleNe) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *doubleNe) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "!= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "!= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *doubleNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1836,20 +1514,6 @@ func (this *intNe) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *intNe) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "!= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "!= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *intNe) String() string {
@@ -1916,20 +1580,6 @@ func (this *uintNe) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *uintNe) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "!= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "!= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *uintNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -1992,20 +1642,6 @@ func (this *boolNe) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *boolNe) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "!= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "!= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *boolNe) String() string {
@@ -2072,20 +1708,6 @@ func (this *stringNe) Compare(that Comparable) int {
 	return strings.Compare(this.String(), that.String())
 }
 
-func (this *stringNe) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "!= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "!= " + this.V1.String(), true
-		}
-	}
-	return "", false
-}
-
 func (this *stringNe) String() string {
 	return "ne" + "(" + sjoin(this.V1, this.V2) + ")"
 }
@@ -2148,20 +1770,6 @@ func (this *bytesNe) Compare(that Comparable) int {
 		return 0
 	}
 	return strings.Compare(this.String(), that.String())
-}
-
-func (this *bytesNe) Shorthand() (string, bool) {
-	if _, ok1 := this.V1.(aVariable); ok1 {
-		if _, ok2 := this.V2.(aConst); ok2 {
-			return "!= " + this.V2.String(), true
-		}
-	}
-	if _, ok2 := this.V2.(aVariable); ok2 {
-		if _, ok1 := this.V1.(aConst); ok1 {
-			return "!= " + this.V1.String(), true
-		}
-	}
-	return "", false
 }
 
 func (this *bytesNe) String() string {

@@ -27,14 +27,7 @@ func sjoin(s ...Stringer) string {
 	return strings.Join(ss, ",")
 }
 
-//Sprint returns the string printout of the function.
+// Sprint returns the string printout of the function.
 func Sprint(s Stringer) string {
-	if shorthand, ok := s.(interface {
-		Shorthand() (string, bool)
-	}); ok {
-		if short, sok := shorthand.Shorthand(); sok {
-			return short
-		}
-	}
 	return "->" + s.String()
 }
