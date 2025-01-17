@@ -18,18 +18,13 @@ import (
 	"testing"
 
 	"github.com/katydid/parser-go/parser/debug"
+	"github.com/katydid/validator-go/validator/ast"
+	. "github.com/katydid/validator-go/validator/combinator"
 	"github.com/katydid/validator-go/validator/compose"
-	. "github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/parser"
 )
 
 func TestNoEqualError(t *testing.T) {
-	exprStr := Sprint(StringEq(ElemStrings(NewListOfString([]String{StringVar()}), IntConst(3)), StringConst("0123456789")))
-	t.Logf(exprStr)
-	e, err := parser.NewParser().ParseExpr(exprStr)
-	if err != nil {
-		t.Fatal(err)
-	}
+	e := Eq(ast.NewFunction("elem", ast.NewStringList(StringVar()), IntConst(3)), StringConst("0123456789"))
 	b, err := compose.NewBool(e)
 	if err != nil {
 		t.Fatal(err)

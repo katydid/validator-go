@@ -16,11 +16,10 @@ package intern
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/funcs"
-	nameexpr "github.com/katydid/validator-go/validator/name"
-	"github.com/katydid/validator-go/validator/parser"
 )
 
 type PatternType int
@@ -54,102 +53,49 @@ func (p *Pattern) GoString() string {
 	return fmt.Sprintf("&%#v", *p)
 }
 
-func (p *Pattern) NewAst() *ast.Pattern {
-	pp, err := newASTPattern(p)
-	if err != nil {
-		panic(err)
+func joinPatterns(patterns []*Pattern, sep string) string {
+	ss := make([]string, len(patterns))
+	for i, p := range patterns {
+		ss[i] = p.String()
 	}
-	return pp
-}
-
-func newASTPattern(p *Pattern) (*ast.Pattern, error) {
-	switch p.Type {
-	case Empty:
-		return ast.NewEmpty(), nil
-	case Node:
-		if isEmpty(p.Patterns[0]) {
-			exprStr := funcs.Sprint(p.Func)
-			expr, err := parser.NewParser().ParseExpr(exprStr)
-			if err != nil {
-				return nil, err
-			}
-			return ast.NewLeafNode(expr), nil
-		} else {
-			name, err := nameexpr.FuncToName(p.Func)
-			if err != nil {
-				return nil, err
-			}
-			p, err := newASTPattern(p.Patterns[0])
-			if err != nil {
-				return nil, err
-			}
-			return ast.NewTreeNode(name, p), nil
-		}
-	case Concat:
-		ps, err := traverse(newASTPattern, p.Patterns)
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewConcat(ps...), nil
-	case Or:
-		ps, err := traverse(newASTPattern, p.Patterns)
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewOr(ps...), nil
-	case And:
-		ps, err := traverse(newASTPattern, p.Patterns)
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewAnd(ps...), nil
-	case ZeroOrMore:
-		pp, err := newASTPattern(p.Patterns[0])
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewZeroOrMore(pp), nil
-	case Reference:
-		return ast.NewReference(p.Ref), nil
-	case Not:
-		pp, err := newASTPattern(p.Patterns[0])
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewNot(pp), nil
-	case ZAny:
-		return ast.NewZAny(), nil
-	case Contains:
-		pp, err := newASTPattern(p.Patterns[0])
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewContains(pp), nil
-	case Optional:
-		pp, err := newASTPattern(p.Patterns[0])
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewOptional(pp), nil
-	case Interleave:
-		ps, err := traverse(newASTPattern, p.Patterns)
-		if err != nil {
-			return nil, err
-		}
-		return ast.NewInterleave(ps...), nil
-	}
-	panic(fmt.Sprintf("unknown pattern: %d", p.Type))
+	return strings.Join(ss, sep)
 }
 
 func (p *Pattern) String() string {
 	if p == nil {
 		return ""
 	}
-	st, err := newASTPattern(p)
-	if err != nil {
-		return fmt.Sprintf("could not get ast of: %v", *p)
+	switch p.Type {
+	case Empty:
+		return ast.NewEmpty().String()
+	case Node:
+		if isEmpty(p.Patterns[0]) {
+			return funcs.Sprint(p.Func)
+		} else {
+			return p.Func.String() + ":" + p.Patterns[0].String()
+		}
+	case Concat:
+		return "[" + joinPatterns(p.Patterns, ", ") + "]"
+	case Or:
+		return "(" + joinPatterns(p.Patterns, " | ") + ")"
+	case And:
+		return "(" + joinPatterns(p.Patterns, " & ") + ")"
+	case ZeroOrMore:
+		return "(" + p.Patterns[0].String() + ")*"
+	case Reference:
+		return "@" + p.Ref
+	case Not:
+		return "!(" + p.Patterns[0].String() + ")"
+	case ZAny:
+		return ast.NewZAny().String()
+	case Contains:
+		return "." + p.Patterns[0].String()
+	case Optional:
+		return "(" + p.Patterns[0].String() + ")?"
+	case Interleave:
+		return "{" + joinPatterns(p.Patterns, "; ") + "}"
 	}
-	return st.String()
+	panic(fmt.Sprintf("unknown pattern: %d", p.Type))
 }
 
 func (p *Pattern) Equal(pp *Pattern) bool {
