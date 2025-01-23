@@ -92,15 +92,15 @@ func NewVariableTerminal(typ types.Type) (*Terminal, error) {
 func NewBoolTerminal(v interface{}) *Terminal {
 	b := v.(bool)
 	if b {
-		return &Terminal{BoolValue: ptr(b), Literal: "true"}
+		return &Terminal{BoolValue: ptr(b)}
 	}
-	return &Terminal{BoolValue: ptr(b), Literal: "false"}
+	return &Terminal{BoolValue: ptr(b)}
 }
 
 // NewStringTerminal is a parser utility function that returns a Terminal of type string given a string literal.
 // The input string is also unquoted.
 func NewStringTerminal(slit string) (*Terminal, error) {
-	return &Terminal{StringValue: ptr(ToString(slit)), Literal: slit}, nil
+	return &Terminal{StringValue: ptr(ToString(slit))}, nil
 }
 
 // ToString unquotes a quoted string or returns the original string.
@@ -114,7 +114,7 @@ func ToString(s1 string) string {
 
 // NewIntTerminal is a parser utility function that parses the int value out of the input string and returns a Terminal of type int.
 func NewIntTerminal(slit string) (*Terminal, error) {
-	return &Terminal{IntValue: ToInt64(Strip(slit, "int")), Literal: slit}, nil
+	return &Terminal{IntValue: ToInt64(Strip(slit, "int"))}, nil
 }
 
 // ToInt64 is a parser utility function that returns a pointer to a parsed an int64 or panics.
@@ -128,7 +128,7 @@ func ToInt64(tok []byte) *int64 {
 
 // NewUintTerminal is a parser utility function that parses the uint value out of the input string and returns a Terminal of type uint.
 func NewUintTerminal(slit string) (*Terminal, error) {
-	return &Terminal{UintValue: ToUint64(Strip(slit, "uint")), Literal: slit}, nil
+	return &Terminal{UintValue: ToUint64(Strip(slit, "uint"))}, nil
 }
 
 // ToUint64 is a parser utility function that returns a pointer to a parsed an uint64 or panics.
@@ -142,7 +142,7 @@ func ToUint64(tok []byte) *uint64 {
 
 // NewDoubleTerminal is a parser utility function that parses the double value out of the input string and returns a Terminal of type double.
 func NewDoubleTerminal(slit string) (*Terminal, error) {
-	return &Terminal{DoubleValue: ToFloat64(Strip(slit, "double")), Literal: slit}, nil
+	return &Terminal{DoubleValue: ToFloat64(Strip(slit, "double"))}, nil
 }
 
 // ToFloat64 is a parser utility function that returns a pointer to a parsed an float64 or panics.
@@ -160,7 +160,7 @@ func NewBytesTerminal(stringLit string) (*Terminal, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Terminal{BytesValue: data, Literal: stringLit}, nil
+	return &Terminal{BytesValue: data}, nil
 }
 
 func parseBytes(s string) ([]byte, error) {

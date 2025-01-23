@@ -985,7 +985,6 @@ func deriveGoString_15(this *Terminal) string {
 		if this.Before != nil {
 			fmt.Fprintf(buf, "this.Before = %s\n", deriveGoString_(this.Before))
 		}
-		fmt.Fprintf(buf, "this.Literal = %#v\n", this.Literal)
 		if this.DoubleValue != nil {
 			fmt.Fprintf(buf, "this.DoubleValue = func (v float64) *float64 { return &v }(%#v)\n", *this.DoubleValue)
 		}
@@ -1451,7 +1450,6 @@ func deriveDeepCopy_15(dst, src *Terminal) {
 		dst.Before = new(Space)
 		deriveDeepCopy_(dst.Before, src.Before)
 	}
-	dst.Literal = src.Literal
 	if src.DoubleValue == nil {
 		dst.DoubleValue = nil
 	} else {
@@ -3252,7 +3250,6 @@ func deriveHash_21(object *Terminal) uint64 {
 	}
 	h := uint64(17)
 	h = 31*h + deriveHash_16(object.Before)
-	h = 31*h + deriveHash_s(object.Literal)
 	h = 31*h + deriveHash_26(object.DoubleValue)
 	h = 31*h + deriveHash_27(object.IntValue)
 	h = 31*h + deriveHash_28(object.UintValue)

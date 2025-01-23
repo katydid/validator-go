@@ -50,7 +50,6 @@ func (this *Terminal) Equal(that *Terminal) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
 			deriveEqual_(this.Before, that.Before) &&
-			// this.Literal == that.Literal &&
 			((this.DoubleValue == nil && that.DoubleValue == nil) || (this.DoubleValue != nil && that.DoubleValue != nil && *(this.DoubleValue) == *(that.DoubleValue))) &&
 			((this.IntValue == nil && that.IntValue == nil) || (this.IntValue != nil && that.IntValue != nil && *(this.IntValue) == *(that.IntValue))) &&
 			((this.UintValue == nil && that.UintValue == nil) || (this.UintValue != nil && that.UintValue != nil && *(this.UintValue) == *(that.UintValue))) &&
@@ -73,9 +72,6 @@ func (this *Terminal) Compare(that *Terminal) int {
 	if c := deriveCompare_18(this.Before, that.Before); c != 0 {
 		return c
 	}
-	// if c := strings.Compare(this.Literal, that.Literal); c != 0 {
-	// 	return c
-	// }
 	if c := deriveCompare_19(this.DoubleValue, that.DoubleValue); c != 0 {
 		return c
 	}
