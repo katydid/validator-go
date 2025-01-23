@@ -533,7 +533,6 @@ func (m *BuiltIn) GetExpr() *Expr {
 // Terminal is an expression that represents a literal value or variable.
 type Terminal struct {
 	Before      *Space    `json:"Before,omitempty"`
-	Literal     string    `json:"Literal"`
 	DoubleValue *float64  `json:"DoubleValue,omitempty"`
 	IntValue    *int64    `json:"IntValue,omitempty"`
 	UintValue   *uint64   `json:"UintValue,omitempty"`
@@ -541,13 +540,6 @@ type Terminal struct {
 	StringValue *string   `json:"StringValue,omitempty"`
 	BytesValue  []byte    `json:"BytesValue,omitempty"`
 	Variable    *Variable `json:"Variable,omitempty"`
-}
-
-func (m *Terminal) GetLiteral() string {
-	if m != nil {
-		return m.Literal
-	}
-	return ""
 }
 
 func (m *Terminal) GetDoubleValue() float64 {
