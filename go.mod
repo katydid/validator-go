@@ -11,7 +11,7 @@ require (
 require (
 	github.com/awalterschulze/checklicense v1.0.0
 	github.com/awalterschulze/goderive v0.5.0
-	github.com/goccmack/gocc v0.0.0-20230228185258-2292f9e40198
+	github.com/goccmack/gocc v1.0.0
 )
 
 require (
