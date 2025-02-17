@@ -81,7 +81,7 @@ type Number struct {
 }
 
 func testInject(t *testing.T, m *mem.Mem) bool {
-	parser := jsonparser.NewJsonParser()
+	parser := jsonparser.NewParser()
 	if err := parser.Init([]byte(`{"Num": 456}`)); err != nil {
 		t.Fatal(err)
 	}
