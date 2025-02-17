@@ -47,7 +47,7 @@ func test(t *testing.T, g *ast.Grammar, p parser.Interface, expected bool, desc 
 	if interp.HasRecursion(g) {
 		t.Skipf("interp was not designed to handle left recursion")
 	}
-	if !strings.Contains(desc, "Larger") {
+	if strings.Contains(desc, "Larger") {
 		t.Skipf("cannot handle Larger tests")
 	}
 	match, err := interp.Interpret(g, p)

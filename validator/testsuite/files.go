@@ -216,6 +216,24 @@ type ResetParser interface {
 	Reset() error
 }
 
+type InitParser interface {
+	parser.Interface
+	Init(buf []byte) error
+}
+
+type resetParser struct {
+	InitParser
+	buf []byte
+}
+
+func (r *resetParser) Reset() error {
+	return r.InitParser.Init(r.buf)
+}
+
+func newResetParser(p InitParser, buf []byte) ResetParser {
+	return &resetParser{InitParser: p, buf: buf}
+}
+
 func readBenchFolder(path string) (*Bench, error) {
 	name := filepath.Base(path)
 	g, err := readGrammar(path)
@@ -303,9 +321,9 @@ func newJsonParser(filename string) (ResetParser, error) {
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
 	}
-	j := json.NewJsonParser()
+	j := json.NewParser()
 	if err := j.Init(bytes); err != nil {
 		return nil, fmt.Errorf("err <%v> parser.Init with bytes from filename <%s>", err, filename)
 	}
-	return j, nil
+	return newResetParser(j, bytes), nil
 }
