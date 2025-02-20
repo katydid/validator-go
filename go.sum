@@ -2,8 +2,8 @@ github.com/awalterschulze/checklicense v1.0.0 h1:SiRilt26Q+2M238VbXw+e5826mxPypv
 github.com/awalterschulze/checklicense v1.0.0/go.mod h1:oUHvoD4crryzAwDwtdQqCnaZRznAvZE64edH9ukb1K4=
 github.com/awalterschulze/goderive v0.5.1 h1:H2XNRDw0Ordwj/pgLAVqQgDC1LQWP7L99ofOs72bjqg=
 github.com/awalterschulze/goderive v0.5.1/go.mod h1:DLlff0SRVo846CBrp8nXuXJ4mdWA92ai5CYTr+LV/II=
-github.com/goccmack/gocc v1.0.1 h1:KuCg73Uj579esPlirngbHY7PwNfH5ZuTLR7710OL9ok=
-github.com/goccmack/gocc v1.0.1/go.mod h1:j7nFcrBJCwg6W1AWaiDRxa3xx+sEsHqaUbbK8/3fmSk=
+github.com/goccmack/gocc v1.0.2 h1:PHv20lcM1Erz+kovS+c07DnDFp6X5cvghndtTXuEyfE=
+github.com/goccmack/gocc v1.0.2/go.mod h1:LXX2tFVUggS/Zgx/ICPOr3MLyusuM7EcbfkPvNsjdO8=
 github.com/katydid/parser-go v0.7.2 h1:nXkqDoTP4uU0XMLcYmqwsxfrm1ciu2GFdk1T2g0UNcs=
 github.com/katydid/parser-go v0.7.2/go.mod h1:3Oe5QRVSv2L8x7KlZooujIqsZRQXk3htVbzRvXeptzA=
 github.com/katydid/parser-go-json v0.2.1 h1:ctcDeJDY9ldS45syfwkN6+2KNejCBWj+bPY4IGOnOOQ=
