@@ -15,7 +15,7 @@ require (
 )
 
 require (
-	github.com/awalterschulze/checklicense v1.0.0 // indirect
+	github.com/awalterschulze/checklicense v1.0.1 // indirect
 	github.com/awalterschulze/goderive v0.5.1 // indirect
 	github.com/goccmack/gocc v1.0.2 // indirect
 	github.com/kisielk/gotool v1.0.0 // indirect
