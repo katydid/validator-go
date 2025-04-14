@@ -299,27 +299,6 @@ func TestList(t *testing.T) {
 	}
 }
 
-func TestComposeBuiltInRegex(t *testing.T) {
-	expr := ast.NewRegex(
-		ast.NewStringConst("ab"),
-	)
-	b, err := NewBool(expr)
-	if err != nil {
-		t.Fatal(err)
-	}
-	f, err := NewBoolFunc(b)
-	if err != nil {
-		t.Fatal(err)
-	}
-	r, err := f.Eval(debug.NewStringValue("ab"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	if r != true {
-		t.Fatalf("expected true")
-	}
-}
-
 func TestComposeBuiltInEqual(t *testing.T) {
 	expr := ast.NewEqual(
 		ast.NewIntConst(123),

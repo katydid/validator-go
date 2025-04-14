@@ -248,46 +248,6 @@ GreaterEqual
   >>
   ;
 
-TildeEqual
-  : "~="  << &Keyword{Value: "~="}, nil >>
-  | Space "~=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "~=",
-    }, nil
-  >>
-  ;
-
-StarEqual
-  : "*="  << &Keyword{Value: "*="}, nil >>
-  | Space "*=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "*=",
-    }, nil
-  >>
-  ;
-
-CaretEqual
-  : "^="  << &Keyword{Value: "^="}, nil >>
-  | Space "^=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "^=",
-    }, nil
-  >>
-  ;
-
-DollarEqual
-  : "$="  << &Keyword{Value: "$="}, nil >>
-  | Space "$=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "$=",
-    }, nil
-  >>
-  ;
-
 ColonColon
   : "::"  << &Keyword{Value: "::"}, nil >>
   | Space "::" << 
