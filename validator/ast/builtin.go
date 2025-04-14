@@ -14,8 +14,8 @@
 
 package ast
 
-//BuiltInFunctionName returns the full function name for the given builtin symbol.
-//The function returns an empty string when the symbol is not a known builtin symbol.
+// BuiltInFunctionName returns the full function name for the given builtin symbol.
+// The function returns an empty string when the symbol is not a known builtin symbol.
 func BuiltInFunctionName(symbol string) string {
 	switch symbol {
 	case "==":
@@ -60,22 +60,15 @@ func FunctionNameToBuiltIn(symbol string) func(*Expr) *Expr {
 		return NewLessEqual
 	case "ge":
 		return NewGreaterEqual
-	case "regex":
-		return NewRegex
-	case "contains":
-		return NewHasElem
-	case "hasPrefix":
-		return NewHasPrefix
-	case "hasSuffix":
-		return NewHasSuffix
 	case "type":
 		return NewType
 	}
 	return nil
 }
 
-//NewEqual returns an builtin equal expression.
-//  == e
+// NewEqual returns an builtin equal expression.
+//
+//	== e
 func NewEqual(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -85,8 +78,9 @@ func NewEqual(e *Expr) *Expr {
 	}
 }
 
-//NewNotEqual returns an builtin not equal expression.
-//  != e
+// NewNotEqual returns an builtin not equal expression.
+//
+//	!= e
 func NewNotEqual(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -96,8 +90,9 @@ func NewNotEqual(e *Expr) *Expr {
 	}
 }
 
-//NewLessThan returns an builtin less than expression.
-//  < e
+// NewLessThan returns an builtin less than expression.
+//
+//	< e
 func NewLessThan(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -107,8 +102,9 @@ func NewLessThan(e *Expr) *Expr {
 	}
 }
 
-//NewGreaterThan returns an builtin greater than expression.
-//  > e
+// NewGreaterThan returns an builtin greater than expression.
+//
+//	> e
 func NewGreaterThan(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -118,8 +114,9 @@ func NewGreaterThan(e *Expr) *Expr {
 	}
 }
 
-//NewLessEqual returns an builtin less than or equal expression.
-//  <= e
+// NewLessEqual returns an builtin less than or equal expression.
+//
+//	<= e
 func NewLessEqual(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -129,8 +126,9 @@ func NewLessEqual(e *Expr) *Expr {
 	}
 }
 
-//NewGreaterEqual returns an builtin greater than or equal expression.
-//  >= e
+// NewGreaterEqual returns an builtin greater than or equal expression.
+//
+//	>= e
 func NewGreaterEqual(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -140,8 +138,9 @@ func NewGreaterEqual(e *Expr) *Expr {
 	}
 }
 
-//NewRegex returns an builtin regular expression.
-//  ~= e
+// NewRegex returns an builtin regular expression.
+//
+//	~= e
 func NewRegex(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -151,8 +150,9 @@ func NewRegex(e *Expr) *Expr {
 	}
 }
 
-//NewHasElem returns an builtin contains expression.
-//  *= e
+// NewHasElem returns an builtin contains expression.
+//
+//	*= e
 func NewHasElem(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -162,8 +162,9 @@ func NewHasElem(e *Expr) *Expr {
 	}
 }
 
-//NewHasPrefix returns an builtin has prefix expression.
-//  ^= e
+// NewHasPrefix returns an builtin has prefix expression.
+//
+//	^= e
 func NewHasPrefix(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -173,8 +174,9 @@ func NewHasPrefix(e *Expr) *Expr {
 	}
 }
 
-//NewHasSuffix returns an builtin has suffix expression.
-//  $= e
+// NewHasSuffix returns an builtin has suffix expression.
+//
+//	$= e
 func NewHasSuffix(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
@@ -184,8 +186,9 @@ func NewHasSuffix(e *Expr) *Expr {
 	}
 }
 
-//NewType returns an builtin type expression.
-//  :: e
+// NewType returns an builtin type expression.
+//
+//	:: e
 func NewType(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
