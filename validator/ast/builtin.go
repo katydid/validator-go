@@ -30,14 +30,6 @@ func BuiltInFunctionName(symbol string) string {
 		return "le"
 	case ">=":
 		return "ge"
-	case "~=":
-		return "regex"
-	case "*=":
-		return "contains"
-	case "^=":
-		return "hasPrefix"
-	case "$=":
-		return "hasSuffix"
 	case "::":
 		return "type"
 	}
@@ -133,54 +125,6 @@ func NewGreaterEqual(e *Expr) *Expr {
 	return &Expr{
 		BuiltIn: &BuiltIn{
 			Symbol: newGreaterEqual(),
-			Expr:   e,
-		},
-	}
-}
-
-// NewRegex returns an builtin regular expression.
-//
-//	~= e
-func NewRegex(e *Expr) *Expr {
-	return &Expr{
-		BuiltIn: &BuiltIn{
-			Symbol: newTildeEqual(),
-			Expr:   e,
-		},
-	}
-}
-
-// NewHasElem returns an builtin contains expression.
-//
-//	*= e
-func NewHasElem(e *Expr) *Expr {
-	return &Expr{
-		BuiltIn: &BuiltIn{
-			Symbol: newStarEqual(),
-			Expr:   e,
-		},
-	}
-}
-
-// NewHasPrefix returns an builtin has prefix expression.
-//
-//	^= e
-func NewHasPrefix(e *Expr) *Expr {
-	return &Expr{
-		BuiltIn: &BuiltIn{
-			Symbol: newCaretEqual(),
-			Expr:   e,
-		},
-	}
-}
-
-// NewHasSuffix returns an builtin has suffix expression.
-//
-//	$= e
-func NewHasSuffix(e *Expr) *Expr {
-	return &Expr{
-		BuiltIn: &BuiltIn{
-			Symbol: newDollarEqual(),
 			Expr:   e,
 		},
 	}

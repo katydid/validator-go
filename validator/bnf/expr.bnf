@@ -68,10 +68,6 @@ BuiltIn
   | GreaterThan Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   | GreaterEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   | LessEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | TildeEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | StarEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | CaretEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | DollarEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   | ColonColon Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   ;
 

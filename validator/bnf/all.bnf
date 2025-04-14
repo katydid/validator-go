@@ -420,10 +420,6 @@ BuiltIn
   | GreaterThan Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   | GreaterEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   | LessEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | TildeEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | StarEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | CaretEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
-  | DollarEqual Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   | ColonColon Expr << &BuiltIn{Symbol: $0.(*Keyword), Expr: $1.(*Expr)}, nil >>
   ;
 
@@ -722,46 +718,6 @@ GreaterEqual
     &Keyword{
       Before: $0.(*Space),
       Value: ">=",
-    }, nil
-  >>
-  ;
-
-TildeEqual
-  : "~="  << &Keyword{Value: "~="}, nil >>
-  | Space "~=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "~=",
-    }, nil
-  >>
-  ;
-
-StarEqual
-  : "*="  << &Keyword{Value: "*="}, nil >>
-  | Space "*=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "*=",
-    }, nil
-  >>
-  ;
-
-CaretEqual
-  : "^="  << &Keyword{Value: "^="}, nil >>
-  | Space "^=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "^=",
-    }, nil
-  >>
-  ;
-
-DollarEqual
-  : "$="  << &Keyword{Value: "$="}, nil >>
-  | Space "$=" << 
-    &Keyword{
-      Before: $0.(*Space),
-      Value: "$=",
     }, nil
   >>
   ;
