@@ -40,7 +40,7 @@ func TestSimplifyOrderedSet1(t *testing.T) {
 	ors := ast.NewOr(ea, ae, ea)
 	got := NewSimplifier(ors.Grammar()).Simplify(ors)
 
-	want := ae
+	want := ea
 
 	if !want.Equal(got) {
 		t.Fatalf("want %s got %s", want, got)

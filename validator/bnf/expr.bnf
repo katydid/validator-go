@@ -29,6 +29,7 @@ NameExpr
     }}, nil
   >>
   | StartNameChoice
+  | Tilde string_lit << NewSDTRegexName($0.(*Keyword), newString($1)) >>
   ;
 
 StartNameChoice

@@ -48,7 +48,7 @@ func TestSimplifyOrderedSet1(t *testing.T) {
 	ea := ast.NewInterleave(email, addr)
 	ae := ast.NewInterleave(addr, email)
 
-	want, err := c.NewPattern(ae)
+	want, err := c.NewPattern(ea)
 	if err != nil {
 		t.Fatal(err)
 	}

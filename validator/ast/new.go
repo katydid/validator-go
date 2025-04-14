@@ -766,3 +766,12 @@ func newNameChoice(names []*NameExpr) *NameExpr {
 		},
 	}
 }
+
+func NewRegexName(pattern string) *NameExpr {
+	return &NameExpr{
+		RegexName: &RegexName{
+			Tilde:   newTilde(),
+			Pattern: pattern,
+		},
+	}
+}

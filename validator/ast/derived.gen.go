@@ -408,6 +408,9 @@ func deriveCompareNameExpr(this, that *NameExpr) int {
 	if c := deriveCompare_25(this.NameChoice, that.NameChoice); c != 0 {
 		return c
 	}
+	if c := deriveCompare_26(this.RegexName, that.RegexName); c != 0 {
+		return c
+	}
 	return 0
 }
 
@@ -425,7 +428,7 @@ func deriveCompare_18(this, that *Space) int {
 	if that == nil {
 		return 1
 	}
-	if c := deriveCompare_26(this.Space, that.Space); c != 0 {
+	if c := deriveCompare_27(this.Space, that.Space); c != 0 {
 		return c
 	}
 	return 0
@@ -571,14 +574,15 @@ func deriveEqualNameExpr(this, that *NameExpr) bool {
 			deriveEqual_14(this.Name, that.Name) &&
 			deriveEqual_15(this.AnyName, that.AnyName) &&
 			deriveEqual_16(this.AnyNameExcept, that.AnyNameExcept) &&
-			deriveEqual_17(this.NameChoice, that.NameChoice)
+			deriveEqual_17(this.NameChoice, that.NameChoice) &&
+			deriveEqual_18(this.RegexName, that.RegexName)
 }
 
 // deriveEqual_ returns whether this and that are equal.
 func deriveEqual_(this, that *Space) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_18(this.Space, that.Space)
+			deriveEqual_19(this.Space, that.Space)
 }
 
 // deriveEqual_26 returns whether this and that are equal.
@@ -2003,7 +2007,7 @@ func deriveCompare_13(this, that *List) int {
 	if c := deriveCompare_12(this.OpenCurly, that.OpenCurly); c != 0 {
 		return c
 	}
-	if c := deriveCompare_27(this.Elems, that.Elems); c != 0 {
+	if c := deriveCompare_28(this.Elems, that.Elems); c != 0 {
 		return c
 	}
 	if c := deriveCompare_12(this.CloseCurly, that.CloseCurly); c != 0 {
@@ -2035,7 +2039,7 @@ func deriveCompare_14(this, that *Function) int {
 	if c := deriveCompare_12(this.OpenParen, that.OpenParen); c != 0 {
 		return c
 	}
-	if c := deriveCompare_27(this.Params, that.Params); c != 0 {
+	if c := deriveCompare_28(this.Params, that.Params); c != 0 {
 		return c
 	}
 	if c := deriveCompare_12(this.CloseParen, that.CloseParen); c != 0 {
@@ -2190,7 +2194,30 @@ func deriveCompare_25(this, that *NameChoice) int {
 //   - 0 if this and that are equal,
 //   - -1 is this is smaller and
 //   - +1 is this is bigger.
-func deriveCompare_26(this, that []string) int {
+func deriveCompare_26(this, that *RegexName) int {
+	if this == nil {
+		if that == nil {
+			return 0
+		}
+		return -1
+	}
+	if that == nil {
+		return 1
+	}
+	if c := deriveCompare_12(this.Tilde, that.Tilde); c != 0 {
+		return c
+	}
+	if c := strings.Compare(this.Pattern, that.Pattern); c != 0 {
+		return c
+	}
+	return 0
+}
+
+// deriveCompare_27 returns:
+//   - 0 if this and that are equal,
+//   - -1 is this is smaller and
+//   - +1 is this is bigger.
+func deriveCompare_27(this, that []string) int {
 	if this == nil {
 		if that == nil {
 			return 0
@@ -2305,7 +2332,7 @@ func deriveEqual(this, that []*PatternDecl) bool {
 		return false
 	}
 	for i := 0; i < len(this); i++ {
-		if !(deriveEqual_19(this[i], that[i])) {
+		if !(deriveEqual_20(this[i], that[i])) {
 			return false
 		}
 	}
@@ -2316,7 +2343,7 @@ func deriveEqual(this, that []*PatternDecl) bool {
 func deriveEqual_1(this, that *Empty) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Empty, that.Empty)
+			deriveEqual_21(this.Empty, that.Empty)
 }
 
 // deriveEqual_2 returns whether this and that are equal.
@@ -2324,7 +2351,7 @@ func deriveEqual_2(this, that *TreeNode) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
 			this.Name.Equal(that.Name) &&
-			deriveEqual_20(this.Colon, that.Colon) &&
+			deriveEqual_21(this.Colon, that.Colon) &&
 			this.Pattern.Equal(that.Pattern)
 }
 
@@ -2332,58 +2359,58 @@ func deriveEqual_2(this, that *TreeNode) bool {
 func deriveEqual_3(this, that *LeafNode) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_21(this.Expr, that.Expr)
+			deriveEqual_22(this.Expr, that.Expr)
 }
 
 // deriveEqual_4 returns whether this and that are equal.
 func deriveEqual_4(this, that *Concat) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenBracket, that.OpenBracket) &&
+			deriveEqual_21(this.OpenBracket, that.OpenBracket) &&
 			this.LeftPattern.Equal(that.LeftPattern) &&
-			deriveEqual_20(this.Comma, that.Comma) &&
+			deriveEqual_21(this.Comma, that.Comma) &&
 			this.RightPattern.Equal(that.RightPattern) &&
-			deriveEqual_20(this.ExtraComma, that.ExtraComma) &&
-			deriveEqual_20(this.CloseBracket, that.CloseBracket)
+			deriveEqual_21(this.ExtraComma, that.ExtraComma) &&
+			deriveEqual_21(this.CloseBracket, that.CloseBracket)
 }
 
 // deriveEqual_5 returns whether this and that are equal.
 func deriveEqual_5(this, that *Or) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.LeftPattern.Equal(that.LeftPattern) &&
-			deriveEqual_20(this.Pipe, that.Pipe) &&
+			deriveEqual_21(this.Pipe, that.Pipe) &&
 			this.RightPattern.Equal(that.RightPattern) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen)
+			deriveEqual_21(this.CloseParen, that.CloseParen)
 }
 
 // deriveEqual_6 returns whether this and that are equal.
 func deriveEqual_6(this, that *And) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.LeftPattern.Equal(that.LeftPattern) &&
-			deriveEqual_20(this.Ampersand, that.Ampersand) &&
+			deriveEqual_21(this.Ampersand, that.Ampersand) &&
 			this.RightPattern.Equal(that.RightPattern) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen)
+			deriveEqual_21(this.CloseParen, that.CloseParen)
 }
 
 // deriveEqual_7 returns whether this and that are equal.
 func deriveEqual_7(this, that *ZeroOrMore) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.Pattern.Equal(that.Pattern) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen) &&
-			deriveEqual_20(this.Star, that.Star)
+			deriveEqual_21(this.CloseParen, that.CloseParen) &&
+			deriveEqual_21(this.Star, that.Star)
 }
 
 // deriveEqual_8 returns whether this and that are equal.
 func deriveEqual_8(this, that *Reference) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.At, that.At) &&
+			deriveEqual_21(this.At, that.At) &&
 			this.Name == that.Name
 }
 
@@ -2391,24 +2418,24 @@ func deriveEqual_8(this, that *Reference) bool {
 func deriveEqual_9(this, that *Not) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Exclamation, that.Exclamation) &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.Exclamation, that.Exclamation) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.Pattern.Equal(that.Pattern) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen)
+			deriveEqual_21(this.CloseParen, that.CloseParen)
 }
 
 // deriveEqual_10 returns whether this and that are equal.
 func deriveEqual_10(this, that *ZAny) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Star, that.Star)
+			deriveEqual_21(this.Star, that.Star)
 }
 
 // deriveEqual_11 returns whether this and that are equal.
 func deriveEqual_11(this, that *Contains) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Dot, that.Dot) &&
+			deriveEqual_21(this.Dot, that.Dot) &&
 			this.Pattern.Equal(that.Pattern)
 }
 
@@ -2416,22 +2443,22 @@ func deriveEqual_11(this, that *Contains) bool {
 func deriveEqual_12(this, that *Optional) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.Pattern.Equal(that.Pattern) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen) &&
-			deriveEqual_20(this.QuestionMark, that.QuestionMark)
+			deriveEqual_21(this.CloseParen, that.CloseParen) &&
+			deriveEqual_21(this.QuestionMark, that.QuestionMark)
 }
 
 // deriveEqual_13 returns whether this and that are equal.
 func deriveEqual_13(this, that *Interleave) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenCurly, that.OpenCurly) &&
+			deriveEqual_21(this.OpenCurly, that.OpenCurly) &&
 			this.LeftPattern.Equal(that.LeftPattern) &&
-			deriveEqual_20(this.SemiColon, that.SemiColon) &&
+			deriveEqual_21(this.SemiColon, that.SemiColon) &&
 			this.RightPattern.Equal(that.RightPattern) &&
-			deriveEqual_20(this.ExtraSemiColon, that.ExtraSemiColon) &&
-			deriveEqual_20(this.CloseCurly, that.CloseCurly)
+			deriveEqual_21(this.ExtraSemiColon, that.ExtraSemiColon) &&
+			deriveEqual_21(this.CloseCurly, that.CloseCurly)
 }
 
 // deriveEqual_14 returns whether this and that are equal.
@@ -2451,32 +2478,40 @@ func deriveEqual_14(this, that *Name) bool {
 func deriveEqual_15(this, that *AnyName) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Underscore, that.Underscore)
+			deriveEqual_21(this.Underscore, that.Underscore)
 }
 
 // deriveEqual_16 returns whether this and that are equal.
 func deriveEqual_16(this, that *AnyNameExcept) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Exclamation, that.Exclamation) &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.Exclamation, that.Exclamation) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.Except.Equal(that.Except) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen)
+			deriveEqual_21(this.CloseParen, that.CloseParen)
 }
 
 // deriveEqual_17 returns whether this and that are equal.
 func deriveEqual_17(this, that *NameChoice) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
 			this.Left.Equal(that.Left) &&
-			deriveEqual_20(this.Pipe, that.Pipe) &&
+			deriveEqual_21(this.Pipe, that.Pipe) &&
 			this.Right.Equal(that.Right) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen)
+			deriveEqual_21(this.CloseParen, that.CloseParen)
 }
 
 // deriveEqual_18 returns whether this and that are equal.
-func deriveEqual_18(this, that []string) bool {
+func deriveEqual_18(this, that *RegexName) bool {
+	return (this == nil && that == nil) ||
+		this != nil && that != nil &&
+			deriveEqual_21(this.Tilde, that.Tilde) &&
+			this.Pattern == that.Pattern
+}
+
+// deriveEqual_19 returns whether this and that are equal.
+func deriveEqual_19(this, that []string) bool {
 	if this == nil || that == nil {
 		return this == nil && that == nil
 	}
@@ -2699,6 +2734,9 @@ func deriveGoString_20(this *NameExpr) string {
 		if this.NameChoice != nil {
 			fmt.Fprintf(buf, "this.NameChoice = %s\n", deriveGoString_26(this.NameChoice))
 		}
+		if this.RegexName != nil {
+			fmt.Fprintf(buf, "this.RegexName = %s\n", deriveGoString_27(this.RegexName))
+		}
 		fmt.Fprintf(buf, "return this\n")
 	}
 	fmt.Fprintf(buf, "}()\n")
@@ -2792,6 +2830,12 @@ func deriveDeepCopy_20(dst, src *NameExpr) {
 		dst.NameChoice = new(NameChoice)
 		deriveDeepCopy_25(dst.NameChoice, src.NameChoice)
 	}
+	if src.RegexName == nil {
+		dst.RegexName = nil
+	} else {
+		dst.RegexName = new(RegexName)
+		deriveDeepCopy_26(dst.RegexName, src.RegexName)
+	}
 }
 
 // deriveDeepCopy_21 recursively copies the contents of src into dst.
@@ -2806,11 +2850,11 @@ func deriveDeepCopy_21(dst, src []*Expr) {
 	}
 }
 
-// deriveCompare_27 returns:
+// deriveCompare_28 returns:
 //   - 0 if this and that are equal,
 //   - -1 is this is smaller and
 //   - +1 is this is bigger.
-func deriveCompare_27(this, that []*Expr) int {
+func deriveCompare_28(this, that []*Expr) int {
 	if this == nil {
 		if that == nil {
 			return 0
@@ -2834,35 +2878,35 @@ func deriveCompare_27(this, that []*Expr) int {
 	return 0
 }
 
-// deriveEqual_19 returns whether this and that are equal.
-func deriveEqual_19(this, that *PatternDecl) bool {
+// deriveEqual_20 returns whether this and that are equal.
+func deriveEqual_20(this, that *PatternDecl) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Hash, that.Hash) &&
+			deriveEqual_21(this.Hash, that.Hash) &&
 			deriveEqual_(this.Before, that.Before) &&
 			this.Name == that.Name &&
-			deriveEqual_20(this.Eq, that.Eq) &&
+			deriveEqual_21(this.Eq, that.Eq) &&
 			this.Pattern.Equal(that.Pattern)
 }
 
-// deriveEqual_20 returns whether this and that are equal.
-func deriveEqual_20(this, that *Keyword) bool {
+// deriveEqual_21 returns whether this and that are equal.
+func deriveEqual_21(this, that *Keyword) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
 			deriveEqual_(this.Before, that.Before) &&
 			this.Value == that.Value
 }
 
-// deriveEqual_21 returns whether this and that are equal.
-func deriveEqual_21(this, that *Expr) bool {
+// deriveEqual_22 returns whether this and that are equal.
+func deriveEqual_22(this, that *Expr) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.RightArrow, that.RightArrow) &&
-			deriveEqual_20(this.Comma, that.Comma) &&
+			deriveEqual_21(this.RightArrow, that.RightArrow) &&
+			deriveEqual_21(this.Comma, that.Comma) &&
 			this.Terminal.Equal(that.Terminal) &&
-			deriveEqual_22(this.List, that.List) &&
-			deriveEqual_23(this.Function, that.Function) &&
-			deriveEqual_24(this.BuiltIn, that.BuiltIn)
+			deriveEqual_23(this.List, that.List) &&
+			deriveEqual_24(this.Function, that.Function) &&
+			deriveEqual_25(this.BuiltIn, that.BuiltIn)
 }
 
 // deriveHash_13 returns the hash of the object.
@@ -2886,6 +2930,7 @@ func deriveHash_14(object *NameExpr) uint64 {
 	h = 31*h + deriveHash_18(object.AnyName)
 	h = 31*h + deriveHash_19(object.AnyNameExcept)
 	h = 31*h + deriveHash_20(object.NameChoice)
+	h = 31*h + deriveHash_21(object.RegexName)
 	return h
 }
 
@@ -2897,10 +2942,10 @@ func deriveHash_15(object *Expr) uint64 {
 	h := uint64(17)
 	h = 31*h + deriveHash_13(object.RightArrow)
 	h = 31*h + deriveHash_13(object.Comma)
-	h = 31*h + deriveHash_21(object.Terminal)
-	h = 31*h + deriveHash_22(object.List)
-	h = 31*h + deriveHash_23(object.Function)
-	h = 31*h + deriveHash_24(object.BuiltIn)
+	h = 31*h + deriveHash_22(object.Terminal)
+	h = 31*h + deriveHash_23(object.List)
+	h = 31*h + deriveHash_24(object.Function)
+	h = 31*h + deriveHash_25(object.BuiltIn)
 	return h
 }
 
@@ -3014,6 +3059,24 @@ func deriveGoString_26(this *NameChoice) string {
 		if this.CloseParen != nil {
 			fmt.Fprintf(buf, "this.CloseParen = %s\n", deriveGoString_14(this.CloseParen))
 		}
+		fmt.Fprintf(buf, "return this\n")
+	}
+	fmt.Fprintf(buf, "}()\n")
+	return buf.String()
+}
+
+// deriveGoString_27 returns a recursive representation of this as a valid go string.
+func deriveGoString_27(this *RegexName) string {
+	buf := bytes.NewBuffer(nil)
+	fmt.Fprintf(buf, "func() *ast.RegexName {\n")
+	if this == nil {
+		fmt.Fprintf(buf, "return nil\n")
+	} else {
+		fmt.Fprintf(buf, "this := &ast.RegexName{}\n")
+		if this.Tilde != nil {
+			fmt.Fprintf(buf, "this.Tilde = %s\n", deriveGoString_14(this.Tilde))
+		}
+		fmt.Fprintf(buf, "this.Pattern = %#v\n", this.Pattern)
 		fmt.Fprintf(buf, "return this\n")
 	}
 	fmt.Fprintf(buf, "}()\n")
@@ -3150,34 +3213,45 @@ func deriveDeepCopy_25(dst, src *NameChoice) {
 	}
 }
 
-// deriveEqual_22 returns whether this and that are equal.
-func deriveEqual_22(this, that *List) bool {
+// deriveDeepCopy_26 recursively copies the contents of src into dst.
+func deriveDeepCopy_26(dst, src *RegexName) {
+	if src.Tilde == nil {
+		dst.Tilde = nil
+	} else {
+		dst.Tilde = new(Keyword)
+		deriveDeepCopy_14(dst.Tilde, src.Tilde)
+	}
+	dst.Pattern = src.Pattern
+}
+
+// deriveEqual_23 returns whether this and that are equal.
+func deriveEqual_23(this, that *List) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
 			deriveEqual_(this.Before, that.Before) &&
 			this.Type == that.Type &&
-			deriveEqual_20(this.OpenCurly, that.OpenCurly) &&
-			deriveEqual_25(this.Elems, that.Elems) &&
-			deriveEqual_20(this.CloseCurly, that.CloseCurly)
+			deriveEqual_21(this.OpenCurly, that.OpenCurly) &&
+			deriveEqual_27(this.Elems, that.Elems) &&
+			deriveEqual_21(this.CloseCurly, that.CloseCurly)
 }
 
-// deriveEqual_23 returns whether this and that are equal.
-func deriveEqual_23(this, that *Function) bool {
+// deriveEqual_24 returns whether this and that are equal.
+func deriveEqual_24(this, that *Function) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
 			deriveEqual_(this.Before, that.Before) &&
 			this.Name == that.Name &&
-			deriveEqual_20(this.OpenParen, that.OpenParen) &&
-			deriveEqual_25(this.Params, that.Params) &&
-			deriveEqual_20(this.CloseParen, that.CloseParen)
+			deriveEqual_21(this.OpenParen, that.OpenParen) &&
+			deriveEqual_27(this.Params, that.Params) &&
+			deriveEqual_21(this.CloseParen, that.CloseParen)
 }
 
-// deriveEqual_24 returns whether this and that are equal.
-func deriveEqual_24(this, that *BuiltIn) bool {
+// deriveEqual_25 returns whether this and that are equal.
+func deriveEqual_25(this, that *BuiltIn) bool {
 	return (this == nil && that == nil) ||
 		this != nil && that != nil &&
-			deriveEqual_20(this.Symbol, that.Symbol) &&
-			deriveEqual_21(this.Expr, that.Expr)
+			deriveEqual_21(this.Symbol, that.Symbol) &&
+			deriveEqual_22(this.Expr, that.Expr)
 }
 
 // deriveHash_16 returns the hash of the object.
@@ -3186,7 +3260,7 @@ func deriveHash_16(object *Space) uint64 {
 		return 0
 	}
 	h := uint64(17)
-	h = 31*h + deriveHash_25(object.Space)
+	h = 31*h + deriveHash_26(object.Space)
 	return h
 }
 
@@ -3197,12 +3271,12 @@ func deriveHash_17(object *Name) uint64 {
 	}
 	h := uint64(17)
 	h = 31*h + deriveHash_16(object.Before)
-	h = 31*h + deriveHash_26(object.DoubleValue)
-	h = 31*h + deriveHash_27(object.IntValue)
-	h = 31*h + deriveHash_28(object.UintValue)
-	h = 31*h + deriveHash_29(object.BoolValue)
-	h = 31*h + deriveHash_30(object.StringValue)
-	h = 31*h + deriveHash_31(object.BytesValue)
+	h = 31*h + deriveHash_27(object.DoubleValue)
+	h = 31*h + deriveHash_28(object.IntValue)
+	h = 31*h + deriveHash_29(object.UintValue)
+	h = 31*h + deriveHash_30(object.BoolValue)
+	h = 31*h + deriveHash_31(object.StringValue)
+	h = 31*h + deriveHash_32(object.BytesValue)
 	return h
 }
 
@@ -3244,24 +3318,35 @@ func deriveHash_20(object *NameChoice) uint64 {
 }
 
 // deriveHash_21 returns the hash of the object.
-func deriveHash_21(object *Terminal) uint64 {
+func deriveHash_21(object *RegexName) uint64 {
+	if object == nil {
+		return 0
+	}
+	h := uint64(17)
+	h = 31*h + deriveHash_13(object.Tilde)
+	h = 31*h + deriveHash_s(object.Pattern)
+	return h
+}
+
+// deriveHash_22 returns the hash of the object.
+func deriveHash_22(object *Terminal) uint64 {
 	if object == nil {
 		return 0
 	}
 	h := uint64(17)
 	h = 31*h + deriveHash_16(object.Before)
-	h = 31*h + deriveHash_26(object.DoubleValue)
-	h = 31*h + deriveHash_27(object.IntValue)
-	h = 31*h + deriveHash_28(object.UintValue)
-	h = 31*h + deriveHash_29(object.BoolValue)
-	h = 31*h + deriveHash_30(object.StringValue)
-	h = 31*h + deriveHash_31(object.BytesValue)
-	h = 31*h + deriveHash_32(object.Variable)
+	h = 31*h + deriveHash_27(object.DoubleValue)
+	h = 31*h + deriveHash_28(object.IntValue)
+	h = 31*h + deriveHash_29(object.UintValue)
+	h = 31*h + deriveHash_30(object.BoolValue)
+	h = 31*h + deriveHash_31(object.StringValue)
+	h = 31*h + deriveHash_32(object.BytesValue)
+	h = 31*h + deriveHash_33(object.Variable)
 	return h
 }
 
-// deriveHash_22 returns the hash of the object.
-func deriveHash_22(object *List) uint64 {
+// deriveHash_23 returns the hash of the object.
+func deriveHash_23(object *List) uint64 {
 	if object == nil {
 		return 0
 	}
@@ -3269,13 +3354,13 @@ func deriveHash_22(object *List) uint64 {
 	h = 31*h + deriveHash_16(object.Before)
 	h = 31*h + uint64(object.Type)
 	h = 31*h + deriveHash_13(object.OpenCurly)
-	h = 31*h + deriveHash_33(object.Elems)
+	h = 31*h + deriveHash_34(object.Elems)
 	h = 31*h + deriveHash_13(object.CloseCurly)
 	return h
 }
 
-// deriveHash_23 returns the hash of the object.
-func deriveHash_23(object *Function) uint64 {
+// deriveHash_24 returns the hash of the object.
+func deriveHash_24(object *Function) uint64 {
 	if object == nil {
 		return 0
 	}
@@ -3283,13 +3368,13 @@ func deriveHash_23(object *Function) uint64 {
 	h = 31*h + deriveHash_16(object.Before)
 	h = 31*h + deriveHash_s(object.Name)
 	h = 31*h + deriveHash_13(object.OpenParen)
-	h = 31*h + deriveHash_33(object.Params)
+	h = 31*h + deriveHash_34(object.Params)
 	h = 31*h + deriveHash_13(object.CloseParen)
 	return h
 }
 
-// deriveHash_24 returns the hash of the object.
-func deriveHash_24(object *BuiltIn) uint64 {
+// deriveHash_25 returns the hash of the object.
+func deriveHash_25(object *BuiltIn) uint64 {
 	if object == nil {
 		return 0
 	}
@@ -3299,8 +3384,8 @@ func deriveHash_24(object *BuiltIn) uint64 {
 	return h
 }
 
-// deriveEqual_25 returns whether this and that are equal.
-func deriveEqual_25(this, that []*Expr) bool {
+// deriveEqual_27 returns whether this and that are equal.
+func deriveEqual_27(this, that []*Expr) bool {
 	if this == nil || that == nil {
 		return this == nil && that == nil
 	}
@@ -3308,15 +3393,15 @@ func deriveEqual_25(this, that []*Expr) bool {
 		return false
 	}
 	for i := 0; i < len(this); i++ {
-		if !(deriveEqual_21(this[i], that[i])) {
+		if !(deriveEqual_22(this[i], that[i])) {
 			return false
 		}
 	}
 	return true
 }
 
-// deriveHash_25 returns the hash of the object.
-func deriveHash_25(object []string) uint64 {
+// deriveHash_26 returns the hash of the object.
+func deriveHash_26(object []string) uint64 {
 	if object == nil {
 		return 0
 	}
@@ -3327,48 +3412,48 @@ func deriveHash_25(object []string) uint64 {
 	return h
 }
 
-// deriveHash_26 returns the hash of the object.
-func deriveHash_26(object *float64) uint64 {
+// deriveHash_27 returns the hash of the object.
+func deriveHash_27(object *float64) uint64 {
 	if object == nil {
 		return 0
 	}
 	return (31 * 17) + math.Float64bits(*object)
 }
 
-// deriveHash_27 returns the hash of the object.
-func deriveHash_27(object *int64) uint64 {
+// deriveHash_28 returns the hash of the object.
+func deriveHash_28(object *int64) uint64 {
 	if object == nil {
 		return 0
 	}
 	return (31 * 17) + uint64(*object)
 }
 
-// deriveHash_28 returns the hash of the object.
-func deriveHash_28(object *uint64) uint64 {
+// deriveHash_29 returns the hash of the object.
+func deriveHash_29(object *uint64) uint64 {
 	if object == nil {
 		return 0
 	}
 	return (31 * 17) + *object
 }
 
-// deriveHash_29 returns the hash of the object.
-func deriveHash_29(object *bool) uint64 {
+// deriveHash_30 returns the hash of the object.
+func deriveHash_30(object *bool) uint64 {
 	if object == nil {
 		return 0
 	}
 	return (31 * 17) + deriveHash_b(*object)
 }
 
-// deriveHash_30 returns the hash of the object.
-func deriveHash_30(object *string) uint64 {
+// deriveHash_31 returns the hash of the object.
+func deriveHash_31(object *string) uint64 {
 	if object == nil {
 		return 0
 	}
 	return (31 * 17) + deriveHash_s(*object)
 }
 
-// deriveHash_31 returns the hash of the object.
-func deriveHash_31(object []byte) uint64 {
+// deriveHash_32 returns the hash of the object.
+func deriveHash_32(object []byte) uint64 {
 	if object == nil {
 		return 0
 	}
@@ -3379,8 +3464,8 @@ func deriveHash_31(object []byte) uint64 {
 	return h
 }
 
-// deriveHash_32 returns the hash of the object.
-func deriveHash_32(object *Variable) uint64 {
+// deriveHash_33 returns the hash of the object.
+func deriveHash_33(object *Variable) uint64 {
 	if object == nil {
 		return 0
 	}
@@ -3389,8 +3474,8 @@ func deriveHash_32(object *Variable) uint64 {
 	return h
 }
 
-// deriveHash_33 returns the hash of the object.
-func deriveHash_33(object []*Expr) uint64 {
+// deriveHash_34 returns the hash of the object.
+func deriveHash_34(object []*Expr) uint64 {
 	if object == nil {
 		return 0
 	}

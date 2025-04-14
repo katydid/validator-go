@@ -14,13 +14,13 @@
 
 package ast
 
-//Visitor is used to do a top down walk through the expression tree using the Walk methods.
+// Visitor is used to do a top down walk through the expression tree using the Walk methods.
 type Visitor interface {
 	//Visit takes in an ast type and should return another type that implementes the Visitor interface.
 	Visit(node interface{}) interface{}
 }
 
-//Walk visits the Grammar instance and all its possible child pattern and all its pattern declarations.
+// Walk visits the Grammar instance and all its possible child pattern and all its pattern declarations.
 func (this *Grammar) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.TopPattern != nil {
@@ -31,7 +31,7 @@ func (this *Grammar) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the PatternDecl instance and its child pattern.
+// Walk visits the PatternDecl instance and its child pattern.
 func (this *PatternDecl) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Pattern != nil {
@@ -39,7 +39,7 @@ func (this *PatternDecl) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the Pattern instance, its non nil patterns.
+// Walk visits the Pattern instance, its non nil patterns.
 func (this *Pattern) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Empty != nil {
@@ -83,12 +83,12 @@ func (this *Pattern) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the Empty pattern.
+// Walk visits the Empty pattern.
 func (this *Empty) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }
 
-//Walk visits the TreeNode pattern, its name and its pattern.
+// Walk visits the TreeNode pattern, its name and its pattern.
 func (this *TreeNode) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Name != nil {
@@ -99,12 +99,12 @@ func (this *TreeNode) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the LeafNode pattern.
+// Walk visits the LeafNode pattern.
 func (this *LeafNode) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }
 
-//Walk visits the Concat pattern and its child patterns.
+// Walk visits the Concat pattern and its child patterns.
 func (this *Concat) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.LeftPattern != nil {
@@ -115,7 +115,7 @@ func (this *Concat) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the Or pattern and its child patterns.
+// Walk visits the Or pattern and its child patterns.
 func (this *Or) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.LeftPattern != nil {
@@ -126,7 +126,7 @@ func (this *Or) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the And pattern and its child patterns.
+// Walk visits the And pattern and its child patterns.
 func (this *And) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.LeftPattern != nil {
@@ -137,7 +137,7 @@ func (this *And) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the ZeroOrMore pattern and its pattern.
+// Walk visits the ZeroOrMore pattern and its pattern.
 func (this *ZeroOrMore) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Pattern != nil {
@@ -145,12 +145,12 @@ func (this *ZeroOrMore) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the Reference pattern.
+// Walk visits the Reference pattern.
 func (this *Reference) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }
 
-//Walk visits the Not pattern and its pattern.
+// Walk visits the Not pattern and its pattern.
 func (this *Not) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Pattern != nil {
@@ -158,12 +158,12 @@ func (this *Not) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the ZAny pattern.
+// Walk visits the ZAny pattern.
 func (this *ZAny) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }
 
-//Walk visits the Contains pattern and its pattern.
+// Walk visits the Contains pattern and its pattern.
 func (this *Contains) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Pattern != nil {
@@ -171,7 +171,7 @@ func (this *Contains) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the Optional pattern and its pattern.
+// Walk visits the Optional pattern and its pattern.
 func (this *Optional) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Pattern != nil {
@@ -179,7 +179,7 @@ func (this *Optional) Walk(v Visitor) {
 	}
 }
 
-//Walk visits the Interleave pattern and its child patterns.
+// Walk visits the Interleave pattern and its child patterns.
 func (this *Interleave) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.LeftPattern != nil {
@@ -190,7 +190,7 @@ func (this *Interleave) Walk(v Visitor) {
 	}
 }
 
-//Walk visits every possible field that is not nil and not of type Keyword or Space.
+// Walk visits every possible field that is not nil and not of type Keyword or Space.
 func (this *Expr) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Terminal != nil {
@@ -207,7 +207,7 @@ func (this *Expr) Walk(v Visitor) {
 	}
 }
 
-//Walk visits every possible field that is not nil and not of type Keyword or Space.
+// Walk visits every possible field that is not nil and not of type Keyword or Space.
 func (this *NameExpr) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Name != nil {
@@ -222,19 +222,22 @@ func (this *NameExpr) Walk(v Visitor) {
 	if this.NameChoice != nil {
 		this.GetNameChoice().Walk(v)
 	}
+	if this.RegexName != nil {
+		this.GetRegexName().Walk(v)
+	}
 }
 
-//Walk visits Name.
+// Walk visits Name.
 func (this *Name) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }
 
-//Walk visits AnyName.
+// Walk visits AnyName.
 func (this *AnyName) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }
 
-//Walk visits AnyNameExcept and its NameExpr.
+// Walk visits AnyNameExcept and its NameExpr.
 func (this *AnyNameExcept) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Except != nil {
@@ -242,7 +245,7 @@ func (this *AnyNameExcept) Walk(v Visitor) {
 	}
 }
 
-//Walk visits NameChoice and its NameExpr types.
+// Walk visits NameChoice and its NameExpr types.
 func (this *NameChoice) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Left != nil {
@@ -253,7 +256,11 @@ func (this *NameChoice) Walk(v Visitor) {
 	}
 }
 
-//Walk visits List and each element in the list.
+func (this *RegexName) Walk(v Visitor) {
+	v = v.Visit(this).(Visitor)
+}
+
+// Walk visits List and each element in the list.
 func (this *List) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	for _, e := range this.GetElems() {
@@ -261,7 +268,7 @@ func (this *List) Walk(v Visitor) {
 	}
 }
 
-//Walk visits Function and every parameter.
+// Walk visits Function and every parameter.
 func (this *Function) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	for _, e := range this.GetParams() {
@@ -269,13 +276,13 @@ func (this *Function) Walk(v Visitor) {
 	}
 }
 
-//Walk visits BuiltIn and its Expr.
+// Walk visits BuiltIn and its Expr.
 func (this *BuiltIn) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	this.Expr.Walk(v)
 }
 
-//Walk visits Terminal and its possible Variable.
+// Walk visits Terminal and its possible Variable.
 func (this *Terminal) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Variable != nil {
@@ -283,7 +290,7 @@ func (this *Terminal) Walk(v Visitor) {
 	}
 }
 
-//Walk visits Variable.
+// Walk visits Variable.
 func (this *Variable) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 }

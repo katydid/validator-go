@@ -109,7 +109,13 @@ func (this *simplifier) simplify(p *ast.Pattern, top bool) *ast.Pattern {
 			return emptyset
 		}
 		name := v.GetName()
-		b := nameexpr.NameToFunc(v.GetName())
+		b, err := nameexpr.NameToFunc(v.GetName())
+		if err != nil {
+			if err != nil {
+				//Don't simplify if there is an error to keep this function signature simple.
+				return p
+			}
+		}
 		if funcs.IsFalse(b) {
 			return emptyset
 		}

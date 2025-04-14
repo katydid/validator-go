@@ -627,6 +627,7 @@ type NameExpr struct {
 	AnyName       *AnyName       `json:"AnyName,omitempty"`
 	AnyNameExcept *AnyNameExcept `json:"AnyNameExcept,omitempty"`
 	NameChoice    *NameChoice    `json:"NameChoice,omitempty"`
+	RegexName     *RegexName     `json:"RegexName,omitempty"`
 }
 
 func (m *NameExpr) GetName() *Name {
@@ -657,6 +658,13 @@ func (m *NameExpr) GetNameChoice() *NameChoice {
 	return nil
 }
 
+func (m *NameExpr) GetRegexName() *RegexName {
+	if m != nil {
+		return m.RegexName
+	}
+	return nil
+}
+
 func (this *NameExpr) GetValue() interface{} {
 	if this.Name != nil {
 		return this.Name
@@ -669,6 +677,9 @@ func (this *NameExpr) GetValue() interface{} {
 	}
 	if this.NameChoice != nil {
 		return this.NameChoice
+	}
+	if this.RegexName != nil {
+		return this.RegexName
 	}
 	return nil
 }
@@ -767,4 +778,13 @@ func (m *NameChoice) GetRight() *NameExpr {
 		return m.Right
 	}
 	return nil
+}
+
+type RegexName struct {
+	Tilde   *Keyword `json:"Tilde,omitempty"`
+	Pattern string   `json:"Pattern"`
+}
+
+func (m *RegexName) GetPattern() string {
+	return m.Pattern
 }

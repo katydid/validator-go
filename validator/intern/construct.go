@@ -119,7 +119,10 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		return c.NewEmpty(), nil
 	}
 	if this.TreeNode != nil {
-		b := nameexpr.NameToFunc(this.TreeNode.GetName())
+		b, err := nameexpr.NameToFunc(this.TreeNode.GetName())
+		if err != nil {
+			return nil, err
+		}
 		p, err := c.NewPattern(this.TreeNode.GetPattern())
 		if err != nil {
 			return nil, err
