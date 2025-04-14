@@ -116,7 +116,10 @@ func derivCall(refs ast.RefLookup, p *ast.Pattern, label parser.Value) ([]*ast.P
 	case *ast.ZAny:
 		return []*ast.Pattern{}, nil
 	case *ast.TreeNode:
-		b := nameexpr.NameToFunc(v.GetName())
+		b, err := nameexpr.NameToFunc(v.GetName())
+		if err != nil {
+			return nil, err
+		}
 		f, err := compose.NewBoolFunc(b)
 		if err != nil {
 			return nil, err

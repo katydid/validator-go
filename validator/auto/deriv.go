@@ -76,7 +76,10 @@ func derivCall(refs map[string]*ast.Pattern, getFunc func(*ast.Expr) funcs.Bool,
 	case *ast.ZAny:
 		return []*ifExpr{}
 	case *ast.TreeNode:
-		b := nameexpr.NameToFunc(v.GetName())
+		b, err := nameexpr.NameToFunc(v.GetName())
+		if err != nil {
+			panic(err)
+		}
 		return []*ifExpr{{b, v.GetPattern(), ast.NewNot(ast.NewZAny())}}
 	case *ast.LeafNode:
 		b := getFunc(v.GetExpr())

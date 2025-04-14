@@ -94,20 +94,20 @@ func TestSimplifyTree(t *testing.T) {
 		)),
 	)
 	input := ast.NewAnd(left, right)
-	expected := ast.NewTreeNode(ast.NewStringName("A"),
+	want := ast.NewTreeNode(ast.NewStringName("A"),
 		ast.NewTreeNode(ast.NewStringName("B"), ast.NewAnd(
 			ast.NewContains(
-				ast.NewTreeNode(ast.NewStringName("D"), ast.NewZAny()),
+				ast.NewTreeNode(ast.NewStringName("C"), ast.NewZAny()),
 			),
 			ast.NewContains(
-				ast.NewTreeNode(ast.NewStringName("C"), ast.NewZAny()),
+				ast.NewTreeNode(ast.NewStringName("D"), ast.NewZAny()),
 			),
 		)),
 	)
 	output := NewSimplifier(input.Grammar()).Simplify(input)
 	t.Logf("%v", output)
-	if !expected.Equal(output) {
-		t.Fatalf("expected %v, but got %v", expected, output)
+	if !want.Equal(output) {
+		t.Fatalf("want %v, but got %v", want, output)
 	}
 }
 

@@ -62,30 +62,6 @@ func newGreaterEqual() *Keyword {
 	}
 }
 
-func newTildeEqual() *Keyword {
-	return &Keyword{
-		Value: "~=",
-	}
-}
-
-func newStarEqual() *Keyword {
-	return &Keyword{
-		Value: "*=",
-	}
-}
-
-func newCaretEqual() *Keyword {
-	return &Keyword{
-		Value: "^=",
-	}
-}
-
-func newDollarEqual() *Keyword {
-	return &Keyword{
-		Value: "*=",
-	}
-}
-
 func newColonColon() *Keyword {
 	return &Keyword{
 		Value: "::",
@@ -107,6 +83,12 @@ func newExclamation() *Keyword {
 func newPipe() *Keyword {
 	return &Keyword{
 		Value: "|",
+	}
+}
+
+func newTilde() *Keyword {
+	return &Keyword{
+		Value: "~",
 	}
 }
 

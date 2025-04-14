@@ -207,6 +207,10 @@ func (this *NameChoice) String() string {
 		this.CloseParen.String()
 }
 
+func (this *RegexName) String() string {
+	return this.Tilde.String() + strconv.Quote(this.Pattern)
+}
+
 // String returns the validator string representation of the List instance.
 func (this *List) String() string {
 	es := make([]string, len(this.GetElems()))

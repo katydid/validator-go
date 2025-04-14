@@ -16,6 +16,7 @@ package ast
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -262,4 +263,17 @@ func NewSDTName(space *Space, term *Terminal) *NameExpr {
 		panic(fmt.Sprintf("unreachable name type %#v", term))
 	}
 	return name
+}
+
+func NewSDTRegexName(tilde *Keyword, pattern string) (*NameExpr, error) {
+	_, err := regexp.Compile(pattern)
+	if err != nil {
+		return nil, fmt.Errorf("invalid regex for name expression: %w", err)
+	}
+	return &NameExpr{
+		RegexName: &RegexName{
+			Tilde:   tilde,
+			Pattern: pattern,
+		},
+	}, nil
 }
