@@ -55,6 +55,6 @@ func test(t *testing.T, g *ast.Grammar, p parser.Interface, expected bool, desc 
 		t.Fatal(err)
 	}
 	if match != expected {
-		t.Fatalf("Expected %v on given \n%s\n on \n%s", expected, g.String(), desc)
+		t.Fatalf("Expected %v given \n%s\n on \n%s", expected, g.String(), desc)
 	}
 }
