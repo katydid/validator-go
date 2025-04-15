@@ -273,7 +273,7 @@ func NewSDTRegexName(tilde *Keyword, pattern string) (*NameExpr, error) {
 	return &NameExpr{
 		RegexName: &RegexName{
 			Tilde:   tilde,
-			Pattern: pattern,
+			Pattern: ToString(pattern),
 		},
 	}, nil
 }
