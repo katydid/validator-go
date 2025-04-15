@@ -30,6 +30,7 @@ checklicense:
 	.txt
 
 test:
+	go clean -testcache
 	TESTSUITE=MUST go test ./...
 
 build:
