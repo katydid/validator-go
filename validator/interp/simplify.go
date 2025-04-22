@@ -225,10 +225,10 @@ func simplifyOr(refs ast.RefLookup, p1, p2 *ast.Pattern, record bool) *ast.Patte
 	if isZany(p1) || isZany(p2) {
 		return ast.NewZAny()
 	}
-	if isEmpty(p1) && Nullable(refs, p2) {
+	if isEmpty(p1) && nullable(refs, p2) {
 		return p2
 	}
-	if isEmpty(p2) && Nullable(refs, p1) {
+	if isEmpty(p2) && nullable(refs, p1) {
 		return p1
 	}
 	if p1.GetLeafNode() != nil && p2.GetLeafNode() != nil {
@@ -302,14 +302,14 @@ func simplifyAnd(refs ast.RefLookup, p1, p2 *ast.Pattern, record bool) *ast.Patt
 		return p1
 	}
 	if isEmpty(p1) {
-		if Nullable(refs, p2) {
+		if nullable(refs, p2) {
 			return ast.NewEmpty()
 		} else {
 			return emptyset
 		}
 	}
 	if isEmpty(p2) {
-		if Nullable(refs, p1) {
+		if nullable(refs, p1) {
 			return ast.NewEmpty()
 		} else {
 			return emptyset

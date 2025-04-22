@@ -20,9 +20,7 @@ import (
 	"github.com/katydid/validator-go/validator/ast"
 )
 
-// Nullable returns whether the input Pattern p also matches the empty string.
-// This is a naive implementation and it does not handle left recursion.
-func Nullable(refs ast.RefLookup, p *ast.Pattern) bool {
+func nullable(refs ast.RefLookup, p *ast.Pattern) bool {
 	typ := p.GetValue()
 	switch v := typ.(type) {
 	case *ast.Empty:
@@ -32,25 +30,25 @@ func Nullable(refs ast.RefLookup, p *ast.Pattern) bool {
 	case *ast.LeafNode:
 		return false
 	case *ast.Concat:
-		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+		return nullable(refs, v.GetLeftPattern()) && nullable(refs, v.GetRightPattern())
 	case *ast.Or:
-		return Nullable(refs, v.GetLeftPattern()) || Nullable(refs, v.GetRightPattern())
+		return nullable(refs, v.GetLeftPattern()) || nullable(refs, v.GetRightPattern())
 	case *ast.And:
-		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+		return nullable(refs, v.GetLeftPattern()) && nullable(refs, v.GetRightPattern())
 	case *ast.ZeroOrMore:
 		return true
 	case *ast.Reference:
-		return Nullable(refs, refs[v.GetName()])
+		return nullable(refs, refs[v.GetName()])
 	case *ast.Not:
-		return !(Nullable(refs, v.GetPattern()))
+		return !(nullable(refs, v.GetPattern()))
 	case *ast.ZAny:
 		return true
 	case *ast.Contains:
-		return Nullable(refs, v.GetPattern())
+		return nullable(refs, v.GetPattern())
 	case *ast.Optional:
 		return true
 	case *ast.Interleave:
-		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+		return nullable(refs, v.GetLeftPattern()) && nullable(refs, v.GetRightPattern())
 	}
 	panic(fmt.Sprintf("unknown pattern typ %T", typ))
 }

@@ -21,7 +21,6 @@ import (
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/interp"
 	nameexpr "github.com/katydid/validator-go/validator/name"
 )
 
@@ -88,7 +87,7 @@ func (c *construct) AddGrammar(g *ast.Grammar) (*Pattern, error) {
 	// which have not been created yet.
 	c.nullRefs = make(map[string]bool)
 	for name, p := range refs {
-		c.nullRefs[name] = interp.Nullable(refs, p)
+		c.nullRefs[name] = Nullable(refs, p)
 	}
 
 	main, err := c.AddPatternDecl("main", g.GetTopPattern())

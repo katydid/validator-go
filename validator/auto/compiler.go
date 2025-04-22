@@ -18,6 +18,7 @@ import (
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
+	"github.com/katydid/validator-go/validator/intern"
 	"github.com/katydid/validator-go/validator/interp"
 	"github.com/katydid/validator-go/validator/sets"
 )
@@ -109,7 +110,7 @@ func (this *compiler) calcAccepts(upto int) {
 		if len(patterns) != 1 {
 			this.accept = append(this.accept, false)
 		} else {
-			this.accept = append(this.accept, interp.Nullable(this.refs, patterns[0]))
+			this.accept = append(this.accept, intern.Nullable(this.refs, patterns[0]))
 		}
 	}
 }
@@ -155,7 +156,7 @@ func (this *compiler) getCallTree(patterns int) (*callNode, error) {
 func nullables(refs map[string]*ast.Pattern, patterns []*ast.Pattern) sets.Bits {
 	nulls := sets.NewBits(len(patterns))
 	for i, p := range patterns {
-		nulls.Set(i, interp.Nullable(refs, p))
+		nulls.Set(i, intern.Nullable(refs, p))
 	}
 	return nulls
 }

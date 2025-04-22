@@ -19,7 +19,7 @@ import (
 
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/interp"
+	"github.com/katydid/validator-go/validator/intern"
 	nameexpr "github.com/katydid/validator-go/validator/name"
 )
 
@@ -50,7 +50,7 @@ func derivCall(refs map[string]*ast.Pattern, getFunc func(*ast.Expr) funcs.Bool,
 		return []*ifExpr{{b, ast.NewEmpty(), ast.NewNot(ast.NewZAny())}}
 	case *ast.Concat:
 		l := derivCall(refs, getFunc, v.GetLeftPattern())
-		if !interp.Nullable(refs, v.GetLeftPattern()) {
+		if !intern.Nullable(refs, v.GetLeftPattern()) {
 			return l
 		}
 		r := derivCall(refs, getFunc, v.GetRightPattern())
@@ -110,7 +110,7 @@ func derivReturn(refs map[string]*ast.Pattern, p *ast.Pattern, nullable []bool) 
 	case *ast.Concat:
 		l, leftRest := derivReturn(refs, v.GetLeftPattern(), nullable)
 		leftConcat := ast.NewConcat(l, v.GetRightPattern())
-		if !interp.Nullable(refs, v.GetLeftPattern()) {
+		if !intern.Nullable(refs, v.GetLeftPattern()) {
 			return leftConcat, leftRest
 		}
 		r, rightRest := derivReturn(refs, v.GetRightPattern(), leftRest)
