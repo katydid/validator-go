@@ -69,20 +69,15 @@ func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern,
 			}
 		}
 		ifs := DeriveCalls(c, resPatterns)
-		childPatterns := make([]*Pattern, len(ifs))
-		for i, ifExpr := range ifs {
-			c, err := ifExpr.eval(tree)
-			if err != nil {
-				return nil, err
-			}
-			childPatterns[i] = c
+		childPatterns, err := evalIfExprs(ifs, tree)
+		if err != nil {
+			return nil, err
 		}
-		var err error
 		if tree.IsLeaf() {
 			//do nothing
 		} else {
 			tree.Down()
-			z := Zip(childPatterns)
+			z, _ := Zip(childPatterns)
 			z.Patterns, err = deriv(c, z.Patterns, tree)
 			if err != nil {
 				return nil, err
@@ -97,6 +92,18 @@ func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern,
 		}
 	}
 	return resPatterns, nil
+}
+
+func evalIfExprs(ifs []*IfExpr, label parser.Value) ([]*Pattern, error) {
+	patterns := make([]*Pattern, len(ifs))
+	for i, ifExpr := range ifs {
+		c, err := ifExpr.eval(label)
+		if err != nil {
+			return nil, err
+		}
+		patterns[i] = c
+	}
+	return patterns, nil
 }
 
 func DeriveCalls(construct Construct, patterns []*Pattern) []*IfExpr {

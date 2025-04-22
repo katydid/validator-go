@@ -20,37 +20,29 @@ import (
 	"github.com/katydid/validator-go/validator/sets"
 )
 
-func indexOf(set *SetOfPatterns, ps []*Pattern) int {
-	h := hashes(ps)
-	return set.indexOf(h, ps)
-}
-
 func TestSetsAddIndex(t *testing.T) {
 	s := NewSetOfPatterns()
 	zanys := []*Pattern{newZAny()}
 	want := s.Add(zanys)
-	got := indexOf(s, zanys)
+	got := s.Index(zanys)
 	if got != want {
 		t.Fatalf("got %d != want %d", got, want)
 	}
-	if s.Get(want).NullIndex != 0 {
-		t.Fatal("nullindex != 0")
-	}
-	if !s.Get(want).Accept {
+	if !s.Get(want).IsAccept() {
 		t.Fatal("not accept")
 	}
 	notzanys := []*Pattern{newNotZAny(), newNotZAny()}
-	if indexOf(s, notzanys) != -1 {
+	if s.Index(notzanys) != -1 {
 		t.Fatal("not found")
 	}
 	state := s.Add(notzanys)
 	if s.Get(state).NullIndex != 2 {
 		t.Fatalf("nullindex != 2, but %d", s.Get(state).NullIndex)
 	}
-	if s.SetOfBits.Index(sets.NewBits(2)) != s.Get(state).NullIndex {
+	if s.setOfNullables.Index(sets.NewBits(2)) != s.Get(state).NullIndex {
 		t.Fatal("wrong nullindex")
 	}
-	if s.Get(state).Accept {
+	if s.Get(state).IsAccept() {
 		t.Fatal("accept")
 	}
 }
@@ -59,13 +51,13 @@ func TestSetsLookup(t *testing.T) {
 	s := NewSetOfPatterns()
 	zanys := []*Pattern{newZAny()}
 	want1 := s.Add(zanys)
-	got1 := indexOf(s, zanys)
+	got1 := s.Index(zanys)
 	if got1 != want1 {
 		t.Fatalf("got %d != want %d", got1, want1)
 	}
 	notzanys := []*Pattern{newNotZAny(), newNotZAny()}
 	want2 := s.Add(notzanys)
-	got2 := indexOf(s, notzanys)
+	got2 := s.Index(notzanys)
 	if got2 != want2 {
 		t.Fatalf("got %d != want %d", got2, want2)
 	}
@@ -73,14 +65,8 @@ func TestSetsLookup(t *testing.T) {
 	if got1 != want1 {
 		t.Fatalf("got %d != want %d", got1, want1)
 	}
-	got2 = indexOf(s, notzanys)
+	got2 = s.Index(notzanys)
 	if got2 != want2 {
 		t.Fatalf("got %d != want %d", got2, want2)
-	}
-	if s.Get(got1).Index != got1 {
-		t.Fatal("inconsistent index")
-	}
-	if s.Get(got2).Index != got2 {
-		t.Fatal("inconsistent index")
 	}
 }

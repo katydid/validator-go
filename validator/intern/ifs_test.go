@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package mem
+package intern_test
 
 import (
 	"reflect"
@@ -32,8 +32,8 @@ var (
 	set     = intern.NewSetOfPatterns()
 )
 
-func eval(ifs *ifExprs, value parser.Value) ([]*intern.Pattern, error) {
-	state, err := ifs.eval(set, value)
+func eval(ifs *intern.IfExprs, value parser.Value) ([]*intern.Pattern, error) {
+	state, err := ifs.Eval(set, value)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func eval(ifs *ifExprs, value parser.Value) ([]*intern.Pattern, error) {
 
 func TestIfsOneTrue(t *testing.T) {
 	allTrue := intern.NewIfExpr(funcs.BoolConst(true), zany, notzany)
-	ifs := newIfExprs([]*intern.IfExpr{allTrue})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{allTrue})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -55,7 +55,7 @@ func TestIfsOneTrue(t *testing.T) {
 
 func TestIfsOneFalse(t *testing.T) {
 	allFalse := intern.NewIfExpr(funcs.BoolConst(false), zany, notzany)
-	ifs := newIfExprs([]*intern.IfExpr{allFalse})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{allFalse})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -68,7 +68,7 @@ func TestIfsOneFalse(t *testing.T) {
 
 func TestIfsTwoTrues(t *testing.T) {
 	allTrue := intern.NewIfExpr(funcs.BoolConst(true), zany, notzany)
-	ifs := newIfExprs([]*intern.IfExpr{allTrue, allTrue})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{allTrue, allTrue})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -81,7 +81,7 @@ func TestIfsTwoTrues(t *testing.T) {
 
 func TestIfs10Trues(t *testing.T) {
 	allTrue := intern.NewIfExpr(funcs.BoolConst(true), zany, notzany)
-	ifs := newIfExprs([]*intern.IfExpr{allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue, allTrue})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -95,7 +95,7 @@ func TestIfs10Trues(t *testing.T) {
 func TestIfs10Mixed(t *testing.T) {
 	allTrue := intern.NewIfExpr(funcs.BoolConst(true), zany, notzany)
 	allFalse := intern.NewIfExpr(funcs.BoolConst(false), zany, notzany)
-	ifs := newIfExprs([]*intern.IfExpr{allTrue, allFalse, allTrue, allFalse, allTrue, allFalse, allTrue, allFalse, allFalse, allTrue})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{allTrue, allFalse, allTrue, allFalse, allTrue, allFalse, allTrue, allFalse, allFalse, allTrue})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -109,7 +109,7 @@ func TestIfs10Mixed(t *testing.T) {
 func TestIfsOneStringVar(t *testing.T) {
 	eqa := funcs.StringEq(funcs.StringConst("a"), funcs.StringVar())
 	emptyIfA := intern.NewIfExpr(eqa, empty, notzany)
-	ifs := newIfExprs([]*intern.IfExpr{emptyIfA})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{emptyIfA})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -127,7 +127,7 @@ func TestIfsABC(t *testing.T) {
 	emptyIfA := intern.NewIfExpr(eqa, empty, notzany)
 	notzanyIfB := intern.NewIfExpr(eqb, notzany, zany)
 	zanyIfC := intern.NewIfExpr(eqc, zany, empty)
-	ifs := newIfExprs([]*intern.IfExpr{emptyIfA, zanyIfC, zanyIfC, notzanyIfB, emptyIfA, notzanyIfB, zanyIfC})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{emptyIfA, zanyIfC, zanyIfC, notzanyIfB, emptyIfA, notzanyIfB, zanyIfC})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)
@@ -145,7 +145,7 @@ func TestIfsContainsABC(t *testing.T) {
 	emptyIfA := intern.NewIfExpr(containsA, empty, notzany)
 	notzanyIfB := intern.NewIfExpr(containsB, notzany, zany)
 	zanyIfC := intern.NewIfExpr(containsC, zany, empty)
-	ifs := newIfExprs([]*intern.IfExpr{emptyIfA, zanyIfC, zanyIfC, notzanyIfB, emptyIfA, notzanyIfB, zanyIfC})
+	ifs := intern.NewIfExprs([]*intern.IfExpr{emptyIfA, zanyIfC, zanyIfC, notzanyIfB, emptyIfA, notzanyIfB, zanyIfC})
 	gots, err := eval(ifs, debug.NewStringValue("a"))
 	if err != nil {
 		t.Fatal(err)

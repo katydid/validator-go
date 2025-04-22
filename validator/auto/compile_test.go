@@ -73,9 +73,9 @@ var typewriterOrQueryStr = `(.WineMessenger:* | .ShoelaceBeer:* |
 			.DaisySled < 5 |
 			.SubmarineSaw == 0 |
 			.SmileLetter :: $bool |
-			.MenuPaperclip._ *= "A" |
-			.BeetlePoker._ $= "b" |
-			.WigPride._ ^= "c"
+			.MenuPaperclip._ ->contains($string, "A") |
+			.BeetlePoker._ ->hasSuffix($string, "b") |
+			.WigPride._ ->hasPrefix($string, "c")
 		)
 	)`
 
@@ -99,9 +99,9 @@ var typewriterAndQueryStr = `(.WineMessenger:* & .ShoelaceBeer:* &
 			.DaisySled < 5 &
 			.SubmarineSaw == 0 &
 			.SmileLetter :: $bool &
-			.MenuPaperclip._ *= "A" &
-			.BeetlePoker._ $= "b" &
-			.WigPride._ ^= "c"
+			.MenuPaperclip._ ->contains($string, "A") &
+			.BeetlePoker._ ->hasSuffix($string, "b") &
+			.WigPride._ ->hasPrefix($string, "c")
 		)
 	)`
 
@@ -125,9 +125,9 @@ var typewriterInterleaveQueryStr = `{WineMessenger:* ; .ShoelaceBeer:* ;
 			DaisySled < 5 ;
 			SubmarineSaw == 0 ;
 			SmileLetter :: $bool ;
-			MenuPaperclip._ *= "A" ;
-			BeetlePoker._ $= "b" ;
-			WigPride._ ^= "c" ;
+			.MenuPaperclip._ ->contains($string, "A") ;
+			.BeetlePoker._ ->hasSuffix($string, "b") ;
+			.WigPride._ ->hasPrefix($string, "c")
 			*
 		};
 		*

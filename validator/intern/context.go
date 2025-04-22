@@ -46,7 +46,7 @@ func (c *construct) setContext(p *Pattern) {
 			c.setContext(pp)
 		}
 	case ZeroOrMore:
-		return
+		c.setContext(p.Patterns[0])
 	case Reference:
 		return
 	case Not:

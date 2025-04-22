@@ -299,56 +299,6 @@ func (c *construct) NewNode(b funcs.Bool, child *Pattern) (*Pattern, error) {
 	return c.checkRef(pp)
 }
 
-func isEmpty(p *Pattern) bool {
-	return p.Type == Empty
-}
-
-func isNotZAny(p *Pattern) bool {
-	return p.Type == Not && p.Patterns[0].Type == ZAny
-}
-
-func isZAny(p *Pattern) bool {
-	return p.Type == ZAny
-}
-
-func notEmptySet(p *Pattern) bool {
-	return !(p.Type == Not && p.Patterns[0].Type == ZAny)
-}
-
-func removeNotZAnyExceptOne(ps []*Pattern) []*Pattern {
-	pps := filter(notEmptySet, ps)
-	if len(pps) == 0 {
-		return ps[:1]
-	}
-	return pps
-}
-
-func notEmpty(p *Pattern) bool {
-	return !(p.Type == Empty)
-}
-
-func removeEmptyExceptOne(ps []*Pattern) []*Pattern {
-	pps := filter(notEmpty, ps)
-	if len(pps) == 0 {
-		return ps[:1]
-	}
-	return pps
-}
-
-func removeZAnyExceptOne(ps []*Pattern) []*Pattern {
-	pps := filter(func(p *Pattern) bool {
-		return p.Type != ZAny
-	}, ps)
-	if len(pps) == 0 {
-		return ps[:1]
-	}
-	return pps
-}
-
-func isNullable(p *Pattern) bool {
-	return p.nullable
-}
-
 func (c *construct) MergeOr(l, r *Pattern) (*Pattern, error) {
 	var left []*Pattern
 	if l.Type == Or {

@@ -12,13 +12,14 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package interp
+package intern_test
 
 import (
 	"testing"
 
 	"github.com/katydid/validator-go/validator/ast"
 	. "github.com/katydid/validator-go/validator/combinator"
+	"github.com/katydid/validator-go/validator/intern"
 )
 
 func TestRecursionPositive(t *testing.T) {
@@ -51,7 +52,7 @@ func TestRecursionPositive(t *testing.T) {
 		}},
 	}
 	for _, g := range positives {
-		if !HasRecursion(g) {
+		if !intern.HasRecursion(g) {
 			t.Errorf("expected recursion for %v", g)
 		}
 	}
@@ -79,7 +80,7 @@ func TestRecursionNegative(t *testing.T) {
 		}},
 	}
 	for _, g := range negatives {
-		if HasRecursion(g) {
+		if intern.HasRecursion(g) {
 			t.Errorf("unexpected recursion for %v", g)
 		}
 	}

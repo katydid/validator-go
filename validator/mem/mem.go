@@ -13,8 +13,6 @@
 //  limitations under the License.
 
 // Package mem contains functions to interpret and memoize the execution of the grammar.
-//
-// TODO: cleanup
 package mem
 
 import (
@@ -22,7 +20,6 @@ import (
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
-	"github.com/katydid/validator-go/validator/sets"
 )
 
 // New creates a new memoizable grammar.
@@ -49,7 +46,7 @@ func new(g *ast.Grammar, record bool) (*Mem, error) {
 	m := &Mem{
 		construct: c,
 		states:    intern.NewSetOfPatterns(),
-		calls:     []*ifExprs{},
+		calls:     []*intern.IfExprs{},
 		returns:   [][]map[int]int{},
 	}
 	m.start = m.states.Add([]*intern.Pattern{main})
@@ -65,7 +62,7 @@ func (mem *Mem) Validate(p parser.Interface) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return mem.states.Get(final).Accept, nil
+	return mem.states.Get(final).IsAccept(), nil
 }
 
 func (mem *Mem) SetContext(context *funcs.Context) {
@@ -77,20 +74,20 @@ type Mem struct {
 	construct intern.Construct
 	states    *intern.SetOfPatterns
 	start     int
-	calls     []*ifExprs      // state -> (ifExprs : state -> label -> state)
-	returns   [][]map[int]int // state -> zipIndex -> nullIndex -> state
+	calls     []*intern.IfExprs // state -> (ifExprs : state -> label -> state)
+	returns   [][]map[int]int   // state -> zipIndex -> nullIndex -> state
 }
 
-func (this *Mem) getCall(state int) (*ifExprs, error) {
+func (this *Mem) GetCall(state int) (*intern.IfExprs, error) {
 	for i := len(this.calls); i <= state; i++ {
 		listOfIfExpr := intern.DeriveCalls(this.construct, this.states.Get(i).Patterns)
-		ifs := newIfExprs(listOfIfExpr)
+		ifs := intern.NewIfExprs(listOfIfExpr)
 		this.calls = append(this.calls, ifs)
 	}
 	return this.calls[state], nil
 }
 
-func (this *Mem) getReturn(state int, zipIndex int, nullIndex int) (int, error) {
+func (this *Mem) GetReturn(state int, zipIndex int, nullIndex int) (int, error) {
 	// increase slice sizes up to the state and zipIndex
 	if len(this.returns) <= state {
 		for i := len(this.returns); i <= state; i++ {
@@ -109,7 +106,7 @@ func (this *Mem) getReturn(state int, zipIndex int, nullIndex int) (int, error) 
 	}
 
 	// create entry
-	nullable := sets.UnzipBits(this.states.SetOfBits[nullIndex], this.states.SetOfZipIndexes[zipIndex])
+	nullable := this.states.Nullable(nullIndex, zipIndex)
 	patterns := this.states.Get(state).Patterns
 
 	retPatterns, err := intern.DeriveReturns(this.construct, patterns, nullable)
