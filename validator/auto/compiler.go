@@ -57,13 +57,6 @@ func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
 	return m, nil
 }
 
-func (auto *compiler) setContext(context *funcs.Context) {
-	auto.context = context
-	for _, f := range auto.funcs {
-		compose.SetContext(f, auto.context)
-	}
-}
-
 type compiler struct {
 	refs       map[string]*ast.Pattern
 	funcs      map[*ast.Expr]funcs.Bool

@@ -127,21 +127,3 @@ type ifExpr struct {
 	then *ast.Pattern
 	els  *ast.Pattern
 }
-
-func (this *ifExpr) eval(label parser.Value) (*ast.Pattern, error) {
-	if this.els == nil {
-		return this.then, nil
-	}
-	f, err := compose.NewBoolFunc(this.cond)
-	if err != nil {
-		return nil, err
-	}
-	cond, err := f.Eval(label)
-	if err != nil {
-		return nil, err
-	}
-	if cond {
-		return this.then, nil
-	}
-	return this.els, nil
-}

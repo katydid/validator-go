@@ -16,48 +16,12 @@ package auto
 
 import (
 	"fmt"
-	"io"
 
-	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/interp"
 	nameexpr "github.com/katydid/validator-go/validator/name"
 )
-
-func compileDeriv(c *compiler, patterns int, tree parser.Interface) (int, error) {
-	for {
-		if !c.escapable(patterns) {
-			return patterns, nil
-		}
-		if err := tree.Next(); err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				return 0, err
-			}
-		}
-		callTree, err := c.getCallTree(patterns)
-		if err != nil {
-			return 0, err
-		}
-		childPatterns, stackElm, err := callTree.eval(tree)
-		if err != nil {
-			return 0, err
-		}
-		if !tree.IsLeaf() {
-			tree.Down()
-			childPatterns, err = compileDeriv(c, childPatterns, tree)
-			if err != nil {
-				return 0, err
-			}
-			tree.Up()
-		}
-		nullIndex := c.getNullable(childPatterns)
-		patterns = c.getReturn(stackElm, nullIndex)
-	}
-	return patterns, nil
-}
 
 func derivCalls(refs map[string]*ast.Pattern, getFunc func(*ast.Expr) funcs.Bool, patterns []*ast.Pattern) []*ifExpr {
 	res := []*ifExpr{}
