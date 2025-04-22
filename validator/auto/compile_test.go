@@ -125,9 +125,9 @@ var typewriterInterleaveQueryStr = `{WineMessenger:* ; .ShoelaceBeer:* ;
 			DaisySled < 5 ;
 			SubmarineSaw == 0 ;
 			SmileLetter :: $bool ;
-			.MenuPaperclip._ ->contains($string, "A") ;
-			.BeetlePoker._ ->hasSuffix($string, "b") ;
-			.WigPride._ ->hasPrefix($string, "c")
+			MenuPaperclip._ ->contains($string, "A") ;
+			BeetlePoker._ ->hasSuffix($string, "b") ;
+			WigPride._ ->hasPrefix($string, "c") ;
 			*
 		};
 		*

@@ -57,10 +57,10 @@ func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
 	return m, nil
 }
 
-func (mem *compiler) setContext(context *funcs.Context) {
-	mem.context = context
-	for _, f := range mem.funcs {
-		compose.SetContext(f, mem.context)
+func (auto *compiler) setContext(context *funcs.Context) {
+	auto.context = context
+	for _, f := range auto.funcs {
+		compose.SetContext(f, auto.context)
 	}
 }
 
