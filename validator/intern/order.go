@@ -47,7 +47,6 @@ func (s sortable) Less(i, j int) bool {
 
 // orderedSet creates a stable order, while taking into account treenodes and removing duplicates.
 func orderedSet(ps []*Pattern) []*Pattern {
-
 	if len(ps) == 0 {
 		return nil
 	}

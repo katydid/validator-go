@@ -20,15 +20,6 @@ dep:
 	go install -v github.com/goccmack/gocc
 	go install -v github.com/awalterschulze/goderive
 
-checklicense:
-	go get github.com/awalterschulze/checklicense
-	checklicense . \
-	bnf \
-	doc.go \
-	tools/tools.go \
-	.svg \
-	.txt
-
 test:
 	go clean -testcache
 	TESTSUITE=MUST go test ./...
@@ -62,12 +53,6 @@ nuke: clean
 
 gofmt:
 	gofmt -l -s -w .
-
-travis:
-	make all
-	make errcheck
-	make checklicense
-	make diff
 
 errcheck:
 	go get github.com/kisielk/errcheck

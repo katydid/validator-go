@@ -14,36 +14,35 @@
 
 package intern
 
-import (
-	"github.com/katydid/validator-go/validator/sets"
-)
+import "github.com/katydid/validator-go/validator/sets"
 
 // SetOfPatterns represents an indexed list of list of Patterns.
 // It reverse maps a list of Patterns into a single int.
 type SetOfPatterns struct {
-	List            []*Patterns
-	Hashes          map[uint64][]int
-	SetOfBits       sets.BitsSet
-	SetOfZipIndexes sets.Ints
+	list            []*Patterns
+	hashes          map[uint64][]int
+	setOfNullables  sets.BitsSet
+	setOfZipIndexes sets.Ints
 }
 
 func NewSetOfPatterns() *SetOfPatterns {
 	return &SetOfPatterns{
-		List:            []*Patterns{},
-		Hashes:          make(map[uint64][]int),
-		SetOfBits:       sets.NewBitsSet(),
-		SetOfZipIndexes: sets.NewInts(),
+		list:            []*Patterns{},
+		hashes:          make(map[uint64][]int),
+		setOfNullables:  sets.NewBitsSet(),
+		setOfZipIndexes: sets.NewInts(),
 	}
 }
 
 func (this *SetOfPatterns) Get(i int) *Patterns {
-	return this.List[i]
+	return this.list[i]
 }
 
-func (this *SetOfPatterns) indexOf(h uint64, patterns []*Pattern) int {
-	pss := this.Hashes[h]
+func (this *SetOfPatterns) Index(patterns []*Pattern) int {
+	h := HashPatterns(patterns)
+	pss := this.hashes[h]
 	for _, index := range pss {
-		ps := this.List[index]
+		ps := this.list[index]
 		if deriveEquals(ps.Patterns, patterns) {
 			return index
 		}
@@ -52,49 +51,62 @@ func (this *SetOfPatterns) indexOf(h uint64, patterns []*Pattern) int {
 }
 
 func (this *SetOfPatterns) Add(ps []*Pattern) int {
-	h := hashes(ps)
-	index := this.indexOf(h, ps)
+	index := this.Index(ps)
 	if index != -1 {
 		return index
 	}
-
-	index = len(this.List)
+	index = len(this.list)
 	patterns := &Patterns{}
-	this.List = append(this.List, patterns)
-	patterns.Index = index
-	this.Hashes[h] = append(this.Hashes[h], index)
+	this.list = append(this.list, patterns)
+	h := HashPatterns(ps)
+	this.hashes[h] = append(this.hashes[h], index)
 
 	patterns.Patterns = ps
 
-	nulls := newNullableSet(ps)
-	patterns.NullIndex = this.SetOfBits.Add(nulls)
+	nulls := newNullableBits(ps)
+	patterns.NullIndex = this.setOfNullables.Add(nulls)
 
-	patterns.Escapable = escapable(ps)
-	patterns.Accept = len(ps) == 1 && ps[0].nullable
-
-	zipped := Zip(ps)
-	patterns.IndexOfZippedPatterns = this.Add(zipped.Patterns)
-	patterns.IndexOfZippedIndexes = this.SetOfZipIndexes.Add(zipped.Indexes)
-
+	patterns.escapable = Escapable(ps)
+	patterns.accept = len(ps) == 1 && ps[0].nullable
+	zipped, _ := Zip(ps)
+	patterns.ZippedPatternsIndex = this.Add(zipped.Patterns)
+	patterns.ZippedIndexesIndex = this.setOfZipIndexes.Add(zipped.Indexes)
 	return index
+}
+
+func (this *SetOfPatterns) Nullable(nullIndex, zipIndex int) []bool {
+	return sets.UnzipBits(this.setOfNullables[nullIndex], this.setOfZipIndexes[zipIndex])
 }
 
 type Patterns struct {
 	Patterns []*Pattern
-	Index    int
 
-	Escapable bool
-	Accept    bool
-	NullIndex int
+	hash      uint64
+	escapable bool
+	accept    bool
+	nulls     sets.Bits
+	zipped    *ZippedPatterns
 
-	IndexOfZippedPatterns int
-	IndexOfZippedIndexes  int
+	NullIndex           int
+	ZippedPatternsIndex int
+	ZippedIndexesIndex  int
 }
 
-func hashes(patterns []*Pattern) uint64 {
-	h := uint64(17)
-	for _, pattern := range patterns {
-		h = 31*h + pattern.hash
+func NewPatterns(ps []*Pattern, zipped *ZippedPatterns) *Patterns {
+	return &Patterns{
+		Patterns:  ps,
+		hash:      HashPatterns(ps),
+		escapable: Escapable(ps),
+		accept:    len(ps) == 1 && ps[0].nullable,
+		nulls:     newNullableBits(ps),
+		zipped:    zipped,
 	}
-	return h
+}
+
+func (this *Patterns) IsAccept() bool {
+	return this.accept
+}
+
+func (this *Patterns) IsEscapable() bool {
+	return this.escapable
 }

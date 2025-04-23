@@ -21,7 +21,6 @@ import (
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/interp"
 	nameexpr "github.com/katydid/validator-go/validator/name"
 )
 
@@ -88,7 +87,7 @@ func (c *construct) AddGrammar(g *ast.Grammar) (*Pattern, error) {
 	// which have not been created yet.
 	c.nullRefs = make(map[string]bool)
 	for name, p := range refs {
-		c.nullRefs[name] = interp.Nullable(refs, p)
+		c.nullRefs[name] = Nullable(refs, p)
 	}
 
 	main, err := c.AddPatternDecl("main", g.GetTopPattern())
@@ -137,7 +136,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		return c.NewNode(b, c.NewEmpty())
 	}
 	if this.Concat != nil {
-		concats := getConcats(this)
+		concats := getConcatsFromAST(this)
 		ps, err := traverse(c.NewPattern, concats)
 		if err != nil {
 			return nil, err
@@ -145,7 +144,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		return c.NewConcat(ps)
 	}
 	if this.Or != nil {
-		ors := getOrs(this)
+		ors := getOrsFromAST(this)
 		ps, err := traverse(c.NewPattern, ors)
 		if err != nil {
 			return nil, err
@@ -153,7 +152,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		return c.NewOr(ps)
 	}
 	if this.And != nil {
-		ands := getAnds(this)
+		ands := getAndsFromAST(this)
 		ps, err := traverse(c.NewPattern, ands)
 		if err != nil {
 			return nil, err
@@ -195,7 +194,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		return c.NewOptional(p)
 	}
 	if this.Interleave != nil {
-		interleaves := getInterleaves(this)
+		interleaves := getInterleavesFromAST(this)
 		ps, err := traverse(c.NewPattern, interleaves)
 		if err != nil {
 			return nil, err
@@ -205,30 +204,42 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 	return nil, fmt.Errorf("unknown pattern: %v", this)
 }
 
-func getConcats(p *ast.Pattern) []*ast.Pattern {
+func flattenByType(ps []*Pattern, typ PatternType) []*Pattern {
+	res := []*Pattern{}
+	for i, p := range ps {
+		if p.Type == typ {
+			res = append(res, ps[i].Patterns...)
+		} else {
+			res = append(res, ps[i])
+		}
+	}
+	return res
+}
+
+func getConcatsFromAST(p *ast.Pattern) []*ast.Pattern {
 	if p.Concat != nil {
-		return append(getConcats(p.Concat.GetLeftPattern()), getConcats(p.Concat.GetRightPattern())...)
+		return append(getConcatsFromAST(p.Concat.GetLeftPattern()), getConcatsFromAST(p.Concat.GetRightPattern())...)
 	}
 	return []*ast.Pattern{p}
 }
 
-func getOrs(p *ast.Pattern) []*ast.Pattern {
+func getOrsFromAST(p *ast.Pattern) []*ast.Pattern {
 	if p.Or != nil {
-		return append(getOrs(p.Or.GetLeftPattern()), getOrs(p.Or.GetRightPattern())...)
+		return append(getOrsFromAST(p.Or.GetLeftPattern()), getOrsFromAST(p.Or.GetRightPattern())...)
 	}
 	return []*ast.Pattern{p}
 }
 
-func getAnds(p *ast.Pattern) []*ast.Pattern {
+func getAndsFromAST(p *ast.Pattern) []*ast.Pattern {
 	if p.And != nil {
-		return append(getAnds(p.And.GetLeftPattern()), getAnds(p.And.GetRightPattern())...)
+		return append(getAndsFromAST(p.And.GetLeftPattern()), getAndsFromAST(p.And.GetRightPattern())...)
 	}
 	return []*ast.Pattern{p}
 }
 
-func getInterleaves(p *ast.Pattern) []*ast.Pattern {
+func getInterleavesFromAST(p *ast.Pattern) []*ast.Pattern {
 	if p.Interleave != nil {
-		return append(getInterleaves(p.Interleave.GetLeftPattern()), getInterleaves(p.Interleave.GetRightPattern())...)
+		return append(getInterleavesFromAST(p.Interleave.GetLeftPattern()), getInterleavesFromAST(p.Interleave.GetRightPattern())...)
 	}
 	return []*ast.Pattern{p}
 }
@@ -299,56 +310,6 @@ func (c *construct) NewNode(b funcs.Bool, child *Pattern) (*Pattern, error) {
 	return c.checkRef(pp)
 }
 
-func isEmpty(p *Pattern) bool {
-	return p.Type == Empty
-}
-
-func isNotZAny(p *Pattern) bool {
-	return p.Type == Not && p.Patterns[0].Type == ZAny
-}
-
-func isZAny(p *Pattern) bool {
-	return p.Type == ZAny
-}
-
-func notEmptySet(p *Pattern) bool {
-	return !(p.Type == Not && p.Patterns[0].Type == ZAny)
-}
-
-func removeNotZAnyExceptOne(ps []*Pattern) []*Pattern {
-	pps := filter(notEmptySet, ps)
-	if len(pps) == 0 {
-		return ps[:1]
-	}
-	return pps
-}
-
-func notEmpty(p *Pattern) bool {
-	return !(p.Type == Empty)
-}
-
-func removeEmptyExceptOne(ps []*Pattern) []*Pattern {
-	pps := filter(notEmpty, ps)
-	if len(pps) == 0 {
-		return ps[:1]
-	}
-	return pps
-}
-
-func removeZAnyExceptOne(ps []*Pattern) []*Pattern {
-	pps := filter(func(p *Pattern) bool {
-		return p.Type != ZAny
-	}, ps)
-	if len(pps) == 0 {
-		return ps[:1]
-	}
-	return pps
-}
-
-func isNullable(p *Pattern) bool {
-	return p.nullable
-}
-
 func (c *construct) MergeOr(l, r *Pattern) (*Pattern, error) {
 	var left []*Pattern
 	if l.Type == Or {
@@ -366,6 +327,7 @@ func (c *construct) MergeOr(l, r *Pattern) (*Pattern, error) {
 }
 
 func (c *construct) NewOr(ps []*Pattern) (*Pattern, error) {
+	ps = flattenByType(ps, Or)
 	if isAny(isZAny, ps) {
 		return c.NewZAny(), nil
 	}
@@ -455,7 +417,10 @@ func (c *construct) mergeContainsOr(ps []*Pattern) ([]*Pattern, error) {
 }
 
 func areNodesWithEqualNames(l, r *Pattern) bool {
-	return l.Type == Node && r.Type == Node && funcs.Equal(l.Func, r.Func)
+	return l.Type == Node && r.Type == Node &&
+		funcs.IsSimpleEqual(l.Func) &&
+		funcs.IsSimpleEqual(r.Func) &&
+		funcs.Equal(l.Func, r.Func)
 }
 
 func (c *construct) mergeNodesOr(ps []*Pattern) ([]*Pattern, error) {
@@ -468,11 +433,27 @@ func (c *construct) mergeNodesOr(ps []*Pattern) ([]*Pattern, error) {
 	}, ps)
 }
 
+func removeDuplicateSequentialZAnys(ps []*Pattern) []*Pattern {
+	res := make([]*Pattern, 0, len(ps))
+	prevIsZAny := false
+	for i := range ps {
+		currIsZAny := isZAny(ps[i])
+		if prevIsZAny && currIsZAny {
+			continue
+		}
+		res = append(res, ps[i])
+		prevIsZAny = isZAny(ps[i])
+	}
+	return res
+}
+
 func (c *construct) NewConcat(ps []*Pattern) (*Pattern, error) {
+	ps = flattenByType(ps, Concat)
 	if isAny(isNotZAny, ps) {
 		return c.NewNotZAny(), nil
 	}
 	ps = removeEmptyExceptOne(ps)
+	ps = removeDuplicateSequentialZAnys(ps)
 	if len(ps) == 3 {
 		if isZAny(ps[0]) && isZAny(ps[2]) {
 			return c.NewContains(ps[1])
@@ -507,6 +488,7 @@ func (c *construct) MergeAnd(l, r *Pattern) (*Pattern, error) {
 }
 
 func (c *construct) NewAnd(ps []*Pattern) (*Pattern, error) {
+	ps = flattenByType(ps, And)
 	if isAny(isNotZAny, ps) {
 		return c.NewNotZAny(), nil
 	}
@@ -642,10 +624,16 @@ func (c *construct) NewOptional(p *Pattern) (*Pattern, error) {
 }
 
 func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
+	ps = flattenByType(ps, Interleave)
 	if isAny(isNotZAny, ps) {
 		return c.NewNotZAny(), nil
 	}
 	ps = removeEmptyExceptOne(ps)
+	if isAny(isZAny, ps) {
+		// remove duplicate zanys
+		ps = removeAllZAny(ps)
+		ps = append(ps, c.NewZAny())
+	}
 	sort.Sort(sortable(ps))
 	if len(ps) == 1 {
 		return ps[0], nil

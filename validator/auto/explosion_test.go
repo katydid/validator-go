@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/katydid/validator-go/validator/auto"
-	"github.com/katydid/validator-go/validator/interp"
+	c "github.com/katydid/validator-go/validator/combinator"
 	"github.com/katydid/validator-go/validator/parser"
 )
 
@@ -54,14 +54,47 @@ func TestExplosionAndSameTree(t *testing.T) {
 	}
 	// This one causes a state explosion of over 14000 states.
 	// Since we know field names can't repeat the simplification can be made for record (JSON and proto) like serialization formats, but not for XML.
-	g = interp.NewSimplifier(g).OptimizeForRecord().Grammar()
 	t.Logf("%v", g)
-	a, err := auto.Compile(g)
+	// CompileRecord avoids the state explosion, whereas Compile does not do the Record simplifications, which results in the state space explosion.
+	autoRecord, err := auto.CompileRecord(g)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("number of states %d", a.MetricNumberOfStates())
-	if a.MetricNumberOfStates() > 1000 {
+	t.Logf("number of states %d", autoRecord.MetricNumberOfStates())
+	if autoRecord.MetricNumberOfStates() > 1000 {
 		t.Fatal("number of states exploded")
 	}
+
+	// even with the state explosion it should still be able to compile,
+	// but it is slow, so we comment out this part of the test.
+	//   autoNoRecord, err := auto.Compile(g)
+	//   if err != nil {
+	//     t.Fatal(err)
+	//   }
+	//   t.Logf("number of states %d", autoNoRecord.MetricNumberOfStates())
+	//   if autoNoRecord.MetricNumberOfStates() < 1000 {
+	// 	   t.Fatal("number of states was expected to explode")
+	//   }
+}
+
+func TestPersonNumStates(t *testing.T) {
+	g := c.G{"main": c.In("Person", c.InPath("Addresses",
+		c.Any(),
+		c.In("Number", c.Value(c.Eq(c.IntVar(), c.IntConst(456)))),
+		c.Any(),
+		c.In("Street", c.Value(c.Eq(c.StringVar(), c.StringConst("TheStreet")))),
+		c.Any(),
+	))}.Grammar()
+	auto, err := auto.Compile(g)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("number of states %d", auto.MetricNumberOfStates())
+	// If this does not compile then we are missing simplification rules.
+	// This test was inspired by a bug, where
+	// we weren't flattening the Or before constructing another Or
+	// Now we have flattenByType function at the start of all binary operators,
+	// for example:
+	//   func (c *construct) NewOr(ps []*Pattern) (*Pattern, error) {
+	//	   ps = flattenByType(ps, Or)
 }

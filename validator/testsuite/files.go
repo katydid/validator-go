@@ -240,7 +240,7 @@ func readBenchFolder(path string) (*Bench, error) {
 	if err != nil {
 		return nil, err
 	}
-	fileInfos, err := ioutil.ReadDir(path)
+	fileInfos, err := os.ReadDir(path)
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading folder <%s>", err, path)
 	}

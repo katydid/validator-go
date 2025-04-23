@@ -14,16 +14,16 @@
 
 package sets
 
-import (
-	"github.com/katydid/validator-go/validator/ast"
-)
-
 // Ints represents an indexed list of list of integers.
 // It reverse maps a list of ints into a single int.
 type Ints [][]int
 
 func NewInts() Ints {
 	return Ints([][]int{})
+}
+
+func (this Ints) Get(i int) []int {
+	return this[i]
 }
 
 func (this Ints) Index(is []int) int {
@@ -53,39 +53,16 @@ func (this *Ints) Add(is []int) int {
 	return len(*this) - 1
 }
 
-// Patterns represents an indexed list of list of Patterns.
-// It reverse maps a list of Patterns into a single int.
-type Patterns [][]*ast.Pattern
-
-func NewPatterns() Patterns {
-	return Patterns([][]*ast.Pattern{})
-}
-
-func (this Patterns) Index(patterns []*ast.Pattern) int {
-	for i, ps := range this {
-		// TODO maybe we should rather use hashes to do this more efficiently?
-		if deriveEquals(ps, patterns) {
-			return i
-		}
-	}
-	return -1
-}
-
-func (this *Patterns) Add(patterns []*ast.Pattern) int {
-	index := this.Index(patterns)
-	if index != -1 {
-		return index
-	}
-	*this = append(*this, patterns)
-	return len(*this) - 1
-}
-
 // BitsSet represents an indexed list of Bits.
 // It reverse maps a Bits into a single int.
 type BitsSet []Bits
 
 func NewBitsSet() BitsSet {
 	return BitsSet([]Bits{})
+}
+
+func (this BitsSet) Get(i int) Bits {
+	return this[i]
 }
 
 func (this BitsSet) Index(bs Bits) int {
@@ -135,4 +112,58 @@ func (this *Pairs) Add(se Pair) int {
 	}
 	*this = append(*this, se)
 	return len(*this) - 1
+}
+
+type IndexedSet[A any] struct {
+	hashFunc  func(A) uint64
+	equalFunc func(A, A) bool
+	list      []A
+	hashes    map[uint64][]int
+}
+
+func NewIndexedSet[A any](hash func(A) uint64, eq func(A, A) bool) *IndexedSet[A] {
+	return &IndexedSet[A]{
+		hashFunc:  hash,
+		equalFunc: eq,
+		list:      []A{},
+		hashes:    make(map[uint64][]int),
+	}
+}
+
+func (this *IndexedSet[A]) Get(i int) A {
+	return this.list[i]
+}
+
+func (this *IndexedSet[A]) Len() int {
+	return len(this.list)
+}
+
+func (this *IndexedSet[A]) Index(x A) int {
+	h := this.hashFunc(x)
+	// find items that match the same hash
+	hashedIndexesOfItems := this.hashes[h]
+	// loop through indexes of items with hash conflicts
+	for _, index := range hashedIndexesOfItems {
+		// if item is equal, then we found a duplicate item and we can return the index
+		if this.equalFunc(x, this.list[index]) {
+			return index
+		}
+	}
+	return -1
+}
+
+func (this *IndexedSet[A]) Add(x A) int {
+	index := this.Index(x)
+	if index != -1 {
+		// item has already been added, so just return that index
+		return index
+	}
+	// add item to list
+	this.list = append(this.list, x)
+
+	// add index of item to hash map for faster lookup
+	index = len(this.list) - 1
+	h := this.hashFunc(x)
+	this.hashes[h] = append(this.hashes[h], index)
+	return index
 }

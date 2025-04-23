@@ -16,9 +16,9 @@ package auto
 
 import (
 	"github.com/katydid/parser-go/parser"
-	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
+	"github.com/katydid/validator-go/validator/intern"
 )
 
 type ifExprs struct {
@@ -26,36 +26,36 @@ type ifExprs struct {
 	composed compose.Bool
 	then     *ifExprs
 	els      *ifExprs
-	ret      []*ast.Pattern
+	ret      []*intern.Pattern
 }
 
 // compileIfExprs combines several if expressions into one nested if expression with a list of return values.
 // While combining these if expressions, duplicate and impossible (always false) conditions are removed for efficiency.
-func compileIfExprs(ifs []*ifExpr) *ifExprs {
+func compileIfExprs(ifs []*intern.IfExpr) *ifExprs {
 	if len(ifs) == 0 {
 		return &ifExprs{
-			ret: []*ast.Pattern{},
+			ret: []*intern.Pattern{},
 		}
 	}
 	root := &ifExprs{}
-	if ifs[0].els == nil || ifs[0].then.Equal(ifs[0].els) {
-		root.ret = []*ast.Pattern{ifs[0].then}
+	if ifs[0].Els == nil || ifs[0].Thn.Equal(ifs[0].Els) {
+		root.ret = []*intern.Pattern{ifs[0].Thn}
 	} else {
-		root.cond = ifs[0].cond
-		root.then = &ifExprs{ret: []*ast.Pattern{ifs[0].then}}
-		root.els = &ifExprs{ret: []*ast.Pattern{ifs[0].els}}
+		root.cond = ifs[0].Cond
+		root.then = &ifExprs{ret: []*intern.Pattern{ifs[0].Thn}}
+		root.els = &ifExprs{ret: []*intern.Pattern{ifs[0].Els}}
 	}
 	for _, ifexpr := range ifs[1:] {
-		if ifexpr.cond == nil {
-			root.addReturn(ifexpr.then)
+		if ifexpr.Cond == nil {
+			root.addReturn(ifexpr.Thn)
 		} else {
-			root.addIfExpr(ifexpr.cond, ifexpr.then, ifexpr.els)
+			root.addIfExpr(ifexpr.Cond, ifexpr.Thn, ifexpr.Els)
 		}
 	}
 	return root
 }
 
-func (this *ifExprs) eval(label parser.Value) ([]*ast.Pattern, error) {
+func (this *ifExprs) eval(label parser.Value) ([]*intern.Pattern, error) {
 	if this.ret != nil {
 		return this.ret, nil
 	}
@@ -77,7 +77,7 @@ func (this *ifExprs) eval(label parser.Value) ([]*ast.Pattern, error) {
 }
 
 // addReturn finds the leafs and appends a return to each.
-func (this *ifExprs) addReturn(ret *ast.Pattern) {
+func (this *ifExprs) addReturn(ret *intern.Pattern) {
 	if this.ret != nil {
 		this.ret = append(this.ret, ret)
 		return
@@ -87,11 +87,11 @@ func (this *ifExprs) addReturn(ret *ast.Pattern) {
 	return
 }
 
-func (this *ifExprs) addIfExpr(cond funcs.Bool, then, els *ast.Pattern) {
+func (this *ifExprs) addIfExpr(cond funcs.Bool, then, els *intern.Pattern) {
 	// efficienctly append the then and else return to two copies of the current returns.
 	if this.ret != nil {
 		this.cond = cond
-		thenterms := make([]*ast.Pattern, len(this.ret)+1)
+		thenterms := make([]*intern.Pattern, len(this.ret)+1)
 		copy(thenterms, this.ret)
 		thenterms[len(thenterms)-1] = then
 		this.then = &ifExprs{ret: thenterms}
@@ -120,28 +120,4 @@ func (this *ifExprs) addIfExpr(cond funcs.Bool, then, els *ast.Pattern) {
 	this.then.addIfExpr(cond, then, els)
 	this.els.addIfExpr(cond, then, els)
 	return
-}
-
-type ifExpr struct {
-	cond funcs.Bool
-	then *ast.Pattern
-	els  *ast.Pattern
-}
-
-func (this *ifExpr) eval(label parser.Value) (*ast.Pattern, error) {
-	if this.els == nil {
-		return this.then, nil
-	}
-	f, err := compose.NewBoolFunc(this.cond)
-	if err != nil {
-		return nil, err
-	}
-	cond, err := f.Eval(label)
-	if err != nil {
-		return nil, err
-	}
-	if cond {
-		return this.then, nil
-	}
-	return this.els, nil
 }

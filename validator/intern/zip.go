@@ -25,22 +25,13 @@ var (
 	}
 )
 
-func removeAllNotZAny(ps []*Pattern) []*Pattern {
-	return filter(notEmptySet, ps)
-}
-
-func removeAllZAny(ps []*Pattern) []*Pattern {
-	return filter(func(p *Pattern) bool {
-		return p.Type != ZAny
-	}, ps)
-}
-
 type ZippedPatterns struct {
 	Patterns []*Pattern
 	Indexes  []int
 }
 
-func Zip(patterns []*Pattern) *ZippedPatterns {
+func Zip(patterns []*Pattern) (*ZippedPatterns, bool) {
+	// remove duplicates and sort
 	zips := make([]*Pattern, len(patterns))
 	for i := range patterns {
 		zips[i] = patterns[i]
@@ -50,6 +41,19 @@ func Zip(patterns []*Pattern) *ZippedPatterns {
 	// remove zany and not zany
 	zips = removeAllZAny(zips)
 	zips = removeAllNotZAny(zips)
+
+	if deriveEquals(patterns, zips) || len(patterns) == 0 {
+		// zip is equal to original, so no zipping happened
+		indices := make([]int, len(patterns))
+		for i := 0; i < len(indices); i++ {
+			indices[i] = i
+		}
+		zipped := &ZippedPatterns{
+			Patterns: patterns,
+			Indexes:  indices,
+		}
+		return zipped, false
+	}
 
 	// calculate indexes by doing a reverse lookup using the original hashes and moved hashes.
 	revhashes := make(map[uint64][]int)
@@ -87,10 +91,13 @@ func Zip(patterns []*Pattern) *ZippedPatterns {
 		}
 	}
 
-	return &ZippedPatterns{zips, indexes}
+	return &ZippedPatterns{zips, indexes}, true
 }
 
 func (z *ZippedPatterns) Unzip() []*Pattern {
+	if z.Indexes == nil {
+		return z.Patterns
+	}
 	res := make([]*Pattern, len(z.Indexes))
 	for i, index := range z.Indexes {
 		if index < 0 {

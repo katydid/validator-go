@@ -59,7 +59,8 @@ func (c *compiler) compile() error {
 	visited := make(map[int]bool)
 	for changed {
 		changed = false
-		for state := range c.patterns {
+		len := c.patterns.Len()
+		for state := range len {
 			if visited[state] {
 				continue
 			}
@@ -85,7 +86,7 @@ func compile(c *compiler, patterns int) error {
 	allPossibleCalls := getLeafs(callTree)
 	for _, call := range allPossibleCalls {
 
-		numOfChildPatterns := len(c.patterns[call.child])
+		numOfChildPatterns := len(c.patterns.Get(call.child))
 		if numOfChildPatterns > 64 {
 			return ErrTooManyStates
 		}
@@ -98,7 +99,10 @@ func compile(c *compiler, patterns int) error {
 		possibleNullables := sets.NewBits(numOfChildPatterns)
 		for {
 			nullIndex := c.nullables.Add(possibleNullables)
-			c.getReturn(call.stackIndex, nullIndex)
+			_, err := c.getReturn(call.stackIndex, nullIndex)
+			if err != nil {
+				return err
+			}
 			if possibleNullables.Equal(maxPossibleNullables) {
 				break
 			}
