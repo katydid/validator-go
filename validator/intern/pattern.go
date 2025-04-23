@@ -46,6 +46,52 @@ type Pattern struct {
 	nullable bool
 }
 
+func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
+	p := &Pattern{
+		Type:     typ,
+		Patterns: ps,
+	}
+	switch typ {
+	case Empty, ZAny:
+		p.nullable = true
+	case Or:
+		p.nullable = anyNullable(ps)
+	case Concat, And, Interleave:
+		p.nullable = allNullable(ps)
+	case ZeroOrMore, Optional:
+		p.nullable = true
+	case Not:
+		p.nullable = !ps[0].nullable
+	case Contains:
+		p.nullable = ps[0].nullable
+	default:
+		panic(fmt.Sprintf("unsupported PatternType %v", typ))
+	}
+	p.hash = makeHash(p)
+	return p
+}
+
+func newNodePattern(b funcs.Bool, child *Pattern) *Pattern {
+	p := &Pattern{
+		Type:     Node,
+		Func:     b,
+		Patterns: []*Pattern{child},
+		nullable: false,
+	}
+	p.hash = makeHash(p)
+	return p
+}
+
+func newRefPattern(name string, nullable bool) *Pattern {
+	p := &Pattern{
+		Type:     Reference,
+		Ref:      name,
+		nullable: nullable,
+	}
+	p.hash = makeHash(p)
+	return p
+}
+
 func (p *Pattern) GoString() string {
 	if p == nil {
 		return "nil"
@@ -130,7 +176,7 @@ func (p *Pattern) Equal(pp *Pattern) bool {
 	return true
 }
 
-func (p *Pattern) SetHash() {
+func makeHash(p *Pattern) uint64 {
 	h := uint64(17)
 	h = 31*h + uint64(p.Type)
 	if p.Func != nil {
@@ -145,7 +191,7 @@ func (p *Pattern) SetHash() {
 	if h == 0 {
 		h = 1
 	}
-	p.hash = h
+	return h
 }
 
 func (p *Pattern) Nullable() bool {
