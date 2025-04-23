@@ -55,15 +55,6 @@ func test(t *testing.T, name string, g *ast.Grammar, p parser.Interface, expecte
 		t.Skipf(`too big to fail: this test was specifically created to test that nested if expressions don't result in exponential explosions,
 but since the auto implementation does compile everything it will explode.`)
 	}
-	if strings.HasPrefix(name, "Playground") {
-		t.Skipf("too big to fail: Playground is a very large expression")
-	}
-	if !record && (strings.HasPrefix(name, "ABStar") ||
-		strings.HasPrefix(name, "BasicInterleaveBAnyC") ||
-		strings.HasPrefix(name, "Page195") ||
-		strings.HasPrefix(name, "XmlContext")) {
-		t.Skipf("too big to fail: without record optimizations, these expressions are too large")
-	}
 	var a *auto.Auto
 	var err error
 	if record {
