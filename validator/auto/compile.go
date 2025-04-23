@@ -99,7 +99,10 @@ func compile(c *compiler, patterns int) error {
 		possibleNullables := sets.NewBits(numOfChildPatterns)
 		for {
 			nullIndex := c.nullables.Add(possibleNullables)
-			c.getReturn(call.stackIndex, nullIndex)
+			_, err := c.getReturn(call.stackIndex, nullIndex)
+			if err != nil {
+				return err
+			}
 			if possibleNullables.Equal(maxPossibleNullables) {
 				break
 			}

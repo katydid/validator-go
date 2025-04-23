@@ -16,7 +16,6 @@ package auto
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
 	"github.com/katydid/validator-go/validator/sets"
 )
@@ -44,14 +43,11 @@ func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
 		accept:          []bool{},
 	}
 	start := m.patterns.Add([]*intern.Pattern{main})
-	// TOOD: What to do with context?
 	m.start = start
 	return m, nil
 }
 
 type compiler struct {
-	context *funcs.Context
-
 	construct intern.Construct
 	patterns  PatternsSet
 	zis       sets.Ints
@@ -136,14 +132,14 @@ func (this *compiler) getNullable(s int) int {
 	return this.stateToNullable[s]
 }
 
-func (this *compiler) getReturn(stackIndex int, nullIndex int) int {
+func (this *compiler) getReturn(stackIndex int, nullIndex int) (int, error) {
 	if len(this.returns) <= stackIndex {
 		for i := len(this.returns); i <= stackIndex; i++ {
 			this.returns = append(this.returns, make(map[int]int))
 		}
 	}
 	if ret, ok := this.returns[stackIndex][nullIndex]; ok {
-		return ret
+		return ret, nil
 	}
 	stackElm := this.stackElms[stackIndex]
 	zullable := this.nullables[nullIndex]
@@ -153,10 +149,9 @@ func (this *compiler) getReturn(stackIndex int, nullIndex int) int {
 	currentPatterns := this.patterns.Get(parentPatterns)
 	newPatterns, err := intern.DeriveReturns(this.construct, currentPatterns, nullable)
 	if err != nil {
-		// TODO return error
-		panic(err)
+		return 0, err
 	}
 	res := this.patterns.Add(newPatterns)
 	this.returns[stackIndex][nullIndex] = res
-	return res
+	return res, nil
 }
