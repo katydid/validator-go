@@ -595,6 +595,11 @@ func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
 		return c.NewNotZAny(), nil
 	}
 	ps = removeEmptyExceptOne(ps)
+	if isAny(isZAny, ps) {
+		// remove duplicate zanys
+		ps = removeAllZAny(ps)
+		ps = append(ps, c.NewZAny())
+	}
 	sort.Sort(sortable(ps))
 	if len(ps) == 1 {
 		return ps[0], nil
