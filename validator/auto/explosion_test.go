@@ -18,7 +18,6 @@ import (
 	"testing"
 
 	"github.com/katydid/validator-go/validator/auto"
-	"github.com/katydid/validator-go/validator/interp"
 	"github.com/katydid/validator-go/validator/parser"
 )
 
@@ -54,14 +53,23 @@ func TestExplosionAndSameTree(t *testing.T) {
 	}
 	// This one causes a state explosion of over 14000 states.
 	// Since we know field names can't repeat the simplification can be made for record (JSON and proto) like serialization formats, but not for XML.
-	g = interp.NewSimplifier(g).OptimizeForRecord().Grammar()
 	t.Logf("%v", g)
-	a, err := auto.Compile(g)
+	// CompileRecord avoids the state explosion, whereas Compile does not do the Record simplifications, which results in the state space explosion.
+	autoRecord, err := auto.CompileRecord(g)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("number of states %d", a.MetricNumberOfStates())
-	if a.MetricNumberOfStates() > 1000 {
+	t.Logf("number of states %d", autoRecord.MetricNumberOfStates())
+	if autoRecord.MetricNumberOfStates() > 1000 {
 		t.Fatal("number of states exploded")
+	}
+
+	autoNoRecord, err := auto.Compile(g)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("number of states %d", autoNoRecord.MetricNumberOfStates())
+	if autoNoRecord.MetricNumberOfStates() < 1000 {
+		t.Fatal("number of states was expected to explode")
 	}
 }
