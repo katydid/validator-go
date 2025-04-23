@@ -244,27 +244,11 @@ func getInterleavesFromAST(p *ast.Pattern) []*ast.Pattern {
 	return []*ast.Pattern{p}
 }
 
-var empty = &Pattern{
-	Type:     Empty,
-	nullable: true,
-}
+var empty = newOpPattern(Empty)
 
-var zany = &Pattern{
-	Type:     ZAny,
-	nullable: true,
-}
+var zany = newOpPattern(ZAny)
 
-var notzany = &Pattern{
-	Type:     Not,
-	Patterns: []*Pattern{zany},
-	nullable: false,
-}
-
-func init() {
-	empty.SetHash()
-	zany.SetHash()
-	notzany.SetHash()
-}
+var notzany = newOpPattern(Not, zany)
 
 func newEmpty() *Pattern {
 	return empty
@@ -300,13 +284,7 @@ func (c *construct) NewNode(b funcs.Bool, child *Pattern) (*Pattern, error) {
 	if c.context != nil {
 		compose.SetContext(b, c.context)
 	}
-	pp := &Pattern{
-		Type:     Node,
-		Func:     b,
-		Patterns: []*Pattern{child},
-		nullable: false,
-	}
-	pp.SetHash()
+	pp := newNodePattern(b, child)
 	return c.checkRef(pp)
 }
 
@@ -354,12 +332,7 @@ func (c *construct) NewOr(ps []*Pattern) (*Pattern, error) {
 	if len(ps) == 1 {
 		return ps[0], nil
 	}
-	pp := &Pattern{
-		Type:     Or,
-		Patterns: ps,
-		nullable: anyNullable(ps),
-	}
-	pp.SetHash()
+	pp := newOpPattern(Or, ps...)
 	return c.checkRef(pp)
 }
 
@@ -462,12 +435,7 @@ func (c *construct) NewConcat(ps []*Pattern) (*Pattern, error) {
 	if len(ps) == 1 {
 		return ps[0], nil
 	}
-	pp := &Pattern{
-		Type:     Concat,
-		Patterns: ps,
-		nullable: allNullable(ps),
-	}
-	pp.SetHash()
+	pp := newOpPattern(Concat, ps...)
 	return c.checkRef(pp)
 }
 
@@ -518,12 +486,7 @@ func (c *construct) NewAnd(ps []*Pattern) (*Pattern, error) {
 	if len(ps) == 1 {
 		return ps[0], nil
 	}
-	pp := &Pattern{
-		Type:     And,
-		Patterns: ps,
-		nullable: allNullable(ps),
-	}
-	pp.SetHash()
+	pp := newOpPattern(And, ps...)
 	return c.checkRef(pp)
 }
 
@@ -555,12 +518,7 @@ func (c *construct) NewZeroOrMore(p *Pattern) (*Pattern, error) {
 	if p.Type == ZeroOrMore {
 		return p, nil
 	}
-	pp := &Pattern{
-		Type:     ZeroOrMore,
-		Patterns: []*Pattern{p},
-		nullable: true,
-	}
-	pp.SetHash()
+	pp := newOpPattern(ZeroOrMore, p)
 	return c.checkRef(pp)
 }
 
@@ -569,12 +527,7 @@ func (c *construct) NewReference(name string) (*Pattern, error) {
 	if !ok {
 		return nil, fmt.Errorf("no reference with name: %s", name)
 	}
-	pp := &Pattern{
-		Type:     Reference,
-		Ref:      name,
-		nullable: n,
-	}
-	pp.SetHash()
+	pp := newRefPattern(name, n)
 	return c.checkRef(pp)
 }
 
@@ -585,12 +538,7 @@ func (c *construct) NewNot(p *Pattern) (*Pattern, error) {
 	if p.Type == Not {
 		return p.Patterns[0], nil
 	}
-	pp := &Pattern{
-		Type:     Not,
-		Patterns: []*Pattern{p},
-		nullable: !p.nullable,
-	}
-	pp.SetHash()
+	pp := newOpPattern(Not, p)
 	return c.checkRef(pp)
 }
 
@@ -601,12 +549,7 @@ func (c *construct) NewContains(p *Pattern) (*Pattern, error) {
 	if isNotZAny(p) {
 		return c.NewNotZAny(), nil
 	}
-	pp := &Pattern{
-		Type:     Contains,
-		Patterns: []*Pattern{p},
-		nullable: p.nullable,
-	}
-	pp.SetHash()
+	pp := newOpPattern(Contains, p)
 	return c.checkRef(pp)
 }
 
@@ -614,12 +557,7 @@ func (c *construct) NewOptional(p *Pattern) (*Pattern, error) {
 	if isEmpty(p) {
 		return c.NewEmpty(), nil
 	}
-	pp := &Pattern{
-		Type:     Optional,
-		Patterns: []*Pattern{p},
-		nullable: true,
-	}
-	pp.SetHash()
+	pp := newOpPattern(Optional, p)
 	return c.checkRef(pp)
 }
 
@@ -638,11 +576,6 @@ func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
 	if len(ps) == 1 {
 		return ps[0], nil
 	}
-	pp := &Pattern{
-		Type:     Interleave,
-		Patterns: ps,
-		nullable: allNullable(ps),
-	}
-	pp.SetHash()
+	pp := newOpPattern(Interleave, ps...)
 	return c.checkRef(pp)
 }
