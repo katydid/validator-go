@@ -39,7 +39,7 @@ func (this *SetOfPatterns) Get(i int) *Patterns {
 }
 
 func (this *SetOfPatterns) Index(patterns []*Pattern) int {
-	h := hashPatterns(patterns)
+	h := HashPatterns(patterns)
 	pss := this.hashes[h]
 	for _, index := range pss {
 		ps := this.list[index]
@@ -58,7 +58,7 @@ func (this *SetOfPatterns) Add(ps []*Pattern) int {
 	index = len(this.list)
 	patterns := &Patterns{}
 	this.list = append(this.list, patterns)
-	h := hashPatterns(ps)
+	h := HashPatterns(ps)
 	this.hashes[h] = append(this.hashes[h], index)
 
 	patterns.Patterns = ps
@@ -66,7 +66,7 @@ func (this *SetOfPatterns) Add(ps []*Pattern) int {
 	nulls := newNullableBits(ps)
 	patterns.NullIndex = this.setOfNullables.Add(nulls)
 
-	patterns.escapable = escapable(ps)
+	patterns.escapable = Escapable(ps)
 	patterns.accept = len(ps) == 1 && ps[0].nullable
 	zipped, _ := Zip(ps)
 	patterns.ZippedPatternsIndex = this.Add(zipped.Patterns)
@@ -95,8 +95,8 @@ type Patterns struct {
 func NewPatterns(ps []*Pattern, zipped *ZippedPatterns) *Patterns {
 	return &Patterns{
 		Patterns:  ps,
-		hash:      hashPatterns(ps),
-		escapable: escapable(ps),
+		hash:      HashPatterns(ps),
+		escapable: Escapable(ps),
 		accept:    len(ps) == 1 && ps[0].nullable,
 		nulls:     newNullableBits(ps),
 		zipped:    zipped,
@@ -109,16 +109,4 @@ func (this *Patterns) IsAccept() bool {
 
 func (this *Patterns) IsEscapable() bool {
 	return this.escapable
-}
-
-func equalPatterns(ps1, ps2 []*Pattern) bool {
-	return deriveEquals(ps1, ps2)
-}
-
-func hashPatterns(patterns []*Pattern) uint64 {
-	h := uint64(17)
-	for _, pattern := range patterns {
-		h = 31*h + pattern.hash
-	}
-	return h
 }

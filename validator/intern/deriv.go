@@ -42,23 +42,10 @@ func Interpret(g *ast.Grammar, record bool, parser parser.Interface) (bool, erro
 	return finals[0].nullable, nil
 }
 
-func escapable(patterns []*Pattern) bool {
-	for _, p := range patterns {
-		if isZAny(p) {
-			continue
-		}
-		if isNotZAny(p) {
-			continue
-		}
-		return true
-	}
-	return false
-}
-
 func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern, error) {
 	var resPatterns []*Pattern = patterns
 	for {
-		if !escapable(resPatterns) {
+		if !Escapable(resPatterns) {
 			return resPatterns, nil
 		}
 		if err := tree.Next(); err != nil {
@@ -92,18 +79,6 @@ func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern,
 		}
 	}
 	return resPatterns, nil
-}
-
-func evalIfExprs(ifs []*IfExpr, label parser.Value) ([]*Pattern, error) {
-	patterns := make([]*Pattern, len(ifs))
-	for i, ifExpr := range ifs {
-		c, err := ifExpr.eval(label)
-		if err != nil {
-			return nil, err
-		}
-		patterns[i] = c
-	}
-	return patterns, nil
 }
 
 func DeriveCalls(construct Construct, patterns []*Pattern) []*IfExpr {

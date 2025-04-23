@@ -17,6 +17,7 @@ package auto
 import (
 	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator/compose"
+	"github.com/katydid/validator-go/validator/intern"
 	"github.com/katydid/validator-go/validator/sets"
 )
 
@@ -33,7 +34,8 @@ type callNode struct {
 func (this *compiler) newCallTree(parentPatterns int, node *ifExprs) (*callNode, error) {
 	if node.ret != nil {
 		ps := node.ret
-		zippedPatterns, zipper := sets.Zip(ps)
+		zipped, _ := intern.Zip(ps)
+		zippedPatterns, zipper := zipped.Patterns, zipped.Indexes
 		zipperIndex := this.zis.Add(zipper)
 		stackElement := sets.Pair{
 			First:  parentPatterns,

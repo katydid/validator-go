@@ -269,3 +269,15 @@ func (this *IfExpr) eval(label parser.Value) (*Pattern, error) {
 	}
 	return this.Els, nil
 }
+
+func evalIfExprs(ifs []*IfExpr, label parser.Value) ([]*Pattern, error) {
+	patterns := make([]*Pattern, len(ifs))
+	for i, ifExpr := range ifs {
+		c, err := ifExpr.eval(label)
+		if err != nil {
+			return nil, err
+		}
+		patterns[i] = c
+	}
+	return patterns, nil
+}

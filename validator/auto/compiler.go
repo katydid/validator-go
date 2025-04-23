@@ -16,25 +16,23 @@ package auto
 
 import (
 	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
-	"github.com/katydid/validator-go/validator/interp"
 	"github.com/katydid/validator-go/validator/sets"
 )
 
 func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
-	simp := interp.NewSimplifier(g)
+	construct := intern.NewConstructor()
 	if record {
-		simp = simp.OptimizeForRecord()
+		construct = intern.NewConstructorOptimizedForRecords()
 	}
-	g = simp.Grammar()
-	refs := ast.NewRefLookup(g)
+	main, err := construct.AddGrammar(g)
+	if err != nil {
+		return nil, err
+	}
 	m := &compiler{
-		refs:       refs,
-		simplifier: simp,
-
-		patterns:  sets.NewPatterns(),
+		construct: construct,
+		patterns:  NewPatternsSet(),
 		zis:       sets.NewInts(),
 		stackElms: sets.NewPairs(),
 		nullables: sets.NewBitsSet(),
@@ -45,26 +43,17 @@ func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
 		stateToNullable: []int{},
 		accept:          []bool{},
 	}
-	start := m.patterns.Add([]*ast.Pattern{refs["main"]})
-	e := &exprToFunc{m: make(map[*ast.Expr]funcs.Bool)}
-	for _, p := range refs {
-		p.Walk(e)
-		if e.err != nil {
-			return nil, e.err
-		}
-	}
-	m.funcs = e.m
+	start := m.patterns.Add([]*intern.Pattern{main})
+	// TOOD: What to do with context?
 	m.start = start
 	return m, nil
 }
 
 type compiler struct {
-	refs       map[string]*ast.Pattern
-	funcs      map[*ast.Expr]funcs.Bool
-	simplifier interp.Simplifier
-	context    *funcs.Context
+	context *funcs.Context
 
-	patterns  sets.Patterns
+	construct intern.Construct
+	patterns  PatternsSet
 	zis       sets.Ints
 	stackElms sets.Pairs
 	nullables sets.BitsSet
@@ -77,25 +66,10 @@ type compiler struct {
 	accept          []bool
 }
 
-func escapable(patterns []*ast.Pattern) bool {
-	for _, pattern := range patterns {
-		if pattern.ZAny != nil {
-			continue
-		}
-		if pattern.Not != nil {
-			if pattern.GetNot().GetPattern().ZAny != nil {
-				continue
-			}
-		}
-		return true
-	}
-	return false
-}
-
 func (this *compiler) calcEscapables(upto int) {
 	for i := len(this.escapables); i <= upto; i++ {
-		patterns := this.patterns[i]
-		this.escapables = append(this.escapables, escapable(patterns))
+		patterns := this.patterns.Get(i)
+		this.escapables = append(this.escapables, intern.Escapable(patterns))
 	}
 }
 
@@ -106,11 +80,11 @@ func (this *compiler) escapable(patterns int) bool {
 
 func (this *compiler) calcAccepts(upto int) {
 	for i := len(this.accept); i <= upto; i++ {
-		patterns := this.patterns[i]
+		patterns := this.patterns.Get(i)
 		if len(patterns) != 1 {
 			this.accept = append(this.accept, false)
 		} else {
-			this.accept = append(this.accept, intern.Nullable(this.refs, patterns[0]))
+			this.accept = append(this.accept, patterns[0].Nullable())
 		}
 	}
 }
@@ -120,22 +94,9 @@ func (this *compiler) getAccept(patterns int) bool {
 	return this.accept[patterns]
 }
 
-func (this *compiler) getFunc(expr *ast.Expr) funcs.Bool {
-	if f, ok := this.funcs[expr]; ok {
-		return f
-	}
-	f, err := compose.NewBool(expr)
-	if err != nil {
-		panic(err)
-	}
-	compose.SetContext(f, this.context)
-	this.funcs[expr] = f
-	return f
-}
-
 func (this *compiler) calcCallTrees(upto int) error {
 	for i := len(this.calls); i <= upto; i++ {
-		listOfIfExpr := derivCalls(this.refs, this.getFunc, this.patterns[i])
+		listOfIfExpr := intern.DeriveCalls(this.construct, this.patterns.Get(i))
 		compiledIfExprs := compileIfExprs(listOfIfExpr)
 		memCallTree, err := this.newCallTree(i, compiledIfExprs)
 		if err != nil {
@@ -153,18 +114,18 @@ func (this *compiler) getCallTree(patterns int) (*callNode, error) {
 	return this.calls[patterns], nil
 }
 
-func nullables(refs map[string]*ast.Pattern, patterns []*ast.Pattern) sets.Bits {
+func nullables(patterns []*intern.Pattern) sets.Bits {
 	nulls := sets.NewBits(len(patterns))
 	for i, p := range patterns {
-		nulls.Set(i, intern.Nullable(refs, p))
+		nulls.Set(i, p.Nullable())
 	}
 	return nulls
 }
 
 func (this *compiler) calcNullables(upto int) {
 	for i := len(this.stateToNullable); i <= upto; i++ {
-		childPatterns := this.patterns[i]
-		nullable := nullables(this.refs, childPatterns)
+		childPatterns := this.patterns.Get(i)
+		nullable := nullables(childPatterns)
 		nullIndex := this.nullables.Add(nullable)
 		this.stateToNullable = append(this.stateToNullable, nullIndex)
 	}
@@ -173,13 +134,6 @@ func (this *compiler) calcNullables(upto int) {
 func (this *compiler) getNullable(s int) int {
 	this.calcNullables(s)
 	return this.stateToNullable[s]
-}
-
-func (this *compiler) simplifyAll(patterns []*ast.Pattern) []*ast.Pattern {
-	for i := range patterns {
-		patterns[i] = this.simplifier.Simplify(patterns[i])
-	}
-	return patterns
 }
 
 func (this *compiler) getReturn(stackIndex int, nullIndex int) int {
@@ -196,10 +150,13 @@ func (this *compiler) getReturn(stackIndex int, nullIndex int) int {
 	childrenZipper := stackElm.Second
 	nullable := sets.UnzipBits(zullable, this.zis[childrenZipper])
 	parentPatterns := stackElm.First
-	currentPatterns := this.patterns[parentPatterns]
-	currentPatterns = derivReturns(this.refs, currentPatterns, nullable)
-	simplePatterns := this.simplifyAll(currentPatterns)
-	res := this.patterns.Add(simplePatterns)
+	currentPatterns := this.patterns.Get(parentPatterns)
+	newPatterns, err := intern.DeriveReturns(this.construct, currentPatterns, nullable)
+	if err != nil {
+		// TODO return error
+		panic(err)
+	}
+	res := this.patterns.Add(newPatterns)
 	this.returns[stackIndex][nullIndex] = res
 	return res
 }

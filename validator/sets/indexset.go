@@ -14,8 +14,6 @@
 
 package sets
 
-import ast "github.com/katydid/validator-go/validator/ast"
-
 // Ints represents an indexed list of list of integers.
 // It reverse maps a list of ints into a single int.
 type Ints [][]int
@@ -85,33 +83,6 @@ func (this *BitsSet) Add(bs Bits) int {
 	return len(*this) - 1
 }
 
-// Patterns represents an indexed list of list of Patterns.
-// It reverse maps a list of Patterns into a single int.
-type Patterns [][]*ast.Pattern
-
-func NewPatterns() Patterns {
-	return Patterns([][]*ast.Pattern{})
-}
-
-func (this Patterns) Index(patterns []*ast.Pattern) int {
-	for i, ps := range this {
-		// TODO maybe we should rather use hashes to do this more efficiently?
-		if deriveEquals(ps, patterns) {
-			return i
-		}
-	}
-	return -1
-}
-
-func (this *Patterns) Add(patterns []*ast.Pattern) int {
-	index := this.Index(patterns)
-	if index != -1 {
-		return index
-	}
-	*this = append(*this, patterns)
-	return len(*this) - 1
-}
-
 type Pair struct {
 	First  int
 	Second int
@@ -161,6 +132,10 @@ func NewIndexedSet[A any](hash func(A) uint64, eq func(A, A) bool) *IndexedSet[A
 
 func (this *IndexedSet[A]) Get(i int) A {
 	return this.list[i]
+}
+
+func (this *IndexedSet[A]) Len() int {
+	return len(this.list)
 }
 
 func (this *IndexedSet[A]) Index(x A) int {
