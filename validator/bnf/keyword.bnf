@@ -278,6 +278,16 @@ Tilde
   >>
   ;
 
+Dollar
+  : "$"  << &Keyword{Value: "$"}, nil >>
+  | Space "$" << 
+    &Keyword{
+      Before: $0.(*Space),
+      Value: "$",
+    }, nil
+  >>
+  ;
+
 Space
   : Space space << AppendSpace($0, newString($1)), nil >>
   | space << &Space{Space: []string{newString($0)}}, nil >>

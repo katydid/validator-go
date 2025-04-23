@@ -128,6 +128,21 @@ func (this *Interleave) String() string {
 		this.ExtraSemiColon.String() + this.CloseCurly.String()
 }
 
+func (this *Extension) String() string {
+	if this.RightPattern != nil {
+		return this.Dollar.String() + this.Name +
+			this.OpenParen.String() + this.LeftPattern.String() +
+			this.Comma.String() + this.RightPattern.String() +
+			this.ExtraComma.String() + this.CloseParen.String()
+	}
+	if this.LeftPattern != nil {
+		return this.Dollar.String() + this.Name + this.OpenParen.String() +
+			this.LeftPattern.String() + this.CloseParen.String()
+	}
+	return this.Dollar.String() + this.Name +
+		this.OpenParen.String() + this.CloseParen.String()
+}
+
 // String returns the validator string representation of the Expr instance.
 func (this *Expr) String() string {
 	space := this.RightArrow.String() + this.Comma.String()

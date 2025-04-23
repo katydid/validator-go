@@ -120,6 +120,7 @@ Pattern
       CloseParen: $3.(*Keyword),
     }}, nil
   >>
+  | StartExtension
   ;
 
 StartConcat
@@ -229,6 +230,60 @@ ContinueInterleave
     &Pattern{Interleave: &Interleave{
       LeftPattern: $0.(*Pattern),
       SemiColon: $1.(*Keyword),
+      RightPattern: $2.(*Pattern),
+    }}, nil
+  >>
+  ;
+
+StartExtension
+  : Dollar id OpenParen CloseParen <<
+    &Pattern{Extension: &Extension{
+      Dollar: $0.(*Keyword),
+      Name: newString($1),
+      OpenParen: $2.(*Keyword),
+      CloseParen: $3.(*Keyword),
+    }}, nil
+  >>
+  | Dollar id OpenParen Pattern CloseParen <<
+    &Pattern{Extension: &Extension{
+      Dollar: $0.(*Keyword),
+      Name: newString($1),
+      OpenParen: $2.(*Keyword),
+      LeftPattern: $3.(*Pattern),
+      CloseParen: $4.(*Keyword),
+    }}, nil
+  >>
+  | Dollar id OpenParen Pattern Comma ContinueExtension CloseParen <<
+    &Pattern{Extension: &Extension{
+      Dollar: $0.(*Keyword),
+      Name: newString($1),
+      OpenParen: $2.(*Keyword),
+      LeftPattern: $3.(*Pattern),
+      Comma: $4.(*Keyword),
+      RightPattern: $5.(*Pattern),
+      CloseParen: $6.(*Keyword),
+    }}, nil
+  >>
+  | Dollar id OpenParen Pattern Comma ContinueExtension Comma CloseParen <<
+    &Pattern{Extension: &Extension{
+      Dollar: $0.(*Keyword),
+      Name: newString($1),
+      OpenParen: $2.(*Keyword),
+      LeftPattern: $3.(*Pattern),
+      Comma: $4.(*Keyword),
+      RightPattern: $5.(*Pattern),
+      ExtraComma: $6.(*Keyword),
+      CloseParen: $7.(*Keyword),
+    }}, nil
+  >>
+  ;
+
+ContinueExtension
+  : Pattern
+  | ContinueExtension Comma Pattern <<
+    &Pattern{Extension: &Extension{
+      LeftPattern: $0.(*Pattern),
+      Comma: $1.(*Keyword),
       RightPattern: $2.(*Pattern),
     }}, nil
   >>

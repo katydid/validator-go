@@ -82,6 +82,7 @@ type Pattern struct {
 	Contains   *Contains   `json:"Contains,omitempty"`
 	Optional   *Optional   `json:"Optional,omitempty"`
 	Interleave *Interleave `json:"Interleave,omitempty"`
+	Extension  *Extension  `json:"Extension,omitempty"`
 }
 
 func (m *Pattern) GetEmpty() *Empty {
@@ -214,6 +215,9 @@ func (this *Pattern) GetValue() interface{} {
 	}
 	if this.Interleave != nil {
 		return this.Interleave
+	}
+	if this.Extension != nil {
+		return this.Extension
 	}
 	return nil
 }
@@ -420,6 +424,32 @@ func (m *Interleave) GetLeftPattern() *Pattern {
 }
 
 func (m *Interleave) GetRightPattern() *Pattern {
+	if m != nil {
+		return m.RightPattern
+	}
+	return nil
+}
+
+// Extension is the ast node for the Extension pattern.
+type Extension struct {
+	Dollar       *Keyword `json:"Dollar,omitempty"`
+	Name         string   `json:"Name"`
+	OpenParen    *Keyword `json:"OpenParen,omitempty"`
+	LeftPattern  *Pattern `json:"LeftPattern,omitempty"`
+	Comma        *Keyword `json:"Comma,omitempty"`
+	RightPattern *Pattern `json:"RightPattern,omitempty"`
+	ExtraComma   *Keyword `json:"ExtraComma,omitempty"`
+	CloseParen   *Keyword `json:"CloseParen,omitempty"`
+}
+
+func (m *Extension) GetLeftPattern() *Pattern {
+	if m != nil {
+		return m.LeftPattern
+	}
+	return nil
+}
+
+func (m *Extension) GetRightPattern() *Pattern {
 	if m != nil {
 		return m.RightPattern
 	}

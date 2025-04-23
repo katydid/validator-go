@@ -172,3 +172,32 @@ func TestParseExpr(t *testing.T) {
 		}
 	}
 }
+
+func TestParseExtension(t *testing.T) {
+	positives := []string{
+		`$myoperator()`,
+		`$myoperator(== "bla")`,
+		`$myoperator(== "bla", == "alb")`,
+		`$myoperator(a: == "bla", (b: == "alb" | c: == "alb"))`,
+	}
+	negatives := []string{
+		"$myoperator",
+		`$ myoperator()`,
+	}
+	for _, in := range positives {
+		g, err := parser.NewParser().ParseGrammar(in)
+		if err != nil {
+			t.Errorf("%s results in error: %s", in, err)
+		}
+		_, err = parser.NewParser().ParseGrammar(g.String())
+		if err != nil {
+			t.Errorf("%s results in error: %s", g.String(), err)
+		}
+	}
+	for _, in := range negatives {
+		_, err := parser.NewParser().ParseGrammar(in)
+		if err == nil {
+			t.Errorf("%s results in no error", in)
+		}
+	}
+}
