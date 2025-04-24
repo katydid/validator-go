@@ -611,6 +611,5 @@ func (c *construct) NewExtension(name string, ps []*Pattern) (*Pattern, error) {
 	}
 	nullables := fmap(ps, func(p *Pattern) bool { return p.nullable })
 	nullable := ext.nullable(nullables)
-	panic("TODO simplification")
 	return NewExtensionPattern(name, nullable, ps...), nil
 }

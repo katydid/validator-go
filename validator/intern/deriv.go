@@ -35,6 +35,10 @@ func Interpret(g *ast.Grammar, record bool, parser parser.Interface) (bool, erro
 	if err != nil {
 		return false, err
 	}
+	return derivs(c, main, parser)
+}
+
+func derivs(c Construct, main *Pattern, parser parser.Interface) (bool, error) {
 	finals, err := deriv(c, []*Pattern{main}, parser)
 	if err != nil {
 		return false, err
@@ -125,7 +129,7 @@ func derivCall(c Construct, p *Pattern) []*IfExpr {
 	case Optional:
 		return derivCall(c, p.Patterns[0])
 	case Extension:
-		panic("TODO")
+		return derivCallAll(c, p.Patterns)
 	}
 	panic(fmt.Sprintf("unknown pattern typ %d", p.Type))
 }
@@ -153,6 +157,13 @@ func DeriveReturns(c Construct, originals []*Pattern, evaluated []bool) ([]*Patt
 }
 
 func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error) {
+	rest := nulls
+	var dR = func(pattern *Pattern) (*Pattern, error) {
+		var res *Pattern
+		var err error
+		res, rest, err = derivReturn(c, pattern, rest)
+		return res, err
+	}
 	switch p.Type {
 	case Empty:
 		return c.NewNotZAny(), nulls, nil
@@ -164,12 +175,11 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		}
 		return c.NewNotZAny(), nulls[1:], nil
 	case Concat:
-		rest := nulls
 		orPatterns := make([]*Pattern, 0, len(p.Patterns))
 		var err error
 		for i := range p.Patterns {
 			var ret *Pattern
-			ret, rest, err = derivReturn(c, p.Patterns[i], rest)
+			ret, err = dR(p.Patterns[i])
 			if err != nil {
 				return nil, nil, err
 			}
@@ -185,37 +195,26 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		o, err := c.NewOr(orPatterns)
 		return o, rest, err
 	case Or:
-		rest := nulls
-		orPatterns := make([]*Pattern, len(p.Patterns))
-		var err error
-		for i := range p.Patterns {
-			orPatterns[i], rest, err = derivReturn(c, p.Patterns[i], rest)
-			if err != nil {
-				return nil, nil, err
-			}
+		orPatterns, err := traverse(p.Patterns, dR)
+		if err != nil {
+			return nil, nil, err
 		}
 		o, err := c.NewOr(orPatterns)
 		return o, rest, err
 	case And:
-		rest := nulls
-		andPatterns := make([]*Pattern, len(p.Patterns))
-		var err error
-		for i := range p.Patterns {
-			andPatterns[i], rest, err = derivReturn(c, p.Patterns[i], rest)
-			if err != nil {
-				return nil, nil, err
-			}
+		andPatterns, err := traverse(p.Patterns, dR)
+		if err != nil {
+			return nil, nil, err
 		}
 		a, err := c.NewAnd(andPatterns)
 		return a, rest, err
 	case Interleave:
-		rest := nulls
 		orPatterns := make([]*Pattern, len(p.Patterns))
 		var err error
 		for i := range p.Patterns {
 			interleaves := make([]*Pattern, len(p.Patterns))
 			copy(interleaves, p.Patterns)
-			interleaves[i], rest, err = derivReturn(c, p.Patterns[i], rest)
+			interleaves[i], err = dR(p.Patterns[i])
 			if err != nil {
 				return nil, nil, err
 			}
@@ -227,7 +226,7 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		o, err := c.NewOr(orPatterns)
 		return o, rest, err
 	case ZeroOrMore:
-		pp, rest, err := derivReturn(c, p.Patterns[0], nulls)
+		pp, err := dR(p.Patterns[0])
 		if err != nil {
 			return nil, nil, err
 		}
@@ -236,7 +235,7 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 	case Reference:
 		return derivReturn(c, c.Deref(p.Name), nulls)
 	case Not:
-		pp, rest, err := derivReturn(c, p.Patterns[0], nulls)
+		pp, err := dR(p.Patterns[0])
 		if err != nil {
 			return nil, nil, err
 		}
@@ -245,7 +244,7 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 	case Contains:
 		orPatterns := make([]*Pattern, 0, 3)
 		orPatterns = append(orPatterns, p)
-		ret, rest, err := derivReturn(c, p.Patterns[0], nulls)
+		ret, err := dR(p.Patterns[0])
 		if err != nil {
 			return nil, nil, err
 		}
@@ -260,9 +259,18 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		o, err := c.NewOr(orPatterns)
 		return o, rest, err
 	case Optional:
-		return derivReturn(c, p.Patterns[0], nulls)
+		res, err := dR(p.Patterns[0])
+		return res, rest, err
 	case Extension:
-		panic("TODO")
+		ext, err := GetExtension(p.Name)
+		if err != nil {
+			return nil, nil, err
+		}
+		ret, err := ext.derive(c, dR, p.Patterns)
+		if err != nil {
+			return nil, nil, err
+		}
+		return ret, rest, nil
 	}
 	panic(fmt.Sprintf("unknown pattern typ %d", p.Type))
 }
