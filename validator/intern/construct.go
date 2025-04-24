@@ -88,7 +88,11 @@ func (c *construct) AddGrammar(g *ast.Grammar) (*Pattern, error) {
 	// which have not been created yet.
 	c.nullRefs = make(map[string]bool)
 	for name, p := range refs {
-		c.nullRefs[name] = Nullable(refs, p)
+		var err error
+		c.nullRefs[name], err = Nullable(refs, p)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	main, err := c.AddPatternDecl("main", g.GetTopPattern())
@@ -138,7 +142,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 	}
 	if this.Concat != nil {
 		concats := getConcatsFromAST(this)
-		ps, err := traverse(c.NewPattern, concats)
+		ps, err := traverse(concats, c.NewPattern)
 		if err != nil {
 			return nil, err
 		}
@@ -146,7 +150,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 	}
 	if this.Or != nil {
 		ors := getOrsFromAST(this)
-		ps, err := traverse(c.NewPattern, ors)
+		ps, err := traverse(ors, c.NewPattern)
 		if err != nil {
 			return nil, err
 		}
@@ -154,7 +158,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 	}
 	if this.And != nil {
 		ands := getAndsFromAST(this)
-		ps, err := traverse(c.NewPattern, ands)
+		ps, err := traverse(ands, c.NewPattern)
 		if err != nil {
 			return nil, err
 		}
@@ -196,7 +200,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 	}
 	if this.Interleave != nil {
 		interleaves := getInterleavesFromAST(this)
-		ps, err := traverse(c.NewPattern, interleaves)
+		ps, err := traverse(interleaves, c.NewPattern)
 		if err != nil {
 			return nil, err
 		}
@@ -204,7 +208,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 	}
 	if this.Extension != nil {
 		extensions := getExtensionsFromAST(this, true)
-		ps, err := traverse(c.NewPattern, extensions)
+		ps, err := traverse(extensions, c.NewPattern)
 		if err != nil {
 			return nil, err
 		}
@@ -601,6 +605,12 @@ func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
 }
 
 func (c *construct) NewExtension(name string, ps []*Pattern) (*Pattern, error) {
-	// TODO
-	return NewExtensionPattern(name, false, ps...), nil
+	ext, err := GetExtension(name)
+	if err != nil {
+		return nil, err
+	}
+	nullables := fmap(ps, func(p *Pattern) bool { return p.nullable })
+	nullable := ext.nullable(nullables)
+	panic("TODO simplification")
+	return NewExtensionPattern(name, nullable, ps...), nil
 }

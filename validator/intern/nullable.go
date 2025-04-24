@@ -23,37 +23,82 @@ import (
 
 // Nullable returns whether the input Pattern p also matches the empty string.
 // This is a naive implementation and it does not handle left recursion.
-func Nullable(refs ast.RefLookup, p *ast.Pattern) bool {
+func Nullable(refs ast.RefLookup, p *ast.Pattern) (bool, error) {
 	typ := p.GetValue()
 	switch v := typ.(type) {
 	case *ast.Empty:
-		return true
+		return true, nil
 	case *ast.TreeNode:
-		return false
+		return false, nil
 	case *ast.LeafNode:
-		return false
+		return false, nil
 	case *ast.Concat:
-		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+		l, err := Nullable(refs, v.GetLeftPattern())
+		if err != nil {
+			return false, err
+		}
+		r, err := Nullable(refs, v.GetRightPattern())
+		if err != nil {
+			return false, err
+		}
+		return l && r, nil
 	case *ast.Or:
-		return Nullable(refs, v.GetLeftPattern()) || Nullable(refs, v.GetRightPattern())
+		l, err := Nullable(refs, v.GetLeftPattern())
+		if err != nil {
+			return false, err
+		}
+		r, err := Nullable(refs, v.GetRightPattern())
+		if err != nil {
+			return false, err
+		}
+		return l || r, nil
 	case *ast.And:
-		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+		l, err := Nullable(refs, v.GetLeftPattern())
+		if err != nil {
+			return false, err
+		}
+		r, err := Nullable(refs, v.GetRightPattern())
+		if err != nil {
+			return false, err
+		}
+		return l && r, nil
 	case *ast.ZeroOrMore:
-		return true
+		return true, nil
 	case *ast.Reference:
 		return Nullable(refs, refs[v.GetName()])
 	case *ast.Not:
-		return !(Nullable(refs, v.GetPattern()))
+		n, err := Nullable(refs, v.GetPattern())
+		if err != nil {
+			return false, err
+		}
+		return !n, nil
 	case *ast.ZAny:
-		return true
+		return true, nil
 	case *ast.Contains:
 		return Nullable(refs, v.GetPattern())
 	case *ast.Optional:
-		return true
+		return true, nil
 	case *ast.Interleave:
-		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+		l, err := Nullable(refs, v.GetLeftPattern())
+		if err != nil {
+			return false, err
+		}
+		r, err := Nullable(refs, v.GetRightPattern())
+		if err != nil {
+			return false, err
+		}
+		return l && r, nil
 	case *ast.Extension:
-		panic("TODO")
+		children := getExtensionsFromAST(p, true)
+		nullables, err := traverse(children, func(child *ast.Pattern) (bool, error) { return Nullable(refs, child) })
+		if err != nil {
+			return false, err
+		}
+		ext, err := GetExtension(v.Name)
+		if err != nil {
+			return false, err
+		}
+		return ext.nullable(nullables), nil
 	}
 	panic(fmt.Sprintf("unknown pattern typ %T", typ))
 }

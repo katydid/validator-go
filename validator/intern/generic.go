@@ -14,6 +14,15 @@
 
 package intern
 
+// fmap returns a list where f has been applied to each element in the list.
+func fmap[A, B any](list []A, f func(A) B) []B {
+	res := make([]B, len(list))
+	for i, _ := range list {
+		res[i] = f(list[i])
+	}
+	return res
+}
+
 // filter returns a list of all items in the list that matches the predicate.
 func filter[T any](predicate func(T) bool, list []T) []T {
 	j := 0
@@ -49,7 +58,7 @@ func areAll[T any](predicate func(T) bool, slice []T) bool {
 }
 
 // traverse returns a list where each element of the input list has been morphed by the input function or an error.
-func traverse[A, B any](f func(A) (B, error), list []A) ([]B, error) {
+func traverse[A, B any](list []A, f func(A) (B, error)) ([]B, error) {
 	out := make([]B, len(list))
 	var err error
 	for i, elem := range list {
