@@ -36,12 +36,13 @@ const ZAny = PatternType(10)
 const Contains = PatternType(11)
 const Optional = PatternType(12)
 const Interleave = PatternType(13)
+const Extension = PatternType(14)
 
 type Pattern struct {
 	Type     PatternType
 	Func     funcs.Bool
 	Patterns []*Pattern
-	Ref      string
+	Name     string
 	hash     uint64
 	nullable bool
 }
@@ -85,7 +86,18 @@ func newNodePattern(b funcs.Bool, child *Pattern) *Pattern {
 func newRefPattern(name string, nullable bool) *Pattern {
 	p := &Pattern{
 		Type:     Reference,
-		Ref:      name,
+		Name:     name,
+		nullable: nullable,
+	}
+	p.hash = makeHash(p)
+	return p
+}
+
+func NewExtensionPattern(name string, nullable bool, ps ...*Pattern) *Pattern {
+	p := &Pattern{
+		Type:     Extension,
+		Name:     name,
+		Patterns: ps,
 		nullable: nullable,
 	}
 	p.hash = makeHash(p)
@@ -129,7 +141,7 @@ func (p *Pattern) String() string {
 	case ZeroOrMore:
 		return "(" + p.Patterns[0].String() + ")*"
 	case Reference:
-		return "@" + p.Ref
+		return "@" + p.Name
 	case Not:
 		return "!(" + p.Patterns[0].String() + ")"
 	case ZAny:
@@ -140,6 +152,8 @@ func (p *Pattern) String() string {
 		return "(" + p.Patterns[0].String() + ")?"
 	case Interleave:
 		return "{" + joinPatterns(p.Patterns, "; ") + "}"
+	case Extension:
+		return "$" + p.Name + "(" + joinPatterns(p.Patterns, ", ") + ")"
 	}
 	panic(fmt.Sprintf("unknown pattern: %d", p.Type))
 }
@@ -170,7 +184,7 @@ func (p *Pattern) Equal(pp *Pattern) bool {
 			return false
 		}
 	}
-	if p.Ref != pp.Ref {
+	if p.Name != pp.Name {
 		return false
 	}
 	return true
@@ -185,8 +199,8 @@ func makeHash(p *Pattern) uint64 {
 	for _, pattern := range p.Patterns {
 		h = 31*h + pattern.hash
 	}
-	if len(p.Ref) > 0 {
-		h = 31*h + deriveHashString(p.Ref)
+	if len(p.Name) > 0 {
+		h = 31*h + deriveHashString(p.Name)
 	}
 	if h == 0 {
 		h = 1

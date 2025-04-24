@@ -381,6 +381,55 @@ func newInterleave(patterns []*Pattern) *Pattern {
 	}
 }
 
+func NewExtension(name string, patterns ...*Pattern) *Pattern {
+	switch len(patterns) {
+	case 0:
+		return &Pattern{
+			Extension: &Extension{
+				Dollar:     newDollar(),
+				Name:       name,
+				OpenParen:  newOpenParen(),
+				CloseParen: newCloseParen(),
+			},
+		}
+	case 1:
+		return &Pattern{
+			Extension: &Extension{
+				Dollar:      newDollar(),
+				Name:        name,
+				OpenParen:   newOpenParen(),
+				LeftPattern: patterns[0],
+				CloseParen:  newCloseParen(),
+			},
+		}
+	default:
+		return &Pattern{
+			Extension: &Extension{
+				Dollar:       newDollar(),
+				Name:         name,
+				OpenParen:    newOpenParen(),
+				LeftPattern:  patterns[0],
+				Comma:        newComma(),
+				RightPattern: newExtension(patterns[1:]),
+				CloseParen:   newCloseParen(),
+			},
+		}
+	}
+}
+
+func newExtension(patterns []*Pattern) *Pattern {
+	if len(patterns) == 1 {
+		return patterns[0]
+	}
+	return &Pattern{
+		Extension: &Extension{
+			LeftPattern:  patterns[0],
+			Comma:        newComma(),
+			RightPattern: newExtension(patterns[1:]),
+		},
+	}
+}
+
 // NewFunction returns a function expression given a name and a list of parameters.
 //
 //	->name(param1, param2, ...)

@@ -34,6 +34,7 @@ type Construct interface {
 	NewOr(ps []*Pattern) (*Pattern, error)
 	NewAnd(ps []*Pattern) (*Pattern, error)
 	NewInterleave(ps []*Pattern) (*Pattern, error)
+	NewExtension(name string, ps []*Pattern) (*Pattern, error)
 	NewZAny() *Pattern
 	NewEmpty() *Pattern
 	NewNotZAny() *Pattern
@@ -201,6 +202,14 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		}
 		return c.NewInterleave(ps)
 	}
+	if this.Extension != nil {
+		extensions := getExtensionsFromAST(this, true)
+		ps, err := traverse(c.NewPattern, extensions)
+		if err != nil {
+			return nil, err
+		}
+		return c.NewExtension(this.Extension.Name, ps)
+	}
 	return nil, fmt.Errorf("unknown pattern: %v", this)
 }
 
@@ -242,6 +251,17 @@ func getInterleavesFromAST(p *ast.Pattern) []*ast.Pattern {
 		return append(getInterleavesFromAST(p.Interleave.GetLeftPattern()), getInterleavesFromAST(p.Interleave.GetRightPattern())...)
 	}
 	return []*ast.Pattern{p}
+}
+
+func getExtensionsFromAST(p *ast.Pattern, top bool) []*ast.Pattern {
+	if p.Extension == nil {
+		return []*ast.Pattern{p}
+	}
+	if !top && p.Extension.Name != "" {
+		// this is a new extension operator and not the original one with started with, since it has a new name.
+		return []*ast.Pattern{p}
+	}
+	return append(getExtensionsFromAST(p.Extension.GetLeftPattern(), false), getExtensionsFromAST(p.Extension.GetRightPattern(), false)...)
 }
 
 var empty = newOpPattern(Empty)
@@ -578,4 +598,9 @@ func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
 	}
 	pp := newOpPattern(Interleave, ps...)
 	return c.checkRef(pp)
+}
+
+func (c *construct) NewExtension(name string, ps []*Pattern) (*Pattern, error) {
+	// TODO
+	return NewExtensionPattern(name, false, ps...), nil
 }

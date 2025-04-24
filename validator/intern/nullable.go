@@ -52,6 +52,8 @@ func Nullable(refs ast.RefLookup, p *ast.Pattern) bool {
 		return true
 	case *ast.Interleave:
 		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+	case *ast.Extension:
+		panic("TODO")
 	}
 	panic(fmt.Sprintf("unknown pattern typ %T", typ))
 }

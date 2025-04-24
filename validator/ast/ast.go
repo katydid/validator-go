@@ -176,6 +176,13 @@ func (m *Pattern) GetInterleave() *Interleave {
 	return nil
 }
 
+func (m *Pattern) GetExtension() *Extension {
+	if m != nil {
+		return m.Extension
+	}
+	return nil
+}
+
 func (this *Pattern) GetValue() interface{} {
 	if this.Empty != nil {
 		return this.Empty

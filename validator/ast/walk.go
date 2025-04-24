@@ -81,6 +81,9 @@ func (this *Pattern) Walk(v Visitor) {
 	if this.Interleave != nil {
 		this.GetInterleave().Walk(v)
 	}
+	if this.Extension != nil {
+		this.GetExtension().Walk(v)
+	}
 }
 
 // Walk visits the Empty pattern.
@@ -181,6 +184,16 @@ func (this *Optional) Walk(v Visitor) {
 
 // Walk visits the Interleave pattern and its child patterns.
 func (this *Interleave) Walk(v Visitor) {
+	v = v.Visit(this).(Visitor)
+	if this.LeftPattern != nil {
+		this.GetLeftPattern().Walk(v)
+	}
+	if this.RightPattern != nil {
+		this.GetRightPattern().Walk(v)
+	}
+}
+
+func (this *Extension) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.LeftPattern != nil {
 		this.GetLeftPattern().Walk(v)

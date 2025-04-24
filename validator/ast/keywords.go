@@ -151,3 +151,7 @@ func newQuestionMark() *Keyword {
 func newSemiColon() *Keyword {
 	return &Keyword{Value: ";"}
 }
+
+func newDollar() *Keyword {
+	return &Keyword{Value: "$"}
+}

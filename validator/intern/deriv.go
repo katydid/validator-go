@@ -117,13 +117,15 @@ func derivCall(c Construct, p *Pattern) []*IfExpr {
 	case ZeroOrMore:
 		return derivCall(c, p.Patterns[0])
 	case Reference:
-		return derivCall(c, c.Deref(p.Ref))
+		return derivCall(c, c.Deref(p.Name))
 	case Not:
 		return derivCall(c, p.Patterns[0])
 	case Contains:
 		return derivCall(c, p.Patterns[0])
 	case Optional:
 		return derivCall(c, p.Patterns[0])
+	case Extension:
+		panic("TODO")
 	}
 	panic(fmt.Sprintf("unknown pattern typ %d", p.Type))
 }
@@ -232,7 +234,7 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		ppp, err := c.NewConcat([]*Pattern{pp, p})
 		return ppp, rest, err
 	case Reference:
-		return derivReturn(c, c.Deref(p.Ref), nulls)
+		return derivReturn(c, c.Deref(p.Name), nulls)
 	case Not:
 		pp, rest, err := derivReturn(c, p.Patterns[0], nulls)
 		if err != nil {
@@ -259,6 +261,8 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		return o, rest, err
 	case Optional:
 		return derivReturn(c, p.Patterns[0], nulls)
+	case Extension:
+		panic("TODO")
 	}
 	panic(fmt.Sprintf("unknown pattern typ %d", p.Type))
 }

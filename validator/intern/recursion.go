@@ -73,6 +73,8 @@ func hasRecursion(visited map[*ast.Pattern]bool, refs ast.RefLookup, p *ast.Patt
 		return hasRecursion(visited, refs, v.GetPattern())
 	case *ast.Interleave:
 		return hasRecursion(visited, refs, v.GetLeftPattern()) || hasRecursion(visited, refs, v.GetRightPattern())
+	case *ast.Extension:
+		return hasRecursion(visited, refs, v.GetLeftPattern()) || hasRecursion(visited, refs, v.GetRightPattern())
 	}
 	panic(fmt.Sprintf("unknown pattern typ %T", typ))
 }
