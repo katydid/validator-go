@@ -4,6 +4,7 @@ package funcs
 import (
 	"bytes"
 	"github.com/katydid/validator-go/validator/ast"
+	"strings"
 )
 
 type doubleGE struct {
@@ -191,6 +192,70 @@ func init() {
 // UintGE returns a new greater than or equal function.
 func UintGE(a, b Uint) Bool {
 	return TrimBool(&uintGE{
+		V1:          a,
+		V2:          b,
+		hash:        hashWithId(3294, a, b),
+		hasVariable: a.HasVariable() || b.HasVariable(),
+	})
+}
+
+type stringGE struct {
+	V1          String
+	V2          String
+	hash        uint64
+	hasVariable bool
+}
+
+func (this *stringGE) Eval() (bool, error) {
+	v1, err := this.V1.Eval()
+	if err != nil {
+		return false, nil
+	}
+	v2, err := this.V2.Eval()
+	if err != nil {
+		return false, nil
+	}
+	return strings.Compare(v1, v2) >= 0, nil
+}
+
+func (this *stringGE) Compare(that Comparable) int {
+	if this.Hash() != that.Hash() {
+		if this.Hash() < that.Hash() {
+			return -1
+		}
+		return 1
+	}
+	if other, ok := that.(*stringGE); ok {
+		if c := this.V1.Compare(other.V1); c != 0 {
+			return c
+		}
+		if c := this.V2.Compare(other.V2); c != 0 {
+			return c
+		}
+		return 0
+	}
+	return this.ToExpr().Compare(that.ToExpr())
+}
+
+func (this *stringGE) ToExpr() *ast.Expr {
+	return ast.NewFunction("ge", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
+func (this *stringGE) HasVariable() bool {
+	return this.hasVariable
+}
+
+func (this *stringGE) Hash() uint64 {
+	return this.hash
+}
+
+func init() {
+	Register("ge", StringGE)
+}
+
+// StringGE returns a new greater than or equal function.
+func StringGE(a, b String) Bool {
+	return TrimBool(&stringGE{
 		V1:          a,
 		V2:          b,
 		hash:        hashWithId(3294, a, b),
@@ -454,6 +519,70 @@ func UintGt(a, b Uint) Bool {
 	})
 }
 
+type stringGt struct {
+	V1          String
+	V2          String
+	hash        uint64
+	hasVariable bool
+}
+
+func (this *stringGt) Eval() (bool, error) {
+	v1, err := this.V1.Eval()
+	if err != nil {
+		return false, nil
+	}
+	v2, err := this.V2.Eval()
+	if err != nil {
+		return false, nil
+	}
+	return strings.Compare(v1, v2) > 0, nil
+}
+
+func (this *stringGt) Compare(that Comparable) int {
+	if this.Hash() != that.Hash() {
+		if this.Hash() < that.Hash() {
+			return -1
+		}
+		return 1
+	}
+	if other, ok := that.(*stringGt); ok {
+		if c := this.V1.Compare(other.V1); c != 0 {
+			return c
+		}
+		if c := this.V2.Compare(other.V2); c != 0 {
+			return c
+		}
+		return 0
+	}
+	return this.ToExpr().Compare(that.ToExpr())
+}
+
+func (this *stringGt) ToExpr() *ast.Expr {
+	return ast.NewFunction("gt", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
+func (this *stringGt) HasVariable() bool {
+	return this.hasVariable
+}
+
+func (this *stringGt) Hash() uint64 {
+	return this.hash
+}
+
+func init() {
+	Register("gt", StringGt)
+}
+
+// StringGt returns a new greater than function.
+func StringGt(a, b String) Bool {
+	return TrimBool(&stringGt{
+		V1:          a,
+		V2:          b,
+		hash:        hashWithId(3309, a, b),
+		hasVariable: a.HasVariable() || b.HasVariable(),
+	})
+}
+
 type bytesGt struct {
 	V1          Bytes
 	V2          Bytes
@@ -710,6 +839,70 @@ func UintLE(a, b Uint) Bool {
 	})
 }
 
+type stringLE struct {
+	V1          String
+	V2          String
+	hash        uint64
+	hasVariable bool
+}
+
+func (this *stringLE) Eval() (bool, error) {
+	v1, err := this.V1.Eval()
+	if err != nil {
+		return false, nil
+	}
+	v2, err := this.V2.Eval()
+	if err != nil {
+		return false, nil
+	}
+	return strings.Compare(v1, v2) <= 0, nil
+}
+
+func (this *stringLE) Compare(that Comparable) int {
+	if this.Hash() != that.Hash() {
+		if this.Hash() < that.Hash() {
+			return -1
+		}
+		return 1
+	}
+	if other, ok := that.(*stringLE); ok {
+		if c := this.V1.Compare(other.V1); c != 0 {
+			return c
+		}
+		if c := this.V2.Compare(other.V2); c != 0 {
+			return c
+		}
+		return 0
+	}
+	return this.ToExpr().Compare(that.ToExpr())
+}
+
+func (this *stringLE) ToExpr() *ast.Expr {
+	return ast.NewFunction("le", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
+func (this *stringLE) HasVariable() bool {
+	return this.hasVariable
+}
+
+func (this *stringLE) Hash() uint64 {
+	return this.hash
+}
+
+func init() {
+	Register("le", StringLE)
+}
+
+// StringLE returns a new less than or equal function.
+func StringLE(a, b String) Bool {
+	return TrimBool(&stringLE{
+		V1:          a,
+		V2:          b,
+		hash:        hashWithId(3449, a, b),
+		hasVariable: a.HasVariable() || b.HasVariable(),
+	})
+}
+
 type bytesLE struct {
 	V1          Bytes
 	V2          Bytes
@@ -959,6 +1152,70 @@ func init() {
 // UintLt returns a new less than function.
 func UintLt(a, b Uint) Bool {
 	return TrimBool(&uintLt{
+		V1:          a,
+		V2:          b,
+		hash:        hashWithId(3464, a, b),
+		hasVariable: a.HasVariable() || b.HasVariable(),
+	})
+}
+
+type stringLt struct {
+	V1          String
+	V2          String
+	hash        uint64
+	hasVariable bool
+}
+
+func (this *stringLt) Eval() (bool, error) {
+	v1, err := this.V1.Eval()
+	if err != nil {
+		return false, nil
+	}
+	v2, err := this.V2.Eval()
+	if err != nil {
+		return false, nil
+	}
+	return strings.Compare(v1, v2) < 0, nil
+}
+
+func (this *stringLt) Compare(that Comparable) int {
+	if this.Hash() != that.Hash() {
+		if this.Hash() < that.Hash() {
+			return -1
+		}
+		return 1
+	}
+	if other, ok := that.(*stringLt); ok {
+		if c := this.V1.Compare(other.V1); c != 0 {
+			return c
+		}
+		if c := this.V2.Compare(other.V2); c != 0 {
+			return c
+		}
+		return 0
+	}
+	return this.ToExpr().Compare(that.ToExpr())
+}
+
+func (this *stringLt) ToExpr() *ast.Expr {
+	return ast.NewFunction("lt", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
+func (this *stringLt) HasVariable() bool {
+	return this.hasVariable
+}
+
+func (this *stringLt) Hash() uint64 {
+	return this.hash
+}
+
+func init() {
+	Register("lt", StringLt)
+}
+
+// StringLt returns a new less than function.
+func StringLt(a, b String) Bool {
+	return TrimBool(&stringLt{
 		V1:          a,
 		V2:          b,
 		hash:        hashWithId(3464, a, b),
