@@ -15,13 +15,15 @@
 package testsuite
 
 import (
+	gojson "encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+	goreflect "reflect"
 	"strings"
 
 	"github.com/katydid/parser-go-json/json"
+	"github.com/katydid/parser-go-reflect/reflect"
 	"github.com/katydid/parser-go-xml/xml"
 	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator"
@@ -67,7 +69,7 @@ func BenchSuiteExists() (bool, error) {
 
 func getFolders(path string) (map[string][]string, error) {
 	folders := make(map[string][]string)
-	codecFileInfos, err := ioutil.ReadDir(path)
+	codecFileInfos, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +79,7 @@ func getFolders(path string) (map[string][]string, error) {
 		}
 		codecFolderName := codecFileInfo.Name()
 		codecPath := filepath.Join(path, codecFolderName)
-		caseDirInfos, err := ioutil.ReadDir(codecPath)
+		caseDirInfos, err := os.ReadDir(codecPath)
 		if err != nil {
 			return nil, err
 		}
@@ -100,7 +102,7 @@ func ReadTestSuite() ([]Test, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "json", "xml":
+		case "json", "xml", "goreflect":
 		default:
 			// codec not supported
 			continue
@@ -124,7 +126,7 @@ func ReadBenchmarkSuite() ([]Bench, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "json", "xml":
+		case "json", "xml", "goreflect":
 		default:
 			// codec not supported
 			continue
@@ -154,7 +156,7 @@ func readTestFolder(path string) (*Test, error) {
 	if err != nil {
 		return nil, err
 	}
-	fileInfos, err := ioutil.ReadDir(path)
+	fileInfos, err := os.ReadDir(path)
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading folder <%s>", err, path)
 	}
@@ -183,6 +185,11 @@ func readTestFolder(path string) (*Test, error) {
 			}
 		case "xml":
 			p, err = newXMLParser(filename)
+			if err != nil {
+				return nil, err
+			}
+		case "goreflect":
+			p, err = newReflectParser(filename)
 			if err != nil {
 				return nil, err
 			}
@@ -272,6 +279,12 @@ func readBenchFolder(path string) (*Bench, error) {
 				return nil, err
 			}
 			parsers = append(parsers, p)
+		case "goreflect":
+			p, err := newReflectParser(filename)
+			if err != nil {
+				return nil, err
+			}
+			parsers = append(parsers, p)
 		default:
 			// unsupported codec
 			continue
@@ -293,7 +306,7 @@ func capFirst(s string) string {
 
 func readGrammar(path string) (*ast.Grammar, error) {
 	validatorTxt := filepath.Join(path, "validator.txt")
-	validatorBytes, err := ioutil.ReadFile(validatorTxt)
+	validatorBytes, err := os.ReadFile(validatorTxt)
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading file <%s>", err, validatorTxt)
 	}
@@ -305,7 +318,7 @@ func readGrammar(path string) (*ast.Grammar, error) {
 }
 
 func newXMLParser(filename string) (ResetParser, error) {
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
 	}
@@ -317,7 +330,7 @@ func newXMLParser(filename string) (ResetParser, error) {
 }
 
 func newJsonParser(filename string) (ResetParser, error) {
-	bytes, err := ioutil.ReadFile(filename)
+	bytes, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
 	}
@@ -326,4 +339,33 @@ func newJsonParser(filename string) (ResetParser, error) {
 		return nil, fmt.Errorf("err <%v> parser.Init with bytes from filename <%s>", err, filename)
 	}
 	return newResetParser(j, bytes), nil
+}
+
+type resetReflectParser struct {
+	reflect.ReflectParser
+	v goreflect.Value
+}
+
+func (r *resetReflectParser) Reset() error {
+	r.ReflectParser.Init(r.v)
+	return nil
+}
+
+func newResetReflectParser(p reflect.ReflectParser, v goreflect.Value) ResetParser {
+	return &resetReflectParser{ReflectParser: p, v: v}
+}
+
+func newReflectParser(filename string) (ResetParser, error) {
+	bytes, err := os.ReadFile(filename)
+	if err != nil {
+		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
+	}
+	v := make(map[string]any)
+	if err := gojson.Unmarshal(bytes, &v); err != nil {
+		return nil, fmt.Errorf("err <%v> unmarshaling json from <%s>", err, filename)
+	}
+	rv := goreflect.ValueOf(v)
+	p := reflect.NewReflectParser(reflect.WithJsonNumber)
+	p.Init(rv)
+	return newResetReflectParser(p, rv), nil
 }
