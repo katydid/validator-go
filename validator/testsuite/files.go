@@ -341,20 +341,6 @@ func newJsonParser(filename string) (ResetParser, error) {
 	return newResetParser(j, bytes), nil
 }
 
-type resetReflectParser struct {
-	reflect.ReflectParser
-	v goreflect.Value
-}
-
-func (r *resetReflectParser) Reset() error {
-	r.ReflectParser.Init(r.v)
-	return nil
-}
-
-func newResetReflectParser(p reflect.ReflectParser, v goreflect.Value) ResetParser {
-	return &resetReflectParser{ReflectParser: p, v: v}
-}
-
 func newReflectParser(filename string) (ResetParser, error) {
 	bytes, err := os.ReadFile(filename)
 	if err != nil {
@@ -367,5 +353,5 @@ func newReflectParser(filename string) (ResetParser, error) {
 	rv := goreflect.ValueOf(v)
 	p := reflect.NewReflectParser(reflect.WithJsonNumber)
 	p.Init(rv)
-	return newResetReflectParser(p, rv), nil
+	return p, nil
 }

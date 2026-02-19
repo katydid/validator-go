@@ -9,7 +9,7 @@ tool github.com/goccmack/gocc
 require (
 	github.com/katydid/parser-go v0.7.9
 	github.com/katydid/parser-go-json v0.3.0
-	github.com/katydid/parser-go-reflect v0.1.4
+	github.com/katydid/parser-go-reflect v0.1.5
 	github.com/katydid/parser-go-xml v0.1.1
 )
 
