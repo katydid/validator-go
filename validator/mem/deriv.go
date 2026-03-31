@@ -21,6 +21,19 @@ import (
 	"github.com/katydid/validator-go/validator/intern"
 )
 
+func derivEnter(mem *Mem, patterns int, tree parser.Interface) (int, int, error) {
+	callTree, err := mem.GetCall(patterns)
+	if err != nil {
+		return 0, 0, err
+	}
+	return mem.eval(callTree, tree)
+}
+
+func derivLeave(mem *Mem, patterns int, childPatterns int, zipIndex int) (int, error) {
+	nullIndex := mem.states.Get(childPatterns).NullIndex
+	return mem.GetReturn(patterns, zipIndex, nullIndex)
+}
+
 func deriv(mem *Mem, patterns int, tree parser.Interface) (int, error) {
 	for {
 		if !mem.states.Get(patterns).IsEscapable() {
@@ -33,11 +46,7 @@ func deriv(mem *Mem, patterns int, tree parser.Interface) (int, error) {
 				return 0, err
 			}
 		}
-		callTree, err := mem.GetCall(patterns)
-		if err != nil {
-			return 0, err
-		}
-		childPatterns, zipIndex, err := mem.eval(callTree, tree)
+		childPatterns, zipIndex, err := derivEnter(mem, patterns, tree)
 		if err != nil {
 			return 0, err
 		}
@@ -49,8 +58,7 @@ func deriv(mem *Mem, patterns int, tree parser.Interface) (int, error) {
 			}
 			tree.Up()
 		}
-		nullIndex := mem.states.Get(childPatterns).NullIndex
-		patterns, err = mem.GetReturn(patterns, zipIndex, nullIndex)
+		patterns, err = derivLeave(mem, patterns, childPatterns, zipIndex)
 		if err != nil {
 			return 0, err
 		}

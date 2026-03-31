@@ -42,6 +42,22 @@ func Interpret(g *ast.Grammar, record bool, parser parser.Interface) (bool, erro
 	return finals[0].nullable, nil
 }
 
+func derivEnter(c Construct, patterns []*Pattern, tree parser.Interface) (*ZippedPatterns, error) {
+	ifs := DeriveCalls(c, patterns)
+	childPatterns, err := evalIfExprs(ifs, tree)
+	if err != nil {
+		return nil, err
+	}
+	z, _ := Zip(childPatterns)
+	return z, nil
+}
+
+func derivLeave(c Construct, patterns []*Pattern, z *ZippedPatterns) ([]*Pattern, error) {
+	unzipped := z.Unzip()
+	nulls := nullables(unzipped)
+	return DeriveReturns(c, patterns, nulls)
+}
+
 func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern, error) {
 	var resPatterns []*Pattern = patterns
 	for {
@@ -55,8 +71,7 @@ func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern,
 				return nil, err
 			}
 		}
-		ifs := DeriveCalls(c, resPatterns)
-		childPatterns, err := evalIfExprs(ifs, tree)
+		z, err := derivEnter(c, resPatterns, tree)
 		if err != nil {
 			return nil, err
 		}
@@ -64,16 +79,13 @@ func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern,
 			//do nothing
 		} else {
 			tree.Down()
-			z, _ := Zip(childPatterns)
 			z.Patterns, err = deriv(c, z.Patterns, tree)
 			if err != nil {
 				return nil, err
 			}
-			childPatterns = z.Unzip()
 			tree.Up()
 		}
-		nulls := nullables(childPatterns)
-		resPatterns, err = DeriveReturns(c, resPatterns, nulls)
+		resPatterns, err = derivLeave(c, resPatterns, z)
 		if err != nil {
 			return nil, err
 		}

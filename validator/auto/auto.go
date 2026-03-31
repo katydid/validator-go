@@ -47,6 +47,16 @@ func (auto *Auto) MetricNumberOfStates() int {
 	return len(auto.accept)
 }
 
+func derivEnter(auto *Auto, current int, tree parser.Interface) (int, int, error) {
+	callTree := auto.calls[current]
+	return callTree.eval(tree)
+}
+
+func derivLeave(auto *Auto, childState int, stackElm int) int {
+	nullIndex := auto.stateToNullable[childState]
+	return auto.returns[stackElm][nullIndex]
+}
+
 func deriv(auto *Auto, current int, tree parser.Interface) (int, error) {
 	for {
 		if !auto.escapables[current] {
@@ -59,8 +69,7 @@ func deriv(auto *Auto, current int, tree parser.Interface) (int, error) {
 				return 0, err
 			}
 		}
-		callTree := auto.calls[current]
-		childState, stackElm, err := callTree.eval(tree)
+		childState, stackElm, err := derivEnter(auto, current, tree)
 		if err != nil {
 			return 0, err
 		}
@@ -72,8 +81,7 @@ func deriv(auto *Auto, current int, tree parser.Interface) (int, error) {
 			}
 			tree.Up()
 		}
-		nullIndex := auto.stateToNullable[childState]
-		current = auto.returns[stackElm][nullIndex]
+		current = derivLeave(auto, childState, stackElm)
 	}
 	return current, nil
 }
