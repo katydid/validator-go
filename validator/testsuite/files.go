@@ -24,7 +24,6 @@ import (
 
 	"github.com/katydid/parser-go-json/json"
 	"github.com/katydid/parser-go-reflect/reflect"
-	"github.com/katydid/parser-go-xml/xml"
 	"github.com/katydid/parser-go/parser"
 	"github.com/katydid/validator-go/validator"
 	"github.com/katydid/validator-go/validator/ast"
@@ -102,7 +101,7 @@ func ReadTestSuite() ([]Test, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "json", "xml", "goreflect":
+		case "json", "goreflect":
 		default:
 			// codec not supported
 			continue
@@ -126,7 +125,7 @@ func ReadBenchmarkSuite() ([]Bench, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "json", "xml", "goreflect":
+		case "json", "goreflect":
 		default:
 			// codec not supported
 			continue
@@ -180,11 +179,6 @@ func readTestFolder(path string) (*Test, error) {
 		switch codecName {
 		case "json":
 			p, err = newJsonParser(filename)
-			if err != nil {
-				return nil, err
-			}
-		case "xml":
-			p, err = newXMLParser(filename)
 			if err != nil {
 				return nil, err
 			}
@@ -273,12 +267,6 @@ func readBenchFolder(path string) (*Bench, error) {
 				return nil, err
 			}
 			parsers = append(parsers, p)
-		case "xml":
-			p, err := newXMLParser(filename)
-			if err != nil {
-				return nil, err
-			}
-			parsers = append(parsers, p)
 		case "goreflect":
 			p, err := newReflectParser(filename)
 			if err != nil {
@@ -315,18 +303,6 @@ func readGrammar(path string) (*ast.Grammar, error) {
 		return nil, fmt.Errorf("err <%v> parsing grammar from file <%s>", err, validatorTxt)
 	}
 	return g, nil
-}
-
-func newXMLParser(filename string) (ResetParser, error) {
-	bytes, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
-	}
-	x := xml.NewXMLParser()
-	if err := x.Init(bytes); err != nil {
-		return nil, fmt.Errorf("err <%v> parser.Init with bytes from filename <%s>", err, filename)
-	}
-	return x, nil
 }
 
 func newJsonParser(filename string) (ResetParser, error) {
