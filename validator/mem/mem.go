@@ -16,7 +16,7 @@
 package mem
 
 import (
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
@@ -57,7 +57,7 @@ func new(g *ast.Grammar, record bool) (*Mem, error) {
 // The intermediate results are memoized to help with the speed of future executions.
 //
 // NOTE: This is a naive implementation and it does not handle left recursion.
-func (mem *Mem) Validate(p parser.Interface) (bool, error) {
+func (mem *Mem) Validate(p parse.Parser) (bool, error) {
 	final, err := deriv(mem, mem.start, p)
 	if err != nil {
 		return false, err

@@ -38,9 +38,7 @@ func BenchmarkSuite(b *testing.B) {
 			num := len(benchCase.Parsers)
 			b.ResetTimer()
 			for i := 0; i < b.N; i++ {
-				if err := benchCase.Parsers[i%num].Reset(); err != nil {
-					b.Fatal(err)
-				}
+				benchCase.Parsers[i%num].Reset()
 				if _, err := intern.Interpret(benchCase.Grammar, benchCase.Record, benchCase.Parsers[i%num]); err != nil {
 					b.Fatal(err)
 				}

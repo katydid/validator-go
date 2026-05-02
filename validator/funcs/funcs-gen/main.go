@@ -596,7 +596,7 @@ func (this *ranger) Hash() uint64 {
 
 const variableStr = `
 type var{{.Name}} struct {
-	Value parser.Value
+	Value parse.Token
 	hash uint64
 }
 
@@ -607,17 +607,6 @@ type ErrNot{{.Name}}Const struct {}
 
 func (this ErrNot{{.Name}}Const) Error() string {
 	return "${{.Decode}} is not a const"
-}
-
-func (this *var{{.Name}}) Eval() ({{.GoType}}, error) {
-	if this.Value == nil {
-		return {{.Default}}, ErrNot{{.Name}}Const{}
-	}
-	v, err := this.Value.{{.Name}}()
-	if err != nil {
-		return {{.Default}}, err
-	}
-	return v, nil
 }
 
 func (this *var{{.Name}}) Compare(that Comparable) int {
@@ -641,7 +630,7 @@ func (this *var{{.Name}}) HasVariable() bool { return true }
 
 func (this *var{{.Name}}) isVariable() {}
 
-func (this *var{{.Name}}) SetValue(v parser.Value) {
+func (this *var{{.Name}}) SetValue(v parse.Token) {
 	this.Value = v
 }
 
@@ -935,7 +924,7 @@ func main() {
 		&varer{"Bool", "bool", "bool", "false"},
 		&varer{"String", "string", "string", `""`},
 		&varer{"Bytes", "[]byte", "[]byte", "nil"},
-	}, `"github.com/katydid/parser-go/parser"`, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"github.com/katydid/parser-go/parse"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(typStr, "type.gen.go", []interface{}{
 		&typer{"Double"},
 		&typer{"Int"},

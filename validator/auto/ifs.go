@@ -15,7 +15,7 @@
 package auto
 
 import (
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
@@ -55,7 +55,7 @@ func compileIfExprs(ifs []*intern.IfExpr) *ifExprs {
 	return root
 }
 
-func (this *ifExprs) eval(label parser.Value) ([]*intern.Pattern, error) {
+func (this *ifExprs) eval(label parse.Token) ([]*intern.Pattern, error) {
 	if this.ret != nil {
 		return this.ret, nil
 	}

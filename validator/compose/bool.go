@@ -17,19 +17,19 @@ package compose
 import (
 	"reflect"
 
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/funcs"
 )
 
 // Bool is an interface that represents a function, that given a value for a variable returns a boolean or an error.
 type Bool interface {
-	Eval(parser.Value) (bool, error)
+	Eval(parse.Token) (bool, error)
 }
 
 // Setter is an interface that represents a variable in a function of which the value can be set.
 type Setter interface {
-	SetValue(parser.Value)
+	SetValue(parse.Token)
 }
 
 type composedBool struct {
@@ -70,7 +70,7 @@ func NewBoolFunc(f funcs.Bool) (Bool, error) {
 }
 
 // Eval evaluates the function given a value.
-func (this *composedBool) Eval(val parser.Value) (bool, error) {
+func (this *composedBool) Eval(val parse.Token) (bool, error) {
 	for _, s := range this.Setters {
 		s.SetValue(val)
 	}

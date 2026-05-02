@@ -7,7 +7,7 @@ tool github.com/awalterschulze/goderive
 tool github.com/goccmack/gocc
 
 require (
-	github.com/katydid/parser-go v0.8.0
+	github.com/katydid/parser-go v0.8.2
 	github.com/katydid/parser-go-json v0.4.0
 	github.com/katydid/parser-go-reflect v0.2.0
 )

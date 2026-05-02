@@ -19,9 +19,10 @@
 package auto
 
 import (
+	"errors"
 	"io"
 
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 )
 
 // Auto is the structure that represents the automaton.
@@ -35,7 +36,7 @@ type Auto struct {
 }
 
 // Validate executes an automaton with the given parser and returns whether the parser is valid given the automaton's original grammar.
-func (auto *Auto) Validate(p parser.Interface) (bool, error) {
+func (auto *Auto) Validate(p parse.Parser) (bool, error) {
 	final, err := deriv(auto, auto.start, p)
 	if err != nil {
 		return false, err
@@ -47,7 +48,7 @@ func (auto *Auto) MetricNumberOfStates() int {
 	return len(auto.accept)
 }
 
-func derivEnter(auto *Auto, current int, tree parser.Interface) (int, int, error) {
+func derivEnter(auto *Auto, current int, tree parse.Parser) (int, int, error) {
 	callTree := auto.calls[current]
 	return callTree.eval(tree)
 }
@@ -57,31 +58,70 @@ func derivLeave(auto *Auto, childState int, stackElm int) int {
 	return auto.returns[stackElm][nullIndex]
 }
 
-func deriv(auto *Auto, current int, tree parser.Interface) (int, error) {
+func derivValue(auto *Auto, patterns int, tree parse.Parser) (int, error) {
+	childState, stackElm, err := derivEnter(auto, patterns, tree)
+	if err != nil {
+		return 0, err
+	}
+	return derivLeave(auto, childState, stackElm), nil
+}
+
+var errUnknownHint = errors.New("unknonw hint")
+
+var errUnknownFieldHint = errors.New("unknonw field hint")
+
+func deriv(auto *Auto, current int, tree parse.Parser) (int, error) {
 	for {
 		if !auto.escapables[current] {
+			tree.Skip()
 			return current, nil
 		}
-		if err := tree.Next(); err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				return 0, err
-			}
-		}
-		childState, stackElm, err := derivEnter(auto, current, tree)
+		hint, err := tree.Next()
 		if err != nil {
+			if err == io.EOF {
+				return current, nil
+			}
 			return 0, err
 		}
-		if !tree.IsLeaf() {
-			tree.Down()
-			childState, err = deriv(auto, childState, tree)
+		switch hint {
+		case parse.EnterHint:
+			// derive children, until a LeaveHint and then derive the Next
+			current, err = deriv(auto, current, tree)
 			if err != nil {
 				return 0, err
 			}
-			tree.Up()
+		case parse.LeaveHint:
+			return current, nil
+		case parse.FieldHint:
+			childState, stackElm, err := derivEnter(auto, current, tree)
+			if err != nil {
+				return 0, err
+			}
+			childHint, err := tree.Next()
+			switch childHint {
+			case parse.EnterHint:
+				childState, err = deriv(auto, childState, tree)
+				if err != nil {
+					return 0, err
+				}
+			case parse.ValueHint:
+				childState, err = derivValue(auto, childState, tree)
+				if err != nil {
+					return 0, err
+				}
+			default:
+				return 0, errUnknownFieldHint
+			}
+			current = derivLeave(auto, childState, stackElm)
+		case parse.ValueHint:
+			// derive value and then derive the Next
+			current, err = derivValue(auto, current, tree)
+			if err != nil {
+				return 0, err
+			}
+
+		case parse.UnknownHint:
+			return 0, errUnknownHint
 		}
-		current = derivLeave(auto, childState, stackElm)
 	}
-	return current, nil
 }

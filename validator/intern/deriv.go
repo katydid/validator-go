@@ -15,10 +15,11 @@
 package intern
 
 import (
+	"errors"
 	"fmt"
 	"io"
 
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/ast"
 )
 
@@ -26,7 +27,7 @@ import (
 // Interpret uses derivatives and simplification to recusively derive the resulting grammar.
 // This resulting grammar's nullability then represents the result of the function.
 // This implementation does not handle immediate recursion, see the HasRecursion function.
-func Interpret(g *ast.Grammar, record bool, parser parser.Interface) (bool, error) {
+func Interpret(g *ast.Grammar, record bool, parser parse.Parser) (bool, error) {
 	c := NewConstructor()
 	if record {
 		c = NewConstructorOptimizedForRecords()
@@ -42,7 +43,7 @@ func Interpret(g *ast.Grammar, record bool, parser parser.Interface) (bool, erro
 	return finals[0].nullable, nil
 }
 
-func derivEnter(c Construct, patterns []*Pattern, tree parser.Interface) (*ZippedPatterns, error) {
+func derivEnter(c Construct, patterns []*Pattern, tree parse.Parser) (*ZippedPatterns, error) {
 	ifs := DeriveCalls(c, patterns)
 	childPatterns, err := evalIfExprs(ifs, tree)
 	if err != nil {
@@ -58,39 +59,79 @@ func derivLeave(c Construct, patterns []*Pattern, z *ZippedPatterns) ([]*Pattern
 	return DeriveReturns(c, patterns, nulls)
 }
 
-func deriv(c Construct, patterns []*Pattern, tree parser.Interface) ([]*Pattern, error) {
+func derivValue(c Construct, patterns []*Pattern, tree parse.Parser) ([]*Pattern, error) {
+	zipped, err := derivEnter(c, patterns, tree)
+	if err != nil {
+		return nil, err
+	}
+	return derivLeave(c, patterns, zipped)
+}
+
+var errUnknownHint = errors.New("unknonw hint")
+
+var errUnknownFieldHint = errors.New("unknonw field hint")
+
+func deriv(c Construct, patterns []*Pattern, tree parse.Parser) ([]*Pattern, error) {
 	var resPatterns []*Pattern = patterns
 	for {
 		if !Escapable(resPatterns) {
+			tree.Skip()
 			return resPatterns, nil
 		}
-		if err := tree.Next(); err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				return nil, err
-			}
-		}
-		z, err := derivEnter(c, resPatterns, tree)
+		hint, err := tree.Next()
 		if err != nil {
+			if err == io.EOF {
+				return resPatterns, nil
+			}
 			return nil, err
 		}
-		if tree.IsLeaf() {
-			//do nothing
-		} else {
-			tree.Down()
-			z.Patterns, err = deriv(c, z.Patterns, tree)
+		switch hint {
+		case parse.EnterHint:
+			// derive children, until a LeaveHint and then derive the Next
+			resPatterns, err = deriv(c, resPatterns, tree)
 			if err != nil {
 				return nil, err
 			}
-			tree.Up()
-		}
-		resPatterns, err = derivLeave(c, resPatterns, z)
-		if err != nil {
-			return nil, err
+		case parse.LeaveHint:
+			return resPatterns, nil
+		case parse.FieldHint:
+			childPatterns, err := derivEnter(c, resPatterns, tree)
+			if err != nil {
+				return nil, err
+			}
+			childHint, err := tree.Next()
+			if err != nil {
+				return nil, err
+			}
+			switch childHint {
+			case parse.EnterHint:
+				childPatterns.Patterns, err = deriv(c, childPatterns.Patterns, tree)
+				if err != nil {
+					return nil, err
+				}
+			case parse.ValueHint:
+				childPatterns.Patterns, err = derivValue(c, childPatterns.Patterns, tree)
+				if err != nil {
+					return nil, err
+				}
+			default:
+				return nil, errUnknownFieldHint
+			}
+			resPatterns, err = derivLeave(c, resPatterns, childPatterns)
+			if err != nil {
+				return nil, err
+			}
+		case parse.ValueHint:
+			// derive value and then derive the Next
+			resPatterns, err = derivValue(c, resPatterns, tree)
+			if err != nil {
+				return nil, err
+			}
+
+		case parse.UnknownHint:
+			return nil, errUnknownHint
 		}
 	}
-	return resPatterns, nil
 }
 
 func DeriveCalls(construct Construct, patterns []*Pattern) []*IfExpr {

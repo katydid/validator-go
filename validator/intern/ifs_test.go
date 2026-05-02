@@ -18,8 +18,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/katydid/parser-go/parser"
-	"github.com/katydid/parser-go/parser/debug"
+	"github.com/katydid/parser-go/parse"
+	"github.com/katydid/parser-go/parse/debug"
 	"github.com/katydid/validator-go/validator/funcs"
 	"github.com/katydid/validator-go/validator/intern"
 )
@@ -32,7 +32,7 @@ var (
 	set     = intern.NewSetOfPatterns()
 )
 
-func eval(ifs *intern.IfExprs, value parser.Value) ([]*intern.Pattern, error) {
+func eval(ifs *intern.IfExprs, value parse.Token) ([]*intern.Pattern, error) {
 	state, err := ifs.Eval(set, value)
 	if err != nil {
 		return nil, err
