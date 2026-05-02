@@ -18,7 +18,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/katydid/parser-go/parser/debug"
+	"github.com/katydid/parser-go/parse/debug"
 	"github.com/katydid/validator-go/validator/ast"
 )
 

@@ -15,13 +15,14 @@
 package mem
 
 import (
+	"errors"
 	"io"
 
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/intern"
 )
 
-func derivEnter(mem *Mem, patterns int, tree parser.Interface) (int, int, error) {
+func derivEnter(mem *Mem, patterns int, tree parse.Parser) (int, int, error) {
 	callTree, err := mem.GetCall(patterns)
 	if err != nil {
 		return 0, 0, err
@@ -34,39 +35,78 @@ func derivLeave(mem *Mem, patterns int, childPatterns int, zipIndex int) (int, e
 	return mem.GetReturn(patterns, zipIndex, nullIndex)
 }
 
-func deriv(mem *Mem, patterns int, tree parser.Interface) (int, error) {
+func derivValue(mem *Mem, patterns int, tree parse.Parser) (int, error) {
+	childPatterns, zipIndex, err := derivEnter(mem, patterns, tree)
+	if err != nil {
+		return 0, err
+	}
+	return derivLeave(mem, patterns, childPatterns, zipIndex)
+}
+
+var errUnknownHint = errors.New("unknonw hint")
+
+var errUnknownFieldHint = errors.New("unknonw field hint")
+
+func deriv(mem *Mem, patterns int, tree parse.Parser) (int, error) {
 	for {
 		if !mem.states.Get(patterns).IsEscapable() {
+			tree.Skip()
 			return patterns, nil
 		}
-		if err := tree.Next(); err != nil {
-			if err == io.EOF {
-				break
-			} else {
-				return 0, err
-			}
-		}
-		childPatterns, zipIndex, err := derivEnter(mem, patterns, tree)
+		hint, err := tree.Next()
 		if err != nil {
+			if err == io.EOF {
+				return patterns, nil
+			}
 			return 0, err
 		}
-		if !tree.IsLeaf() {
-			tree.Down()
-			childPatterns, err = deriv(mem, childPatterns, tree)
+		switch hint {
+		case parse.EnterHint:
+			// derive children, until a LeaveHint and then derive the Next
+			patterns, err = deriv(mem, patterns, tree)
 			if err != nil {
 				return 0, err
 			}
-			tree.Up()
-		}
-		patterns, err = derivLeave(mem, patterns, childPatterns, zipIndex)
-		if err != nil {
-			return 0, err
+		case parse.LeaveHint:
+			return patterns, nil
+		case parse.FieldHint:
+			childPatterns, zipIndex, err := derivEnter(mem, patterns, tree)
+			if err != nil {
+				return 0, err
+			}
+			childHint, err := tree.Next()
+			switch childHint {
+			case parse.EnterHint:
+				childPatterns, err = deriv(mem, childPatterns, tree)
+				if err != nil {
+					return 0, err
+				}
+			case parse.ValueHint:
+				childPatterns, err = derivValue(mem, childPatterns, tree)
+				if err != nil {
+					return 0, err
+				}
+			default:
+				return 0, errUnknownFieldHint
+			}
+			patterns, err = derivLeave(mem, patterns, childPatterns, zipIndex)
+			if err != nil {
+				return 0, err
+			}
+		case parse.ValueHint:
+			// derive value and then derive the Next
+			patterns, err = derivValue(mem, patterns, tree)
+			if err != nil {
+				return 0, err
+			}
+
+		case parse.UnknownHint:
+			return 0, errUnknownHint
 		}
 	}
-	return patterns, nil
 }
 
-func (this *Mem) eval(ifs *intern.IfExprs, label parser.Value) (int, int, error) {
+func (this *Mem) eval(ifs *intern.IfExprs, label parse.Token) (int, int, error) {
 	state, err := ifs.Eval(this.states, label)
 	if err != nil {
 		return 0, 0, err

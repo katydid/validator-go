@@ -15,7 +15,7 @@
 package auto
 
 import (
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/intern"
 	"github.com/katydid/validator-go/validator/sets"
@@ -68,7 +68,7 @@ func (this *compiler) newCallTree(parentPatterns int, node *ifExprs) (*callNode,
 }
 
 // eval evaluates the call tree returning the child state and stack element given the label value of the parser element.
-func (this *callNode) eval(label parser.Value) (int, int, error) {
+func (this *callNode) eval(label parse.Token) (int, int, error) {
 	if this.cond == nil {
 		return this.child, this.stackIndex, nil
 	}

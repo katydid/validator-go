@@ -17,7 +17,7 @@
 package validator
 
 import (
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/mem"
 	validatorparser "github.com/katydid/validator-go/validator/parser"
@@ -36,6 +36,6 @@ func Prepare(g *ast.Grammar) (*mem.Mem, error) {
 }
 
 // Validate validates the parser with the given memoizing object, containing the grammar, for efficiency.
-func Validate(m *mem.Mem, p parser.Interface) (bool, error) {
+func Validate(m *mem.Mem, p parse.Parser) (bool, error) {
 	return m.Validate(p)
 }

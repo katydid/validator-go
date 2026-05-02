@@ -17,7 +17,7 @@ package intern_test
 import (
 	"testing"
 
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/intern"
 	"github.com/katydid/validator-go/validator/testsuite"
@@ -42,7 +42,7 @@ func TestSuite(t *testing.T) {
 	}
 }
 
-func test(t *testing.T, g *ast.Grammar, p parser.Interface, expected bool, record bool) {
+func test(t *testing.T, g *ast.Grammar, p parse.Parser, expected bool, record bool) {
 	if intern.HasRecursion(g) {
 		t.Skipf("intern was not designed to handle left recursion")
 	}

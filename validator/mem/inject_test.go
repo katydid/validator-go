@@ -17,7 +17,7 @@ package mem_test
 import (
 	"testing"
 
-	jsonparser "github.com/katydid/parser-go-json/json"
+	jsonparser "github.com/katydid/parser-go-json/json/parse"
 	"github.com/katydid/validator-go/validator/ast"
 	. "github.com/katydid/validator-go/validator/combinator"
 	"github.com/katydid/validator-go/validator/funcs"
@@ -82,9 +82,7 @@ type Number struct {
 
 func testInject(t *testing.T, m *mem.Mem) bool {
 	parser := jsonparser.NewParser()
-	if err := parser.Init([]byte(`{"Num": 456}`)); err != nil {
-		t.Fatal(err)
-	}
+	parser.Init([]byte(`{"Num": 456}`))
 	res, err := m.Validate(parser)
 	if err != nil {
 		t.Fatal(err)

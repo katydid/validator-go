@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
 )
@@ -111,7 +111,7 @@ func (node *IfExprs) compileAll(set *SetOfPatterns) error {
 	return nil
 }
 
-func (ifExprs *IfExprs) Eval(set *SetOfPatterns, label parser.Value) (int, error) {
+func (ifExprs *IfExprs) Eval(set *SetOfPatterns, label parse.Token) (int, error) {
 	return ifExprs.eval(set, label)
 }
 
@@ -135,7 +135,7 @@ func (this *IfExprs) String() string {
 var falseConst = funcs.BoolConst(false)
 var trueConst = funcs.BoolConst(true)
 
-func (node *IfExprs) eval(set *SetOfPatterns, label parser.Value) (int, error) {
+func (node *IfExprs) eval(set *SetOfPatterns, label parse.Token) (int, error) {
 	if len(node.ifs) == 0 {
 		if err := node.compileRes(set); err != nil {
 			return 0, err
@@ -255,7 +255,7 @@ func NewIfExpr(c funcs.Bool, thn, els *Pattern) *IfExpr {
 	return &IfExpr{c, thn, els}
 }
 
-func (this *IfExpr) eval(label parser.Value) (*Pattern, error) {
+func (this *IfExpr) eval(label parse.Token) (*Pattern, error) {
 	f, err := compose.NewBoolFunc(this.Cond)
 	if err != nil {
 		return nil, err
@@ -270,7 +270,7 @@ func (this *IfExpr) eval(label parser.Value) (*Pattern, error) {
 	return this.Els, nil
 }
 
-func evalIfExprs(ifs []*IfExpr, label parser.Value) ([]*Pattern, error) {
+func evalIfExprs(ifs []*IfExpr, label parse.Token) ([]*Pattern, error) {
 	patterns := make([]*Pattern, len(ifs))
 	for i, ifExpr := range ifs {
 		c, err := ifExpr.eval(label)

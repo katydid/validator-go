@@ -61,9 +61,7 @@ func bench(b *testing.B, grammar *ast.Grammar, parsers []testsuite.ResetParser, 
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		if err := parsers[i%num].Reset(); err != nil {
-			b.Fatal(err)
-		}
+		parsers[i%num].Reset()
 		if _, err := m.Validate(parsers[i%num]); err != nil {
 			b.Fatal(err)
 		}

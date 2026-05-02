@@ -2,12 +2,12 @@
 package funcs
 
 import (
-	"github.com/katydid/parser-go/parser"
+	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator/ast"
 )
 
 type varDouble struct {
-	Value parser.Value
+	Value parse.Token
 	hash  uint64
 }
 
@@ -18,17 +18,6 @@ type ErrNotDoubleConst struct{}
 
 func (this ErrNotDoubleConst) Error() string {
 	return "$double is not a const"
-}
-
-func (this *varDouble) Eval() (float64, error) {
-	if this.Value == nil {
-		return 0, ErrNotDoubleConst{}
-	}
-	v, err := this.Value.Double()
-	if err != nil {
-		return 0, err
-	}
-	return v, nil
 }
 
 func (this *varDouble) Compare(that Comparable) int {
@@ -52,7 +41,7 @@ func (this *varDouble) HasVariable() bool { return true }
 
 func (this *varDouble) isVariable() {}
 
-func (this *varDouble) SetValue(v parser.Value) {
+func (this *varDouble) SetValue(v parse.Token) {
 	this.Value = v
 }
 
@@ -68,7 +57,7 @@ func DoubleVar() *varDouble {
 }
 
 type varInt struct {
-	Value parser.Value
+	Value parse.Token
 	hash  uint64
 }
 
@@ -79,17 +68,6 @@ type ErrNotIntConst struct{}
 
 func (this ErrNotIntConst) Error() string {
 	return "$int is not a const"
-}
-
-func (this *varInt) Eval() (int64, error) {
-	if this.Value == nil {
-		return 0, ErrNotIntConst{}
-	}
-	v, err := this.Value.Int()
-	if err != nil {
-		return 0, err
-	}
-	return v, nil
 }
 
 func (this *varInt) Compare(that Comparable) int {
@@ -113,7 +91,7 @@ func (this *varInt) HasVariable() bool { return true }
 
 func (this *varInt) isVariable() {}
 
-func (this *varInt) SetValue(v parser.Value) {
+func (this *varInt) SetValue(v parse.Token) {
 	this.Value = v
 }
 
@@ -129,7 +107,7 @@ func IntVar() *varInt {
 }
 
 type varUint struct {
-	Value parser.Value
+	Value parse.Token
 	hash  uint64
 }
 
@@ -140,17 +118,6 @@ type ErrNotUintConst struct{}
 
 func (this ErrNotUintConst) Error() string {
 	return "$uint is not a const"
-}
-
-func (this *varUint) Eval() (uint64, error) {
-	if this.Value == nil {
-		return 0, ErrNotUintConst{}
-	}
-	v, err := this.Value.Uint()
-	if err != nil {
-		return 0, err
-	}
-	return v, nil
 }
 
 func (this *varUint) Compare(that Comparable) int {
@@ -174,7 +141,7 @@ func (this *varUint) HasVariable() bool { return true }
 
 func (this *varUint) isVariable() {}
 
-func (this *varUint) SetValue(v parser.Value) {
+func (this *varUint) SetValue(v parse.Token) {
 	this.Value = v
 }
 
@@ -190,7 +157,7 @@ func UintVar() *varUint {
 }
 
 type varBool struct {
-	Value parser.Value
+	Value parse.Token
 	hash  uint64
 }
 
@@ -201,17 +168,6 @@ type ErrNotBoolConst struct{}
 
 func (this ErrNotBoolConst) Error() string {
 	return "$bool is not a const"
-}
-
-func (this *varBool) Eval() (bool, error) {
-	if this.Value == nil {
-		return false, ErrNotBoolConst{}
-	}
-	v, err := this.Value.Bool()
-	if err != nil {
-		return false, err
-	}
-	return v, nil
 }
 
 func (this *varBool) Compare(that Comparable) int {
@@ -235,7 +191,7 @@ func (this *varBool) HasVariable() bool { return true }
 
 func (this *varBool) isVariable() {}
 
-func (this *varBool) SetValue(v parser.Value) {
+func (this *varBool) SetValue(v parse.Token) {
 	this.Value = v
 }
 
@@ -251,7 +207,7 @@ func BoolVar() *varBool {
 }
 
 type varString struct {
-	Value parser.Value
+	Value parse.Token
 	hash  uint64
 }
 
@@ -262,17 +218,6 @@ type ErrNotStringConst struct{}
 
 func (this ErrNotStringConst) Error() string {
 	return "$string is not a const"
-}
-
-func (this *varString) Eval() (string, error) {
-	if this.Value == nil {
-		return "", ErrNotStringConst{}
-	}
-	v, err := this.Value.String()
-	if err != nil {
-		return "", err
-	}
-	return v, nil
 }
 
 func (this *varString) Compare(that Comparable) int {
@@ -296,7 +241,7 @@ func (this *varString) HasVariable() bool { return true }
 
 func (this *varString) isVariable() {}
 
-func (this *varString) SetValue(v parser.Value) {
+func (this *varString) SetValue(v parse.Token) {
 	this.Value = v
 }
 
@@ -312,7 +257,7 @@ func StringVar() *varString {
 }
 
 type varBytes struct {
-	Value parser.Value
+	Value parse.Token
 	hash  uint64
 }
 
@@ -323,17 +268,6 @@ type ErrNotBytesConst struct{}
 
 func (this ErrNotBytesConst) Error() string {
 	return "$[]byte is not a const"
-}
-
-func (this *varBytes) Eval() ([]byte, error) {
-	if this.Value == nil {
-		return nil, ErrNotBytesConst{}
-	}
-	v, err := this.Value.Bytes()
-	if err != nil {
-		return nil, err
-	}
-	return v, nil
 }
 
 func (this *varBytes) Compare(that Comparable) int {
@@ -357,7 +291,7 @@ func (this *varBytes) HasVariable() bool { return true }
 
 func (this *varBytes) isVariable() {}
 
-func (this *varBytes) SetValue(v parser.Value) {
+func (this *varBytes) SetValue(v parse.Token) {
 	this.Value = v
 }
 
