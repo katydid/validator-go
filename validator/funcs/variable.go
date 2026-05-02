@@ -38,10 +38,13 @@ func (this *varDouble) Eval() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-	if kind != parse.Float64Kind {
-		return 0, ErrNotDoubleConst{}
+	switch kind {
+	case parse.Int64Kind:
+		return float64(cast.ToInt64(v)), nil
+	case parse.Float64Kind:
+		return cast.ToFloat64(v), nil
 	}
-	return cast.ToFloat64(v), nil
+	return 0, ErrNotDoubleConst{}
 }
 
 func (this *varInt) Eval() (int64, error) {
@@ -52,10 +55,13 @@ func (this *varInt) Eval() (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	if kind != parse.Int64Kind {
-		return 0, ErrNotIntConst{}
+	switch kind {
+	case parse.Int64Kind:
+		return cast.ToInt64(v), nil
+	case parse.Float64Kind:
+		return int64(cast.ToFloat64(v)), nil
 	}
-	return cast.ToInt64(v), nil
+	return 0, ErrNotIntConst{}
 }
 
 func (this *varUint) Eval() (uint64, error) {

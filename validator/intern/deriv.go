@@ -127,7 +127,6 @@ func deriv(c Construct, patterns []*Pattern, tree parse.Parser) ([]*Pattern, err
 			if err != nil {
 				return nil, err
 			}
-
 		case parse.UnknownHint:
 			return nil, errUnknownHint
 		}
