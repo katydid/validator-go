@@ -23,6 +23,7 @@ import (
 	"strings"
 
 	jsonparse "github.com/katydid/parser-go-json/json/parse"
+	"github.com/katydid/parser-go-json/json/tag"
 	reflectparse "github.com/katydid/parser-go-reflect/reflect/parse"
 	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator"
@@ -310,7 +311,7 @@ func newJsonParser(filename string) (ResetParser, error) {
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
 	}
-	j := jsonparse.NewParser()
+	j := tag.NewTagger(jsonparse.NewParser(), tag.WithIndexes())
 	j.Init(bytes)
 	return newResetParser(j, bytes), nil
 }
