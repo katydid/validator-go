@@ -22,9 +22,8 @@ import (
 	goreflect "reflect"
 	"strings"
 
-	jsonparse "github.com/katydid/parser-go-json/json/parse"
-	"github.com/katydid/parser-go-json/json/tag"
-	reflectparse "github.com/katydid/parser-go-reflect/reflect/parse"
+	jsonparse "github.com/katydid/parser-go-json/json"
+	reflectparse "github.com/katydid/parser-go-reflect/reflect"
 	"github.com/katydid/parser-go/parse"
 	"github.com/katydid/validator-go/validator"
 	"github.com/katydid/validator-go/validator/ast"
@@ -311,7 +310,7 @@ func newJsonParser(filename string) (ResetParser, error) {
 	if err != nil {
 		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
 	}
-	j := tag.NewTagger(jsonparse.NewParser(), tag.WithIndexes())
+	j := jsonparse.NewParser()
 	j.Init(bytes)
 	return newResetParser(j, bytes), nil
 }
@@ -326,7 +325,7 @@ func newReflectParser(filename string) (ResetParser, error) {
 		return nil, fmt.Errorf("err <%v> unmarshaling json from <%s>", err, filename)
 	}
 	rv := goreflect.ValueOf(v)
-	p := reflectparse.NewParser(reflectparse.WithJsonNumber)
+	p := reflectparse.NewParser()
 	p.Init(rv)
 	return p, nil
 }
