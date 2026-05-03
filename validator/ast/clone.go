@@ -14,7 +14,7 @@
 
 package ast
 
-//Clone returns a copy of the Grammar struct
+// Clone returns a copy of the Grammar struct
 func (this *Grammar) Clone() *Grammar {
 	if this == nil {
 		return nil
@@ -24,7 +24,7 @@ func (this *Grammar) Clone() *Grammar {
 	return that
 }
 
-//Clone returns a copy of the RefLookup map
+// Clone returns a copy of the RefLookup map
 func (this RefLookup) Clone() RefLookup {
 	that := make(RefLookup, len(this))
 	for name := range this {
@@ -33,7 +33,7 @@ func (this RefLookup) Clone() RefLookup {
 	return that
 }
 
-//Clone returns a copy of the Pattern struct
+// Clone returns a copy of the Pattern struct
 func (this *Pattern) Clone() *Pattern {
 	if this == nil {
 		return nil
@@ -43,7 +43,7 @@ func (this *Pattern) Clone() *Pattern {
 	return that
 }
 
-//Clone returns a copy of the Expr struct
+// Clone returns a copy of the Expr struct
 func (this *Expr) Clone() *Expr {
 	if this == nil {
 		return nil

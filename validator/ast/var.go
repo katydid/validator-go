@@ -18,8 +18,8 @@ import (
 	"fmt"
 )
 
-//HasVar returns whether there exists a variable somewhere in the expression tree.
-//This function is executed recursively.
+// HasVar returns whether there exists a variable somewhere in the expression tree.
+// This function is executed recursively.
 func (this *Expr) HasVar() bool {
 	if this.Terminal != nil {
 		return this.GetTerminal().Variable != nil
@@ -36,8 +36,8 @@ func (this *Expr) HasVar() bool {
 	panic(fmt.Sprintf("unknown expr %#v", this))
 }
 
-//HasVar returns whether there exists a variable somewhere in the typed list.
-//This function is executed recursively.
+// HasVar returns whether there exists a variable somewhere in the typed list.
+// This function is executed recursively.
 func (this *List) HasVar() bool {
 	for _, e := range this.GetElems() {
 		if e.HasVar() {
@@ -47,8 +47,8 @@ func (this *List) HasVar() bool {
 	return false
 }
 
-//HasVar returns whether there exists a varaible somewhere in the function parameters.
-//This function is executed recursively.
+// HasVar returns whether there exists a varaible somewhere in the function parameters.
+// This function is executed recursively.
 func (this *Function) HasVar() bool {
 	for _, p := range this.GetParams() {
 		if p.HasVar() {
