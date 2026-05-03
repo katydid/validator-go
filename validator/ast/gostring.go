@@ -14,22 +14,22 @@
 
 package ast
 
-//GoString returns a go string representing the Grammar
+// GoString returns a go string representing the Grammar
 func (this *Grammar) GoString() string {
 	return deriveGoStringGrammar(this)
 }
 
-//GoString returns a go string representing the RefLookup
+// GoString returns a go string representing the RefLookup
 func (this RefLookup) GoString() string {
 	return deriveGoStringRefLookup(this)
 }
 
-//GoString returns a go string representing the Pattern
+// GoString returns a go string representing the Pattern
 func (this *Pattern) GoString() string {
 	return deriveGoStringPattern(this)
 }
 
-//GoString returns a go string representing the Expr
+// GoString returns a go string representing the Expr
 func (this *Expr) GoString() string {
 	return deriveGoStringExpr(this)
 }
