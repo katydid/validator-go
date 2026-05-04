@@ -40,6 +40,7 @@ func (this *varDouble) Eval() (float64, error) {
 	}
 	switch kind {
 	case parse.Int64Kind:
+		// TODO: Consider not supporting Int64Kind here
 		return float64(cast.ToInt64(v)), nil
 	case parse.Float64Kind:
 		return cast.ToFloat64(v), nil
@@ -56,9 +57,12 @@ func (this *varInt) Eval() (int64, error) {
 		return 0, err
 	}
 	switch kind {
+	case parse.NanosecondsKind:
+		return cast.ToInt64(v), nil
 	case parse.Int64Kind:
 		return cast.ToInt64(v), nil
 	case parse.Float64Kind:
+		// TODO: Consider not supporting Float64Kind here
 		return int64(cast.ToFloat64(v)), nil
 	}
 	return 0, ErrNotIntConst{}
@@ -75,6 +79,7 @@ func (this *varUint) Eval() (uint64, error) {
 	if kind != parse.DecimalKind {
 		return 0, ErrNotUintConst{}
 	}
+	// TODO: Consider supporting big Float64Kind, Int64Kind and NanosecondKind here.
 	s := cast.ToString(v)
 	bigfloat, _, err := big.ParseFloat(s, 10, 200, big.ToNearestAway)
 	if err != nil {
@@ -111,10 +116,14 @@ func (this *varString) Eval() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if kind != parse.StringKind {
-		return "", ErrNotStringConst{}
+	switch kind {
+	case parse.StringKind:
+		return cast.ToString(v), nil
+	case parse.TagKind:
+		// TODO: Consider creating varTag
+		return cast.ToString(v), nil
 	}
-	return cast.ToString(v), nil
+	return "", ErrNotStringConst{}
 }
 
 func (this *varBytes) Eval() ([]byte, error) {
