@@ -79,7 +79,12 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 		}
 		return funcs.Or(l, r), nil
 	case *ast.RegexName:
-		return funcs.Regex(funcs.StringConst(v.Pattern), funcs.StringVar())
+		f, err := funcs.Regex(funcs.StringConst(v.Pattern), funcs.StringVar())
+		if err != nil {
+			return nil, err
+		}
+		// Do this instead of simply returning f, to allow others to override the regex engine.
+		return compose.NewBool(f.ToExpr())
 	}
 	panic(fmt.Sprintf("unknown name expr typ %T", typ))
 }
