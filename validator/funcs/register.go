@@ -134,7 +134,10 @@ func (this Factory) getMaker(name string, ins ...types.Type) (*Maker, error) {
 	if !ok {
 		return nil, newErrUnknownFunction(name, ins)
 	}
-	for _, f := range funks {
+	last := len(funks) - 1
+	for i := range funks {
+		// range backwards over funks so that register overrides funcs.
+		f := funks[last-i]
 		if len(f.In) != len(ins) {
 			continue
 		}
