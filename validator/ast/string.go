@@ -207,6 +207,13 @@ func (this *NameChoice) String() string {
 		this.CloseParen.String()
 }
 
+// String returns the validator string representation of the NameConj instance.
+func (this *NameConj) String() string {
+	return this.OpenParen.String() + this.Left.String() +
+		this.Ampersand.String() + this.Right.String() +
+		this.CloseParen.String()
+}
+
 func (this *RegexName) String() string {
 	return this.Tilde.String() + strconv.Quote(this.Pattern)
 }

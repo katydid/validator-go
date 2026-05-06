@@ -625,6 +625,7 @@ type Space struct {
 type NameExpr struct {
 	Name          *Name          `json:"Name,omitempty"`
 	AnyName       *AnyName       `json:"AnyName,omitempty"`
+	NameConj      *NameConj      `json:"NameConj,omitempty"`
 	AnyNameExcept *AnyNameExcept `json:"AnyNameExcept,omitempty"`
 	NameChoice    *NameChoice    `json:"NameChoice,omitempty"`
 	RegexName     *RegexName     `json:"RegexName,omitempty"`
@@ -658,6 +659,13 @@ func (m *NameExpr) GetNameChoice() *NameChoice {
 	return nil
 }
 
+func (m *NameExpr) GetNameConj() *NameConj {
+	if m != nil {
+		return m.NameConj
+	}
+	return nil
+}
+
 func (m *NameExpr) GetRegexName() *RegexName {
 	if m != nil {
 		return m.RegexName
@@ -677,6 +685,9 @@ func (this *NameExpr) GetValue() interface{} {
 	}
 	if this.NameChoice != nil {
 		return this.NameChoice
+	}
+	if this.NameConj != nil {
+		return this.NameConj
 	}
 	if this.RegexName != nil {
 		return this.RegexName
@@ -774,6 +785,29 @@ func (m *NameChoice) GetLeft() *NameExpr {
 }
 
 func (m *NameChoice) GetRight() *NameExpr {
+	if m != nil {
+		return m.Right
+	}
+	return nil
+}
+
+// NameConj is a name expression that represents a conjunction between two name expressions.
+type NameConj struct {
+	OpenParen  *Keyword  `json:"OpenParen,omitempty"`
+	Left       *NameExpr `json:"Left,omitempty"`
+	Ampersand  *Keyword  `json:"Ampersand,omitempty"`
+	Right      *NameExpr `json:"Right,omitempty"`
+	CloseParen *Keyword  `json:"CloseParen,omitempty"`
+}
+
+func (m *NameConj) GetLeft() *NameExpr {
+	if m != nil {
+		return m.Left
+	}
+	return nil
+}
+
+func (m *NameConj) GetRight() *NameExpr {
 	if m != nil {
 		return m.Right
 	}
