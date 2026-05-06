@@ -222,6 +222,9 @@ func (this *NameExpr) Walk(v Visitor) {
 	if this.NameChoice != nil {
 		this.GetNameChoice().Walk(v)
 	}
+	if this.NameConj != nil {
+		this.GetNameConj().Walk(v)
+	}
 	if this.RegexName != nil {
 		this.GetRegexName().Walk(v)
 	}
@@ -247,6 +250,17 @@ func (this *AnyNameExcept) Walk(v Visitor) {
 
 // Walk visits NameChoice and its NameExpr types.
 func (this *NameChoice) Walk(v Visitor) {
+	v = v.Visit(this).(Visitor)
+	if this.Left != nil {
+		this.GetLeft().Walk(v)
+	}
+	if this.Right != nil {
+		this.GetRight().Walk(v)
+	}
+}
+
+// Walk visits NameConj and its NameExpr types.
+func (this *NameConj) Walk(v Visitor) {
 	v = v.Visit(this).(Visitor)
 	if this.Left != nil {
 		this.GetLeft().Walk(v)

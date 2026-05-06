@@ -78,6 +78,16 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 			return nil, err
 		}
 		return funcs.Or(l, r), nil
+	case *ast.NameConj:
+		l, err := NameToFunc(v.GetLeft())
+		if err != nil {
+			return nil, err
+		}
+		r, err := NameToFunc(v.GetRight())
+		if err != nil {
+			return nil, err
+		}
+		return funcs.And(l, r), nil
 	case *ast.RegexName:
 		f, err := funcs.Regex(funcs.StringConst(v.Pattern), funcs.StringVar())
 		if err != nil {

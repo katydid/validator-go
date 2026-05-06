@@ -767,6 +767,51 @@ func newNameChoice(names []*NameExpr) *NameExpr {
 	}
 }
 
+// NewNameConj returns a name expression which represents of conjunction of the list of given name expressions.
+// If the number of names provided is:
+//
+// 0, nil is returned;
+//
+// 1, the input name is returned;
+//
+// 2, the ored names is returned;
+//
+//	(names[0] & names[1])
+//
+// > 2, the left curried ored names is returned.
+//
+//	(names[0] & (names[1] & (...)))
+func NewNameConj(names ...*NameExpr) *NameExpr {
+	if len(names) == 0 {
+		return nil
+	}
+	if len(names) == 1 {
+		return names[0]
+	}
+	return &NameExpr{
+		NameConj: &NameConj{
+			OpenParen:  newOpenParen(),
+			Left:       names[0],
+			Ampersand:  newAmpersand(),
+			Right:      newNameConj(names[1:]),
+			CloseParen: newCloseParen(),
+		},
+	}
+}
+
+func newNameConj(names []*NameExpr) *NameExpr {
+	if len(names) == 1 {
+		return names[0]
+	}
+	return &NameExpr{
+		NameConj: &NameConj{
+			Left:      names[0],
+			Ampersand: newAmpersand(),
+			Right:     newNameConj(names[1:]),
+		},
+	}
+}
+
 func NewRegexName(pattern string) *NameExpr {
 	return &NameExpr{
 		RegexName: &RegexName{

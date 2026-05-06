@@ -381,6 +381,7 @@ NameExpr
     }}, nil
   >>
   | StartNameChoice
+  | StartNameConj
   | Tilde string_lit << NewSDTRegexName($0.(*Keyword), newString($1)) >>
   ;
 
@@ -402,6 +403,29 @@ ContinueNameChoice
     &NameExpr{NameChoice: &NameChoice{
       Left: $0.(*NameExpr),
       Pipe: $1.(*Keyword),
+      Right: $2.(*NameExpr),
+    }}, nil
+  >>
+  ;
+
+StartNameConj
+  : OpenParen NameExpr Ampersand ContinueNameConj CloseParen <<
+    &NameExpr{NameConj: &NameConj{
+      OpenParen: $0.(*Keyword),
+      Left: $1.(*NameExpr),
+      Ampersand: $2.(*Keyword),
+      Right: $3.(*NameExpr),
+      CloseParen: $4.(*Keyword),
+    }}, nil
+  >>
+  ;
+
+ContinueNameConj
+  : NameExpr
+  | ContinueNameConj Ampersand NameExpr <<
+    &NameExpr{NameConj: &NameConj{
+      Left: $0.(*NameExpr),
+      Ampersand: $1.(*Keyword),
       Right: $2.(*NameExpr),
     }}, nil
   >>

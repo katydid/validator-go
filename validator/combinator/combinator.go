@@ -80,12 +80,27 @@ func nameChoice(p string, ps ...string) *ast.NameExpr {
 	return ast.NewNameChoice(ast.NewStringName(p), nameChoice(ps[0], ps[1:]...))
 }
 
+func nameConj(p string, ps ...string) *ast.NameExpr {
+	if len(ps) == 0 {
+		return ast.NewStringName(p)
+	}
+	return ast.NewNameConj(ast.NewStringName(p), nameConj(ps[0], ps[1:]...))
+}
+
 // InAnyOf represents an ordered list of patterns in any of the specified fields.
 func InAnyOf(names []string, child *ast.Pattern, children ...*ast.Pattern) *ast.Pattern {
 	if len(names) < 2 {
 		panic("less than two names is not really a choice, is it?")
 	}
 	return ast.NewTreeNode(nameChoice(names[0], names[1:]...), concat(child, children...))
+}
+
+// InAllOf represents an ordered list of patterns in all of the specified fields.
+func InAllOf(names []string, child *ast.Pattern, children ...*ast.Pattern) *ast.Pattern {
+	if len(names) < 2 {
+		panic("less than two names is not really a choice, is it?")
+	}
+	return ast.NewTreeNode(nameConj(names[0], names[1:]...), concat(child, children...))
 }
 
 // None represents no possible match.
