@@ -539,6 +539,7 @@ type Terminal struct {
 	BoolValue   *bool     `json:"BoolValue,omitempty"`
 	StringValue *string   `json:"StringValue,omitempty"`
 	BytesValue  []byte    `json:"BytesValue,omitempty"`
+	TagValue    *string   `json:"TagValue,omitempty"`
 	Variable    *Variable `json:"Variable,omitempty"`
 }
 
@@ -582,6 +583,13 @@ func (m *Terminal) GetBytesValue() []byte {
 		return m.BytesValue
 	}
 	return nil
+}
+
+func (m *Terminal) GetTagValue() string {
+	if m != nil && m.TagValue != nil {
+		return *m.TagValue
+	}
+	return ""
 }
 
 func (m *Terminal) GetVariable() *Variable {
@@ -704,6 +712,7 @@ type Name struct {
 	BoolValue   *bool    `json:"BoolValue,omitempty"`
 	StringValue *string  `json:"StringValue,omitempty"`
 	BytesValue  []byte   `json:"BytesValue,omitempty"`
+	TagValue    *string  `json:"TagValue,omitempty"`
 }
 
 func (m *Name) GetDoubleValue() float64 {
@@ -746,6 +755,13 @@ func (m *Name) GetBytesValue() []byte {
 		return m.BytesValue
 	}
 	return nil
+}
+
+func (m *Name) GetTagValue() string {
+	if m != nil && m.TagValue != nil {
+		return *m.TagValue
+	}
+	return ""
 }
 
 // AnyName is a name expression that represents any name.

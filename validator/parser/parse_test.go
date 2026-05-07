@@ -24,6 +24,10 @@ func TestParse(t *testing.T) {
 	patternDecls := []string{
 		`->hasQuotes("string_lit")`,
 		`a->hasQuotes("string_lit")`,
+		`->tag(object)`,
+		`->tag(array)`,
+		`tag(object):*`,
+		`tag(array):*`,
 		`@ref1
 		#ref1 = a->eq($int, 123)
 		`,

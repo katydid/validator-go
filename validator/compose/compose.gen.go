@@ -282,3 +282,49 @@ func composeListOfBytes(expr *ast.Expr) (funcs.ListOfBytes, error) {
 	}
 	return f.NewListOfBytes(values...)
 }
+
+func composeTag(expr *ast.Expr) (funcs.String, error) {
+	f, err := prep(expr, types.SINGLE_TAG)
+	if err != nil {
+		return nil, err
+	}
+	if expr.Terminal != nil {
+		if expr.GetTerminal().Variable != nil {
+			return funcs.TagVar(), nil
+		} else {
+			return funcs.StringConst(expr.GetTerminal().GetTagValue()), nil
+		}
+	}
+	values, err := newValues(expr.GetFunction().GetParams())
+	if err != nil {
+		return nil, err
+	}
+	return f.NewString(values...)
+}
+
+func composeTags(expr *ast.Expr) (funcs.Strings, error) {
+	f, err := prep(expr, types.LIST_TAG)
+	if err != nil {
+		return nil, err
+	}
+	if expr.List != nil {
+		vs, err := newValues(expr.GetList().GetElems())
+		if err != nil {
+			return nil, err
+		}
+		bs := make([]funcs.String, len(vs))
+		var ok bool
+		for i := range vs {
+			bs[i], ok = vs[i].(funcs.String)
+			if !ok {
+				return nil, &errExpected{types.SINGLE_TAG.String(), expr.String()}
+			}
+		}
+		return funcs.NewListOfString(bs), nil
+	}
+	values, err := newValues(expr.GetFunction().GetParams())
+	if err != nil {
+		return nil, err
+	}
+	return f.NewStrings(values...)
+}

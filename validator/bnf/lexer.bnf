@@ -47,6 +47,7 @@ _uint : 'u' 'i' 'n' 't';
 _bytes : '[' ']' 'b' 'y' 't' 'e' ;
 _string : 's' 't' 'r' 'i' 'n' 'g' ;
 _bool : 'b' 'o' 'o' 'l' ;
+_tag : 't' 'a' 'g' ;
 
 _qualid : _id { '.' _id } ;
 
@@ -56,6 +57,7 @@ uint_var : '$' _uint ;
 bytes_var : '$' _bytes ;
 string_var : '$' _string ;
 bool_var : '$' _bool ;
+tag_var : '$' _tag ;
 
 _big_u_value      : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
                             _hex_digit _hex_digit _hex_digit _hex_digit ;
@@ -76,3 +78,5 @@ _char_lit	: '\'' (_unicode_value | _byte_value) '\'' ;
 _byte_elem : _int_lit | _char_lit ;
 
 bytes_cast_lit : _bytes '{' { _ws } [ _byte_elem { { _ws } ',' { _ws } _byte_elem } ] { _ws } '}' ;
+
+tag_cast_lit: _tag '(' _id ')' ;
