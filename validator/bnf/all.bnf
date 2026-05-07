@@ -161,6 +161,26 @@ PatternDecl
       Pattern: $3.(*Pattern),
     }, nil
   >>
+  | Hash Space string_lit Equal Pattern
+  <<
+    NewSDTPatternDecl(
+      $0.(*Keyword),
+      $1.(*Space),
+      newString($2),
+      $3.(*Keyword),
+      $4.(*Pattern),
+    )
+  >>
+  | Hash string_lit Equal Pattern
+  <<
+    NewSDTPatternDecl(
+      $0.(*Keyword),
+      nil,
+      newString($1),
+      $2.(*Keyword),
+      $3.(*Pattern),
+    )
+  >>
   ;
 
 Empty
@@ -232,6 +252,12 @@ Pattern
       At: $0.(*Keyword),
       Name: newString($1),
     }}, nil
+  >>
+  | At string_lit <<
+    NewSDTReference(
+      $0.(*Keyword),
+      newString($1),
+    )
   >>
   | Exclamation OpenParen Pattern CloseParen <<
     &Pattern{Not: &Not{
