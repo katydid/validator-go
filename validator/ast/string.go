@@ -38,7 +38,11 @@ func (this *Grammar) String() string {
 
 // String returns the validator string representation of the PatternDecl instance.
 func (this *PatternDecl) String() string {
-	return this.Hash.String() + this.Before.String() + this.Name +
+	name := this.GetName()
+	if !isId(name) {
+		name = strconv.Quote(name)
+	}
+	return this.Hash.String() + this.Before.String() + name +
 		this.Eq.String() + this.Pattern.String()
 }
 
@@ -100,7 +104,11 @@ func (this *ZeroOrMore) String() string {
 
 // String returns the validator string representation of the Reference instance.
 func (this *Reference) String() string {
-	return this.At.String() + this.Name
+	name := this.Name
+	if !isId(name) {
+		name = strconv.Quote(name)
+	}
+	return this.At.String() + name
 }
 
 // String returns the validator string representation of the Not instance.

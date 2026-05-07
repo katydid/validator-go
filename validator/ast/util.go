@@ -285,3 +285,22 @@ func NewSDTRegexName(tilde *Keyword, pattern string) (*NameExpr, error) {
 		},
 	}, nil
 }
+
+// NewSDTPatternDecl is a parser utility function that returns a PatternDecl.
+func NewSDTPatternDecl(hash *Keyword, before *Space, namelit string, eq *Keyword, pattern *Pattern) (*PatternDecl, error) {
+	return &PatternDecl{
+		Hash:    hash,
+		Before:  before,
+		Name:    ToString(namelit),
+		Eq:      eq,
+		Pattern: pattern,
+	}, nil
+}
+
+// NewSDTReference is a parser utility function that returns a reference Pattern.
+func NewSDTReference(at *Keyword, namelit string) (*Pattern, error) {
+	return &Pattern{Reference: &Reference{
+		At:   at,
+		Name: ToString(namelit),
+	}}, nil
+}
