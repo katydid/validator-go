@@ -58,6 +58,8 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 			return funcs.StringEq(funcs.StringVar(), funcs.StringConst(v.GetStringValue())), nil
 		} else if v.BytesValue != nil {
 			return funcs.BytesEq(funcs.BytesVar(), funcs.BytesConst(v.GetBytesValue())), nil
+		} else if v.TagValue != nil {
+			return funcs.StringEq(funcs.TagVar(), funcs.StringConst(v.GetTagValue())), nil
 		}
 		panic(fmt.Sprintf("unknown name expr name %#v", v))
 	case *ast.AnyName:

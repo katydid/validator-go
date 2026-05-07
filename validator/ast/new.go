@@ -486,6 +486,13 @@ func NewBytesVar() *Expr {
 	return NewVar(types.SINGLE_BYTES)
 }
 
+// NewTagVar returns a new variable expression of type tag
+//
+//	$tag
+func NewTagVar() *Expr {
+	return NewVar(types.SINGLE_TAG)
+}
+
 // NewDoubleConst returns a new terminal expression containing the given double value.
 //
 //	double(d)
@@ -565,6 +572,17 @@ func NewBytesConst(buf []byte) *Expr {
 	return &Expr{
 		Terminal: &Terminal{
 			BytesValue: buf,
+		},
+	}
+}
+
+// NewTagConst returns a new terminal expression containing the given tag value.
+//
+//	tag(s)
+func NewTagConst(s string) *Expr {
+	return &Expr{
+		Terminal: &Terminal{
+			TagValue: ptr(s),
 		},
 	}
 }
@@ -695,6 +713,17 @@ func NewBytesName(name []byte) *NameExpr {
 	return &NameExpr{
 		Name: &Name{
 			BytesValue: name,
+		},
+	}
+}
+
+// NewTagName returns a name expression containing the given string value.
+//
+//	tag(name)
+func NewTagName(name string) *NameExpr {
+	return &NameExpr{
+		Name: &Name{
+			TagValue: &name,
 		},
 	}
 }

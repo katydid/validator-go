@@ -56,6 +56,7 @@ func (this *Terminal) Equal(that *Terminal) bool {
 			((this.BoolValue == nil && that.BoolValue == nil) || (this.BoolValue != nil && that.BoolValue != nil && *(this.BoolValue) == *(that.BoolValue))) &&
 			((this.StringValue == nil && that.StringValue == nil) || (this.StringValue != nil && that.StringValue != nil && *(this.StringValue) == *(that.StringValue))) &&
 			bytes.Equal(this.BytesValue, that.BytesValue) &&
+			((this.TagValue == nil && that.TagValue == nil) || (this.TagValue != nil && that.TagValue != nil && *(this.TagValue) == *(that.TagValue))) &&
 			deriveEqual_26(this.Variable, that.Variable)
 }
 
@@ -88,6 +89,9 @@ func (this *Terminal) Compare(that *Terminal) int {
 		return c
 	}
 	if c := bytes.Compare(this.BytesValue, that.BytesValue); c != 0 {
+		return c
+	}
+	if c := deriveCompare_23(this.TagValue, that.TagValue); c != 0 {
 		return c
 	}
 	if c := deriveCompare_29(this.Variable, that.Variable); c != 0 {

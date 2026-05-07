@@ -1011,6 +1011,9 @@ func deriveGoString_15(this *Terminal) string {
 		if this.BytesValue != nil {
 			fmt.Fprintf(buf, "this.BytesValue = %#v\n", this.BytesValue)
 		}
+		if this.TagValue != nil {
+			fmt.Fprintf(buf, "this.TagValue = func (v string) *string { return &v }(%#v)\n", *this.TagValue)
+		}
 		if this.Variable != nil {
 			fmt.Fprintf(buf, "this.Variable = %s\n", deriveGoString_21(this.Variable))
 		}
@@ -1505,6 +1508,12 @@ func deriveDeepCopy_15(dst, src *Terminal) {
 			dst.BytesValue = make([]byte, len(src.BytesValue))
 		}
 		copy(dst.BytesValue, src.BytesValue)
+	}
+	if src.TagValue == nil {
+		dst.TagValue = nil
+	} else {
+		dst.TagValue = new(string)
+		*dst.TagValue = *src.TagValue
 	}
 	if src.Variable == nil {
 		dst.Variable = nil
@@ -2110,6 +2119,9 @@ func deriveCompare_16(this, that *Name) int {
 	if c := bytes.Compare(this.BytesValue, that.BytesValue); c != 0 {
 		return c
 	}
+	if c := deriveCompare_23(this.TagValue, that.TagValue); c != 0 {
+		return c
+	}
 	return 0
 }
 
@@ -2507,7 +2519,8 @@ func deriveEqual_14(this, that *Name) bool {
 			((this.UintValue == nil && that.UintValue == nil) || (this.UintValue != nil && that.UintValue != nil && *(this.UintValue) == *(that.UintValue))) &&
 			((this.BoolValue == nil && that.BoolValue == nil) || (this.BoolValue != nil && that.BoolValue != nil && *(this.BoolValue) == *(that.BoolValue))) &&
 			((this.StringValue == nil && that.StringValue == nil) || (this.StringValue != nil && that.StringValue != nil && *(this.StringValue) == *(that.StringValue))) &&
-			bytes.Equal(this.BytesValue, that.BytesValue)
+			bytes.Equal(this.BytesValue, that.BytesValue) &&
+			((this.TagValue == nil && that.TagValue == nil) || (this.TagValue != nil && that.TagValue != nil && *(this.TagValue) == *(that.TagValue)))
 }
 
 // deriveEqual_15 returns whether this and that are equal.
@@ -3044,6 +3057,9 @@ func deriveGoString_23(this *Name) string {
 		if this.BytesValue != nil {
 			fmt.Fprintf(buf, "this.BytesValue = %#v\n", this.BytesValue)
 		}
+		if this.TagValue != nil {
+			fmt.Fprintf(buf, "this.TagValue = func (v string) *string { return &v }(%#v)\n", *this.TagValue)
+		}
 		fmt.Fprintf(buf, "return this\n")
 	}
 	fmt.Fprintf(buf, "}()\n")
@@ -3225,6 +3241,12 @@ func deriveDeepCopy_22(dst, src *Name) {
 		}
 		copy(dst.BytesValue, src.BytesValue)
 	}
+	if src.TagValue == nil {
+		dst.TagValue = nil
+	} else {
+		dst.TagValue = new(string)
+		*dst.TagValue = *src.TagValue
+	}
 }
 
 // deriveDeepCopy_23 recursively copies the contents of src into dst.
@@ -3397,6 +3419,7 @@ func deriveHash_17(object *Name) uint64 {
 	h = 31*h + deriveHash_31(object.BoolValue)
 	h = 31*h + deriveHash_32(object.StringValue)
 	h = 31*h + deriveHash_33(object.BytesValue)
+	h = 31*h + deriveHash_32(object.TagValue)
 	return h
 }
 
@@ -3475,6 +3498,7 @@ func deriveHash_23(object *Terminal) uint64 {
 	h = 31*h + deriveHash_31(object.BoolValue)
 	h = 31*h + deriveHash_32(object.StringValue)
 	h = 31*h + deriveHash_33(object.BytesValue)
+	h = 31*h + deriveHash_32(object.TagValue)
 	h = 31*h + deriveHash_34(object.Variable)
 	return h
 }

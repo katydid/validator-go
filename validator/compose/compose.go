@@ -45,6 +45,9 @@ func Which(expr *ast.Expr) (types.Type, error) {
 		if term.BytesValue != nil {
 			return types.SINGLE_BYTES, nil
 		}
+		if term.TagValue != nil {
+			return types.SINGLE_TAG, nil
+		}
 		if term.Variable != nil {
 			return term.Variable.Type, nil
 		}
@@ -150,6 +153,8 @@ func composeVariable(v *ast.Variable) funcs.Comparable {
 		return funcs.StringVar()
 	case types.SINGLE_BYTES:
 		return funcs.BytesVar()
+	case types.SINGLE_TAG:
+		return funcs.TagVar()
 	}
 	panic("unreachable")
 }
@@ -175,6 +180,8 @@ func newValue(p *ast.Expr) (interface{}, error) {
 		return composeString(p)
 	case types.SINGLE_BYTES:
 		return composeBytes(p)
+	case types.SINGLE_TAG:
+		return composeTag(p)
 	case types.LIST_DOUBLE:
 		return composeDoubles(p)
 	case types.LIST_INT:
@@ -187,6 +194,8 @@ func newValue(p *ast.Expr) (interface{}, error) {
 		return composeStrings(p)
 	case types.LIST_BYTES:
 		return composeListOfBytes(p)
+	case types.LIST_TAG:
+		return composeTags(p)
 	}
 	panic("not implemented")
 }

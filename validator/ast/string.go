@@ -186,6 +186,9 @@ func (this *Name) String() string {
 	if this.BytesValue != nil {
 		return this.Before.String() + fmt.Sprintf("%#v", this.GetBytesValue())
 	}
+	if this.TagValue != nil {
+		return this.Before.String() + "tag(" + this.GetTagValue() + ")"
+	}
 	panic("unreachable")
 }
 
@@ -278,6 +281,9 @@ func (this *Terminal) String() string {
 	}
 	if this.BytesValue != nil {
 		return this.Before.String() + fmt.Sprintf("%#v", this.GetBytesValue())
+	}
+	if this.TagValue != nil {
+		return this.Before.String() + "tag(" + this.GetTagValue() + ")"
 	}
 	if this.Variable != nil {
 		return this.Before.String() + this.Variable.String()

@@ -164,6 +164,12 @@ func NewBytesTerminal(stringLit string) (*Terminal, error) {
 	return &Terminal{BytesValue: data}, nil
 }
 
+// NewTagTerminal is a parser utility function that returns a Terminal of type tag given a string literal.
+// The input string is also unquoted.
+func NewTagTerminal(slit string) (*Terminal, error) {
+	return &Terminal{TagValue: ptr(string(Strip(slit, "tag")))}, nil
+}
+
 func parseBytes(s string) ([]byte, error) {
 	byteElems := strings.Split(s[strings.Index(s, "{")+1:strings.LastIndex(s, "}")], ",")
 	data := make([]byte, 0, len(byteElems))
@@ -259,6 +265,8 @@ func NewSDTName(space *Space, term *Terminal) *NameExpr {
 		name.Name.StringValue = term.StringValue
 	} else if term.BytesValue != nil {
 		name.Name.BytesValue = term.BytesValue
+	} else if term.TagValue != nil {
+		name.Name.TagValue = term.TagValue
 	} else {
 		panic(fmt.Sprintf("unreachable name type %#v", term))
 	}

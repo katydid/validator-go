@@ -115,6 +115,7 @@ ListType
   | "[]double" << types.LIST_DOUBLE, nil >>
   | "[]string" << types.LIST_STRING, nil >>
   | "[][]byte" << types.LIST_BYTES, nil >>
+  | "[]tag" << types.LIST_TAG, nil >>
   ;
 
 SpaceTerminal
@@ -129,6 +130,7 @@ Literal
   | double_cast_lit << NewDoubleTerminal(newString($0)) >>
   | string_lit << NewStringTerminal(newString($0)) >>
   | bytes_cast_lit << NewBytesTerminal(newString($0)) >>
+  | tag_cast_lit << NewTagTerminal(newString($0)) >>
   ;
 
 Terminal
@@ -139,6 +141,7 @@ Terminal
   | double_var << NewVariableTerminal(types.SINGLE_DOUBLE) >>
   | string_var << NewVariableTerminal(types.SINGLE_STRING) >>
   | bytes_var << NewVariableTerminal(types.SINGLE_BYTES) >>
+  | tag_var << NewVariableTerminal(types.SINGLE_TAG) >>
   ;
 
 Bool

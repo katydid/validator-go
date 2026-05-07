@@ -20,7 +20,7 @@ import (
 )
 
 const composeStr = `
-func compose{{.SingleName}}(expr *ast.Expr) (funcs.{{.SingleName}}, error) {
+func compose{{.SingleName}}(expr *ast.Expr) (funcs.{{.FuncSingleName}}, error) {
 	f, err := prep(expr, types.{{.SingleType}})
 	if err != nil {
 		return nil, err
@@ -29,17 +29,17 @@ func compose{{.SingleName}}(expr *ast.Expr) (funcs.{{.SingleName}}, error) {
 		if expr.GetTerminal().Variable != nil {
 			return funcs.{{.SingleName}}Var(), nil
 		} else {
-			return funcs.{{.SingleName}}Const(expr.GetTerminal().Get{{.SingleValue}}Value()), nil
+			return funcs.{{.FuncSingleName}}Const(expr.GetTerminal().Get{{.SingleValue}}Value()), nil
 		}
 	}
 	values, err := newValues(expr.GetFunction().GetParams())
 	if err != nil {
 		return nil, err
 	}
-	return f.New{{.SingleName}}(values...)
+	return f.New{{.FuncSingleName}}(values...)
 }
 
-func compose{{.ListName}}(expr *ast.Expr) (funcs.{{.ListName}}, error) {
+func compose{{.ListName}}(expr *ast.Expr) (funcs.{{.FuncListName}}, error) {
 	f, err := prep(expr, types.{{.ListType}})
 	if err != nil {
 		return nil, err
@@ -49,41 +49,44 @@ func compose{{.ListName}}(expr *ast.Expr) (funcs.{{.ListName}}, error) {
 		if err != nil {
 			return nil, err
 		}
-		bs := make([]funcs.{{.SingleName}}, len(vs))
+		bs := make([]funcs.{{.FuncSingleName}}, len(vs))
 		var ok bool
 		for i := range vs {
-			bs[i], ok = vs[i].(funcs.{{.SingleName}})
+			bs[i], ok = vs[i].(funcs.{{.FuncSingleName}})
 			if !ok {
 				return nil, &errExpected{types.{{.SingleType}}.String(), expr.String()}
 			}
 		}
-		return funcs.NewListOf{{.SingleName}}(bs), nil
+		return funcs.NewListOf{{.FuncSingleName}}(bs), nil
 	}
 	values, err := newValues(expr.GetFunction().GetParams())
 	if err != nil {
 		return nil, err
 	}
-	return f.New{{.ListName}}(values...)
+	return f.New{{.FuncListName}}(values...)
 }
 `
 
 type composer struct {
-	SingleName  string
-	SingleType  string
-	SingleValue string
-	ListName    string
-	ListType    string
+	SingleName     string
+	FuncSingleName string
+	SingleType     string
+	SingleValue    string
+	ListName       string
+	FuncListName   string
+	ListType       string
 }
 
 func main() {
 	gen := gen.NewPackage("compose")
 	gen(composeStr, "compose.gen.go", []interface{}{
-		&composer{"Double", "SINGLE_DOUBLE", "Double", "Doubles", "LIST_DOUBLE"},
-		&composer{"Int", "SINGLE_INT", "Int", "Ints", "LIST_INT"},
-		&composer{"Uint", "SINGLE_UINT", "Uint", "Uints", "LIST_UINT"},
-		&composer{"Bool", "SINGLE_BOOL", "Bool", "Bools", "LIST_BOOL"},
-		&composer{"String", "SINGLE_STRING", "String", "Strings", "LIST_STRING"},
-		&composer{"Bytes", "SINGLE_BYTES", "Bytes", "ListOfBytes", "LIST_BYTES"},
+		&composer{"Double", "Double", "SINGLE_DOUBLE", "Double", "Doubles", "Doubles", "LIST_DOUBLE"},
+		&composer{"Int", "Int", "SINGLE_INT", "Int", "Ints", "Ints", "LIST_INT"},
+		&composer{"Uint", "Uint", "SINGLE_UINT", "Uint", "Uints", "Uints", "LIST_UINT"},
+		&composer{"Bool", "Bool", "SINGLE_BOOL", "Bool", "Bools", "Bools", "LIST_BOOL"},
+		&composer{"String", "String", "SINGLE_STRING", "String", "Strings", "Strings", "LIST_STRING"},
+		&composer{"Bytes", "Bytes", "SINGLE_BYTES", "Bytes", "ListOfBytes", "ListOfBytes", "LIST_BYTES"},
+		&composer{"Tag", "String", "SINGLE_TAG", "Tag", "Tags", "Strings", "LIST_TAG"},
 	},
 		`"github.com/katydid/validator-go/validator/ast"`,
 		`"github.com/katydid/validator-go/validator/funcs"`,

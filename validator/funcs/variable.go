@@ -119,9 +119,6 @@ func (this *varString) Eval() (string, error) {
 	switch kind {
 	case parse.StringKind:
 		return cast.ToString(v), nil
-	case parse.TagKind:
-		// TODO: Consider creating varTag
-		return cast.ToString(v), nil
 	}
 	return "", ErrNotStringConst{}
 }
@@ -138,4 +135,19 @@ func (this *varBytes) Eval() ([]byte, error) {
 		return nil, ErrNotBytesConst{}
 	}
 	return v, nil
+}
+
+func (this *varTag) Eval() (string, error) {
+	if this.Value == nil {
+		return "", ErrNotTagConst{}
+	}
+	kind, v, err := this.Value.Token()
+	if err != nil {
+		return "", err
+	}
+	switch kind {
+	case parse.TagKind:
+		return cast.ToString(v), nil
+	}
+	return "", ErrNotTagConst{}
 }

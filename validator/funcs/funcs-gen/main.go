@@ -924,6 +924,7 @@ func main() {
 		&varer{"Bool", "bool", "bool", "false"},
 		&varer{"String", "string", "string", `""`},
 		&varer{"Bytes", "[]byte", "[]byte", "nil"},
+		// Tag is manually written
 	}, `"github.com/katydid/parser-go/parse"`, `"github.com/katydid/validator-go/validator/ast"`)
 	gen(typStr, "type.gen.go", []interface{}{
 		&typer{"Double"},
