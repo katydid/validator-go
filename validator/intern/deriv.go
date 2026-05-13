@@ -72,30 +72,30 @@ var errUnknownHint = errors.New("unknonw hint")
 var errUnknownFieldHint = errors.New("unknonw field hint")
 
 func deriv(c Construct, patterns []*Pattern, tree parse.Parser) ([]*Pattern, error) {
-	var resPatterns []*Pattern = patterns
+	var current []*Pattern = patterns
 	for {
-		if !Escapable(resPatterns) {
+		if !Escapable(current) {
 			tree.Skip()
-			return resPatterns, nil
+			return current, nil
 		}
 		hint, err := tree.Next()
 		if err != nil {
 			if err == io.EOF {
-				return resPatterns, nil
+				return current, nil
 			}
 			return nil, err
 		}
 		switch hint {
 		case parse.EnterHint:
 			// derive children, until a LeaveHint and then derive the Next
-			resPatterns, err = deriv(c, resPatterns, tree)
+			current, err = deriv(c, current, tree)
 			if err != nil {
 				return nil, err
 			}
 		case parse.LeaveHint:
-			return resPatterns, nil
+			return current, nil
 		case parse.FieldHint:
-			childPatterns, err := derivEnter(c, resPatterns, tree)
+			childPatterns, err := derivEnter(c, current, tree)
 			if err != nil {
 				return nil, err
 			}
@@ -117,13 +117,13 @@ func deriv(c Construct, patterns []*Pattern, tree parse.Parser) ([]*Pattern, err
 			default:
 				return nil, errUnknownFieldHint
 			}
-			resPatterns, err = derivLeave(c, resPatterns, childPatterns)
+			current, err = derivLeave(c, current, childPatterns)
 			if err != nil {
 				return nil, err
 			}
 		case parse.ValueHint:
 			// derive value and then derive the Next
-			resPatterns, err = derivValue(c, resPatterns, tree)
+			current, err = derivValue(c, current, tree)
 			if err != nil {
 				return nil, err
 			}

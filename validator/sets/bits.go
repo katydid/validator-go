@@ -81,7 +81,8 @@ func (bs Bits) Inc() Bits {
 	}
 }
 
-func (bs Bits) list() []bool {
+// Only for debugging purposes
+func (bs Bits) List() []bool {
 	list := make([]bool, bs.size)
 	for i := 0; i < bs.size; i++ {
 		list[i] = bs.Get(i)

@@ -49,11 +49,13 @@ func test(t *testing.T, name string, g *ast.Grammar, p parse.Parser, expected bo
 		t.Skipf("convert was not designed to handle recursion")
 	}
 	if strings.HasPrefix(name, "GoBigOr") {
+		// This one seems to be working, maybe we can delete this?
 		t.Skipf("too big to fail: the number of Ors creates a state space explosion")
 	}
 	if strings.HasPrefix(name, "BananaLarge") {
+		// This one does not seem to exist anymore.
 		t.Skipf(`too big to fail: this test was specifically created to test that nested if expressions don't result in exponential explosions,
-but since the auto implementation does compile everything it will explode.`)
+	but since the auto implementation does compile everything it will explode.`)
 	}
 	var a *auto.Auto
 	var err error

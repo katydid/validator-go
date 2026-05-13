@@ -142,10 +142,12 @@ func (this *compiler) getReturn(stackIndex int, nullIndex int) (int, error) {
 		return ret, nil
 	}
 	stackElm := this.stackElms[stackIndex]
-	zullable := this.nullables[nullIndex]
 	childrenZipper := stackElm.Second
-	nullable := sets.UnzipBits(zullable, this.zis[childrenZipper])
 	parentPatterns := stackElm.First
+
+	zullable := this.nullables[nullIndex]
+	nullable := sets.UnzipBits(zullable, this.zis[childrenZipper])
+
 	currentPatterns := this.patterns.Get(parentPatterns)
 	newPatterns, err := intern.DeriveReturns(this.construct, currentPatterns, nullable)
 	if err != nil {
