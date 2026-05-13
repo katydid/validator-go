@@ -119,7 +119,6 @@ func deriv(auto *Auto, current int, tree parse.Parser) (int, error) {
 			if err != nil {
 				return 0, err
 			}
-
 		case parse.UnknownHint:
 			return 0, errUnknownHint
 		}

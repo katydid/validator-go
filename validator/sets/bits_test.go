@@ -35,12 +35,12 @@ func check(t *testing.T, this, that []bool) {
 func TestBits1(t *testing.T) {
 	bs := NewBits(1)
 	bs.Set(0, true)
-	check(t, bs.list(), []bool{true})
+	check(t, bs.List(), []bool{true})
 	if !bs.Get(0) {
 		t.Fatalf("expected true")
 	}
 	bs.Set(0, false)
-	check(t, bs.list(), []bool{false})
+	check(t, bs.List(), []bool{false})
 	if bs.Get(0) {
 		t.Fatalf("expected false")
 	}
@@ -53,12 +53,12 @@ func TestBits10(t *testing.T) {
 	bs.Set(7, true)
 	bs.Set(8, false)
 	bs.Set(9, true)
-	check(t, bs.list(), []bool{false, false, false, false, false, true, false, true, false, true})
+	check(t, bs.List(), []bool{false, false, false, false, false, true, false, true, false, true})
 	if !bs.Get(5) {
 		t.Fatalf("expected true")
 	}
 	bs.Set(3, true)
-	check(t, bs.list(), []bool{false, false, false, true, false, true, false, true, false, true})
+	check(t, bs.List(), []bool{false, false, false, true, false, true, false, true, false, true})
 	if !bs.Get(3) {
 		t.Fatalf("expected true")
 	}

@@ -105,16 +105,40 @@ func (this *ifExprs) addIfExpr(cond funcs.Bool, then, els *intern.Pattern) {
 		this.els.addReturn(els)
 		return
 	}
+
+	// if this.cond
+	// 	 then: if Not(cond) // impossible
+	//     then: this.then ++ then     // impossible
+	// 	 else: if cond
+	//     then: this.then ++ else
+	//  else Not(this.cond)
+	//   if Not(cond)
+	//     then: this.else ++ then
+	// 	 else: if cond
+	//     then: this.else ++ else
+
 	// remove impossible (always false) then condition
 	if funcs.IsFalse(funcs.And(this.cond, cond)) {
 		this.then.addReturn(els)
 		this.els.addIfExpr(cond, then, els)
 		return
 	}
+
+	// if this.cond
+	// 	 then: if cond
+	//     then: this.then ++ then
+	// 	 else: Not(cond)  // impossible
+	//     then: this.then ++ else // impossible
+	//  else Not(this.cond)
+	//   if cond
+	//     then: this.else ++ then
+	// 	 else: Not(cond)
+	//     then: this.else ++ else
+
 	// remove impossible (always false) else condition
 	if funcs.IsFalse(funcs.And(this.cond, funcs.Not(cond))) {
-		this.then.addIfExpr(cond, then, els)
-		this.els.addReturn(then)
+		this.then.addReturn(then)
+		this.els.addIfExpr(cond, then, els)
 		return
 	}
 	this.then.addIfExpr(cond, then, els)
