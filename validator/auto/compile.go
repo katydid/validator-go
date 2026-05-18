@@ -72,6 +72,11 @@ func (c *compiler) compile() error {
 			changed = true
 		}
 	}
+	for state := range c.patterns.Len() {
+		if err := c.calcHashCalls(state); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 

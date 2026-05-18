@@ -101,7 +101,6 @@ func (this *compiler) calcCallTrees(upto int) error {
 			return err
 		}
 		this.calls = append(this.calls, memCallTree)
-		this.calcHashCalls(i)
 	}
 	return nil
 }

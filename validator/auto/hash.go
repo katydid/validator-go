@@ -25,23 +25,27 @@ type stringCollector struct {
 }
 
 func (c *stringCollector) Visit(node any) any {
-	term, ok := node.(*ast.Terminal)
-	if ok {
-		if term.StringValue != nil {
-			c.ss = append(c.ss, *term.StringValue)
+	switch t := node.(type) {
+	case *ast.Terminal:
+		if t.StringValue != nil {
+			c.ss = append(c.ss, *t.StringValue)
+		}
+	case *ast.Name:
+		if t.StringValue != nil {
+			c.ss = append(c.ss, *t.StringValue)
 		}
 	}
 	return c
 }
 
 func getStringsFromPattern(p *intern.Pattern) []string {
-	if p.Func == nil {
-		return nil
-	}
-	expr := p.Func.ToExpr()
 	collector := &stringCollector{[]string{}}
-	expr.Walk(collector)
-	return collector.ss
+	if p.Func != nil {
+		expr := p.Func.ToExpr()
+		expr.Walk(collector)
+	}
+	ss := getStringsFromPatterns(p.Patterns)
+	return append(collector.ss, ss...)
 }
 
 func getStringsFromPatterns(ps []*intern.Pattern) []string {
@@ -60,15 +64,14 @@ type callResult struct {
 func (this *compiler) calcHashCalls(state int) error {
 	ps := this.patterns.Get(state)
 	names := getStringsFromPatterns(ps)
-	for len(this.hashedCalls) <= state {
-		this.hashedCalls = append(this.hashedCalls, map[string]callResult{})
-	}
-	for _, name := range names {
-		child, stackIndex, err := this.calls[state].eval(debug.NewStringValue(name))
+	hashed := map[string]callResult{}
+	for i := range names {
+		child, stackIndex, err := this.calls[state].eval(debug.NewStringValue(names[i]))
 		if err != nil {
 			return err
 		}
-		this.hashedCalls[state][name] = callResult{child: child, stackIndex: stackIndex}
+		hashed[names[i]] = callResult{child: child, stackIndex: stackIndex}
 	}
+	this.hashedCalls = append(this.hashedCalls, hashed)
 	return nil
 }
