@@ -22,6 +22,7 @@ import (
 	"errors"
 	"io"
 
+	"github.com/katydid/parser-go/cast"
 	"github.com/katydid/parser-go/parse"
 )
 
@@ -33,6 +34,8 @@ type Auto struct {
 	start           int
 	stateToNullable []int
 	accept          []bool
+
+	hashedCalls []map[string]callResult
 }
 
 // Validate executes an automaton with the given parser and returns whether the parser is valid given the automaton's original grammar.
@@ -46,6 +49,18 @@ func (auto *Auto) Validate(p parse.Parser) (bool, error) {
 
 func (auto *Auto) MetricNumberOfStates() int {
 	return len(auto.accept)
+}
+
+func derivEnterField(auto *Auto, current int, tree parse.Parser) (int, int, error) {
+	kind, name, err := tree.Token()
+	if err == nil && kind == parse.StringKind {
+		res, ok := auto.hashedCalls[current][cast.ToString(name)]
+		if ok {
+			return res.child, res.stackIndex, nil
+		}
+	}
+	callTree := auto.calls[current]
+	return callTree.eval(tree)
 }
 
 func derivEnter(auto *Auto, current int, tree parse.Parser) (int, int, error) {
@@ -93,7 +108,7 @@ func deriv(auto *Auto, current int, tree parse.Parser) (int, error) {
 		case parse.LeaveHint:
 			return current, nil
 		case parse.FieldHint:
-			childState, stackElm, err := derivEnter(auto, current, tree)
+			childState, stackElm, err := derivEnterField(auto, current, tree)
 			if err != nil {
 				return 0, err
 			}

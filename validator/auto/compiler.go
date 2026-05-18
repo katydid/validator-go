@@ -60,6 +60,8 @@ type compiler struct {
 	escapables      []bool
 	stateToNullable []int
 	accept          []bool
+
+	hashedCalls []map[string]callResult
 }
 
 func (this *compiler) calcEscapables(upto int) {

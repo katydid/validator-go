@@ -26,7 +26,7 @@ var errTyp = reflect.TypeOf((*error)(nil)).Elem()
 var funcTyp = reflect.TypeOf((*Func)(nil)).Elem()
 
 // Register registers a function as function that can composed.
-func Register(name string, fnc interface{}) {
+func Register(name string, fnc any) {
 	typ := reflect.TypeOf(fnc)
 	if typ.Kind() != reflect.Func {
 		panic(fmt.Sprintf("expecting constructor function for %s, but got %T", name, fnc))

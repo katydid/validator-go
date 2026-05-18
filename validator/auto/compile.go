@@ -49,6 +49,7 @@ func compileAuto(g *ast.Grammar, record bool) (*Auto, error) {
 		start:           c.start,
 		stateToNullable: c.stateToNullable,
 		accept:          c.accept,
+		hashedCalls:     c.hashedCalls,
 	}
 	return a, nil
 }
@@ -69,6 +70,11 @@ func (c *compiler) compile() error {
 				return err
 			}
 			changed = true
+		}
+	}
+	for state := range c.patterns.Len() {
+		if err := c.calcHashCalls(state); err != nil {
+			return err
 		}
 	}
 	return nil
