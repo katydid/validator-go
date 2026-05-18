@@ -17,7 +17,7 @@ package ast
 // Visitor is used to do a top down walk through the expression tree using the Walk methods.
 type Visitor interface {
 	//Visit takes in an ast type and should return another type that implementes the Visitor interface.
-	Visit(node interface{}) interface{}
+	Visit(node any) any
 }
 
 // Walk visits the Grammar instance and all its possible child pattern and all its pattern declarations.

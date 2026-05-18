@@ -60,6 +60,8 @@ type compiler struct {
 	escapables      []bool
 	stateToNullable []int
 	accept          []bool
+
+	hashedCalls []map[string]callResult
 }
 
 func (this *compiler) calcEscapables(upto int) {
@@ -99,6 +101,7 @@ func (this *compiler) calcCallTrees(upto int) error {
 			return err
 		}
 		this.calls = append(this.calls, memCallTree)
+		this.calcHashCalls(i)
 	}
 	return nil
 }

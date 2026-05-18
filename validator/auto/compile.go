@@ -49,6 +49,7 @@ func compileAuto(g *ast.Grammar, record bool) (*Auto, error) {
 		start:           c.start,
 		stateToNullable: c.stateToNullable,
 		accept:          c.accept,
+		hashedCalls:     c.hashedCalls,
 	}
 	return a, nil
 }
