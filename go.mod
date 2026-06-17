@@ -1,6 +1,6 @@
 module github.com/katydid/validator-go
 
-go 1.24
+go 1.26.3
 
 tool github.com/awalterschulze/goderive
 
@@ -8,8 +8,8 @@ tool github.com/goccmack/gocc
 
 require (
 	github.com/katydid/parser-go v0.8.7
-	github.com/katydid/parser-go-json v0.5.4
-	github.com/katydid/parser-go-reflect v0.3.2
+	github.com/katydid/parser-go-json v0.5.5
+	github.com/katydid/parser-go-reflect v0.3.3
 )
 
 require (
