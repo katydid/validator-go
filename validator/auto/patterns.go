@@ -16,46 +16,29 @@ package auto
 
 import (
 	"github.com/katydid/validator-go/validator/intern"
+	"github.com/katydid/validator-go/validator/sets"
 )
 
-// type PatternsSet = *sets.IndexedSet[[]*intern.Pattern]
-type PatternsSet = Patterns
+type PatternsSet struct {
+	set *sets.IndexedSet[[]*intern.Pattern]
+}
 
 func NewPatternsSet() PatternsSet {
-	return NewPatterns()
+	return PatternsSet{sets.NewIndexedSet(intern.HashPatterns, intern.EqualPatterns)}
 }
 
-// Patterns represents an indexed list of list of Patterns.
-// It reverse maps a list of Patterns into a single int.
-type Patterns [][]*intern.Pattern
-
-func NewPatterns() Patterns {
-	return Patterns([][]*intern.Pattern{})
+func (this PatternsSet) Get(i int) []*intern.Pattern {
+	return this.set.Get(i)
 }
 
-func (this Patterns) Get(i int) []*intern.Pattern {
-	return this[i]
+func (this PatternsSet) Len() int {
+	return this.set.Len()
 }
 
-func (this Patterns) Len() int {
-	return len(this)
+func (this PatternsSet) Index(patterns []*intern.Pattern) int {
+	return this.set.Index(patterns)
 }
 
-func (this Patterns) Index(patterns []*intern.Pattern) int {
-	for i, ps := range this {
-		// TODO maybe we should rather use hashes to do this more efficiently?
-		if intern.EqualPatterns(ps, patterns) {
-			return i
-		}
-	}
-	return -1
-}
-
-func (this *Patterns) Add(patterns []*intern.Pattern) int {
-	index := this.Index(patterns)
-	if index != -1 {
-		return index
-	}
-	*this = append(*this, patterns)
-	return len(*this) - 1
+func (this *PatternsSet) Add(patterns []*intern.Pattern) int {
+	return this.set.Add(patterns)
 }
