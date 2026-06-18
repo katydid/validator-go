@@ -231,6 +231,7 @@ Pattern
   | DepthPattern
   | StartOr
   | StartAnd
+  | StartXor
   | OpenParen Pattern CloseParen Star <<
     &Pattern{ZeroOrMore: &ZeroOrMore{
       OpenParen: $0.(*Keyword),
@@ -380,7 +381,30 @@ ContinueInterleave
     }}, nil
   >>
   ;
-AllExpr
+
+
+StartXor
+  : OpenParen Pattern Caret ContinueXor CloseParen <<
+    &Pattern{Xor: &Xor{
+      OpenParen: $0.(*Keyword),
+      LeftPattern: $1.(*Pattern),
+      Caret: $2.(*Keyword),
+      RightPattern: $3.(*Pattern),
+      CloseParen: $4.(*Keyword),
+    }}, nil
+  >>
+  ;
+
+ContinueXor
+  : Pattern
+  | ContinueXor Caret Pattern <<
+    &Pattern{Xor: &Xor{
+      LeftPattern: $0.(*Pattern),
+      Caret: $1.(*Keyword),
+      RightPattern: $2.(*Pattern),
+    }}, nil
+  >>
+  ;AllExpr
   : RightArrow Expr    << SetRightArrow($1, $0), nil >>
   | BuiltIn            << &Expr{BuiltIn: $0.(*BuiltIn)}, nil >>
   ;
@@ -806,6 +830,16 @@ Tilde
     &Keyword{
       Before: $0.(*Space),
       Value: "~",
+    }, nil
+  >>
+  ;
+
+Caret
+  : "^" << &Keyword{Value: "^"}, nil >>
+  | Space "^" << 
+    &Keyword{
+      Before: $0.(*Space),
+      Value: "^",
     }, nil
   >>
   ;

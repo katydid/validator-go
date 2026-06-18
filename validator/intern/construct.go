@@ -34,6 +34,7 @@ type Construct interface {
 	NewOr(ps []*Pattern) (*Pattern, error)
 	NewAnd(ps []*Pattern) (*Pattern, error)
 	NewInterleave(ps []*Pattern) (*Pattern, error)
+	NewXor(ps []*Pattern) (*Pattern, error)
 	NewZAny() *Pattern
 	NewEmpty() *Pattern
 	NewNotZAny() *Pattern
@@ -201,6 +202,14 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		}
 		return c.NewInterleave(ps)
 	}
+	if this.Xor != nil {
+		xors := getXorsFromAST(this)
+		ps, err := traverse(c.NewPattern, xors)
+		if err != nil {
+			return nil, err
+		}
+		return c.NewXor(ps)
+	}
 	return nil, fmt.Errorf("unknown pattern: %v", this)
 }
 
@@ -240,6 +249,13 @@ func getAndsFromAST(p *ast.Pattern) []*ast.Pattern {
 func getInterleavesFromAST(p *ast.Pattern) []*ast.Pattern {
 	if p.Interleave != nil {
 		return append(getInterleavesFromAST(p.Interleave.GetLeftPattern()), getInterleavesFromAST(p.Interleave.GetRightPattern())...)
+	}
+	return []*ast.Pattern{p}
+}
+
+func getXorsFromAST(p *ast.Pattern) []*ast.Pattern {
+	if p.Xor != nil {
+		return append(getXorsFromAST(p.Xor.GetLeftPattern()), getXorsFromAST(p.Xor.GetRightPattern())...)
 	}
 	return []*ast.Pattern{p}
 }
@@ -577,5 +593,11 @@ func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
 		return ps[0], nil
 	}
 	pp := newOpPattern(Interleave, ps...)
+	return c.checkRef(pp)
+}
+
+func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
+	ps = flattenByType(ps, Xor)
+	pp := newOpPattern(Xor, ps...)
 	return c.checkRef(pp)
 }

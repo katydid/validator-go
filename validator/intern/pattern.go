@@ -36,6 +36,7 @@ const ZAny = PatternType(10)
 const Contains = PatternType(11)
 const Optional = PatternType(12)
 const Interleave = PatternType(13)
+const Xor = PatternType(14)
 
 type Pattern struct {
 	Type     PatternType
@@ -64,6 +65,8 @@ func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
 		p.nullable = !ps[0].nullable
 	case Contains:
 		p.nullable = ps[0].nullable
+	case Xor:
+		p.nullable = xorNullable(ps)
 	default:
 		panic(fmt.Sprintf("unsupported PatternType %v", typ))
 	}
@@ -140,6 +143,8 @@ func (p *Pattern) String() string {
 		return "(" + p.Patterns[0].String() + ")?"
 	case Interleave:
 		return "{" + joinPatterns(p.Patterns, "; ") + "}"
+	case Xor:
+		return "(" + joinPatterns(p.Patterns, " ^ ") + ")"
 	}
 	panic(fmt.Sprintf("unknown pattern: %d", p.Type))
 }

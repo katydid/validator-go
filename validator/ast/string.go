@@ -136,6 +136,13 @@ func (this *Interleave) String() string {
 		this.ExtraSemiColon.String() + this.CloseCurly.String()
 }
 
+// String returns the validator string representation of the And instance.
+func (this *Xor) String() string {
+	return this.OpenParen.String() + this.LeftPattern.String() +
+		this.Caret.String() + this.RightPattern.String() +
+		this.CloseParen.String()
+}
+
 // String returns the validator string representation of the Expr instance.
 func (this *Expr) String() string {
 	space := this.RightArrow.String() + this.Comma.String()

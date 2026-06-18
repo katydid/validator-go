@@ -69,38 +69,40 @@ var TransTab = TransitionTable{
 			return 24
 		case r == 93: // [']',']']
 			return 25
-		case r == 95: // ['_','_']
+		case r == 94: // ['^','^']
 			return 26
-		case r == 96: // ['`','`']
+		case r == 95: // ['_','_']
 			return 27
+		case r == 96: // ['`','`']
+			return 28
 		case 97 <= r && r <= 99: // ['a','c']
-			return 28
-		case r == 100: // ['d','d']
 			return 29
-		case r == 101: // ['e','e']
-			return 28
-		case r == 102: // ['f','f']
+		case r == 100: // ['d','d']
 			return 30
-		case 103 <= r && r <= 104: // ['g','h']
-			return 28
-		case r == 105: // ['i','i']
+		case r == 101: // ['e','e']
+			return 29
+		case r == 102: // ['f','f']
 			return 31
-		case 106 <= r && r <= 115: // ['j','s']
-			return 28
-		case r == 116: // ['t','t']
+		case 103 <= r && r <= 104: // ['g','h']
+			return 29
+		case r == 105: // ['i','i']
 			return 32
-		case r == 117: // ['u','u']
+		case 106 <= r && r <= 115: // ['j','s']
+			return 29
+		case r == 116: // ['t','t']
 			return 33
-		case 118 <= r && r <= 122: // ['v','z']
-			return 28
-		case r == 123: // ['{','{']
+		case r == 117: // ['u','u']
 			return 34
-		case r == 124: // ['|','|']
+		case 118 <= r && r <= 122: // ['v','z']
+			return 29
+		case r == 123: // ['{','{']
 			return 35
-		case r == 125: // ['}','}']
+		case r == 124: // ['|','|']
 			return 36
-		case r == 126: // ['~','~']
+		case r == 125: // ['}','}']
 			return 37
+		case r == 126: // ['~','~']
+			return 38
 		}
 		return NoState
 	},
@@ -122,7 +124,7 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 61: // ['=','=']
-			return 38
+			return 39
 		}
 		return NoState
 	},
@@ -130,11 +132,11 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 34: // ['"','"']
-			return 39
-		case r == 92: // ['\','\']
 			return 40
-		default:
+		case r == 92: // ['\','\']
 			return 41
+		default:
+			return 42
 		}
 	},
 	// S4
@@ -147,19 +149,19 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 91: // ['[','[']
-			return 42
-		case r == 98: // ['b','b']
 			return 43
-		case r == 100: // ['d','d']
+		case r == 98: // ['b','b']
 			return 44
-		case r == 105: // ['i','i']
+		case r == 100: // ['d','d']
 			return 45
-		case r == 115: // ['s','s']
+		case r == 105: // ['i','i']
 			return 46
-		case r == 116: // ['t','t']
+		case r == 115: // ['s','s']
 			return 47
-		case r == 117: // ['u','u']
+		case r == 116: // ['t','t']
 			return 48
+		case r == 117: // ['u','u']
+			return 49
 		}
 		return NoState
 	},
@@ -199,7 +201,7 @@ var TransTab = TransitionTable{
 		case 49 <= r && r <= 57: // ['1','9']
 			return 15
 		case r == 62: // ['>','>']
-			return 49
+			return 50
 		}
 		return NoState
 	},
@@ -213,9 +215,9 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 42: // ['*','*']
-			return 50
-		case r == 47: // ['/','/']
 			return 51
+		case r == 47: // ['/','/']
+			return 52
 		}
 		return NoState
 	},
@@ -229,7 +231,7 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 52
+			return 53
 		}
 		return NoState
 	},
@@ -237,7 +239,7 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 58: // [':',':']
-			return 53
+			return 54
 		}
 		return NoState
 	},
@@ -251,9 +253,9 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 61: // ['=','=']
-			return 54
-		case r == 101: // ['e','e']
 			return 55
+		case r == 101: // ['e','e']
+			return 56
 		}
 		return NoState
 	},
@@ -261,7 +263,7 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 61: // ['=','=']
-			return 56
+			return 57
 		}
 		return NoState
 	},
@@ -269,7 +271,7 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 61: // ['=','=']
-			return 57
+			return 58
 		}
 		return NoState
 	},
@@ -289,13 +291,13 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
@@ -303,7 +305,7 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 93: // [']',']']
-			return 62
+			return 63
 		}
 		return NoState
 	},
@@ -316,55 +318,43 @@ var TransTab = TransitionTable{
 	// S26
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 122: // ['a','z']
-			return 61
 		}
 		return NoState
 	},
 	// S27
 	func(r rune) int {
 		switch {
-		case r == 96: // ['`','`']
-			return 63
-		default:
-			return 27
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
+		return NoState
 	},
 	// S28
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 122: // ['a','z']
-			return 61
+		case r == 96: // ['`','`']
+			return 64
+		default:
+			return 28
 		}
-		return NoState
 	},
 	// S29
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 110: // ['a','n']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 111: // ['o','o']
-			return 64
-		case 112 <= r && r <= 122: // ['p','z']
-			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
@@ -372,15 +362,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case r == 97: // ['a','a']
-			return 65
-		case 98 <= r && r <= 122: // ['b','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 110: // ['a','n']
+			return 62
+		case r == 111: // ['o','o']
+			return 65
+		case 112 <= r && r <= 122: // ['p','z']
+			return 62
 		}
 		return NoState
 	},
@@ -388,17 +380,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 109: // ['a','m']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 110: // ['n','n']
+		case r == 97: // ['a','a']
 			return 66
-		case 111 <= r && r <= 122: // ['o','z']
-			return 61
+		case 98 <= r && r <= 122: // ['b','z']
+			return 62
 		}
 		return NoState
 	},
@@ -406,19 +396,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case r == 97: // ['a','a']
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 109: // ['a','m']
+			return 62
+		case r == 110: // ['n','n']
 			return 67
-		case 98 <= r && r <= 113: // ['b','q']
-			return 61
-		case r == 114: // ['r','r']
-			return 68
-		case 115 <= r && r <= 122: // ['s','z']
-			return 61
+		case 111 <= r && r <= 122: // ['o','z']
+			return 62
 		}
 		return NoState
 	},
@@ -426,23 +414,37 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 104: // ['a','h']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 105: // ['i','i']
+		case r == 97: // ['a','a']
+			return 68
+		case 98 <= r && r <= 113: // ['b','q']
+			return 62
+		case r == 114: // ['r','r']
 			return 69
-		case 106 <= r && r <= 122: // ['j','z']
-			return 61
+		case 115 <= r && r <= 122: // ['s','z']
+			return 62
 		}
 		return NoState
 	},
 	// S34
 	func(r rune) int {
 		switch {
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 104: // ['a','h']
+			return 62
+		case r == 105: // ['i','i']
+			return 70
+		case 106 <= r && r <= 122: // ['j','z']
+			return 62
 		}
 		return NoState
 	},
@@ -479,34 +481,6 @@ var TransTab = TransitionTable{
 	// S40
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
-			return 70
-		case r == 39: // [''',''']
-			return 70
-		case 48 <= r && r <= 55: // ['0','7']
-			return 71
-		case r == 85: // ['U','U']
-			return 72
-		case r == 92: // ['\','\']
-			return 70
-		case r == 97: // ['a','a']
-			return 70
-		case r == 98: // ['b','b']
-			return 70
-		case r == 102: // ['f','f']
-			return 70
-		case r == 110: // ['n','n']
-			return 70
-		case r == 114: // ['r','r']
-			return 70
-		case r == 116: // ['t','t']
-			return 70
-		case r == 117: // ['u','u']
-			return 73
-		case r == 118: // ['v','v']
-			return 70
-		case r == 120: // ['x','x']
-			return 74
 		}
 		return NoState
 	},
@@ -514,25 +488,51 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 34: // ['"','"']
-			return 39
+			return 71
+		case r == 39: // [''',''']
+			return 71
+		case 48 <= r && r <= 55: // ['0','7']
+			return 72
+		case r == 85: // ['U','U']
+			return 73
 		case r == 92: // ['\','\']
-			return 40
-		default:
-			return 41
-		}
-	},
-	// S42
-	func(r rune) int {
-		switch {
-		case r == 93: // [']',']']
+			return 71
+		case r == 97: // ['a','a']
+			return 71
+		case r == 98: // ['b','b']
+			return 71
+		case r == 102: // ['f','f']
+			return 71
+		case r == 110: // ['n','n']
+			return 71
+		case r == 114: // ['r','r']
+			return 71
+		case r == 116: // ['t','t']
+			return 71
+		case r == 117: // ['u','u']
+			return 74
+		case r == 118: // ['v','v']
+			return 71
+		case r == 120: // ['x','x']
 			return 75
 		}
 		return NoState
 	},
+	// S42
+	func(r rune) int {
+		switch {
+		case r == 34: // ['"','"']
+			return 40
+		case r == 92: // ['\','\']
+			return 41
+		default:
+			return 42
+		}
+	},
 	// S43
 	func(r rune) int {
 		switch {
-		case r == 111: // ['o','o']
+		case r == 93: // [']',']']
 			return 76
 		}
 		return NoState
@@ -548,7 +548,7 @@ var TransTab = TransitionTable{
 	// S45
 	func(r rune) int {
 		switch {
-		case r == 110: // ['n','n']
+		case r == 111: // ['o','o']
 			return 78
 		}
 		return NoState
@@ -556,7 +556,7 @@ var TransTab = TransitionTable{
 	// S46
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
+		case r == 110: // ['n','n']
 			return 79
 		}
 		return NoState
@@ -564,7 +564,7 @@ var TransTab = TransitionTable{
 	// S47
 	func(r rune) int {
 		switch {
-		case r == 97: // ['a','a']
+		case r == 116: // ['t','t']
 			return 80
 		}
 		return NoState
@@ -572,7 +572,7 @@ var TransTab = TransitionTable{
 	// S48
 	func(r rune) int {
 		switch {
-		case r == 105: // ['i','i']
+		case r == 97: // ['a','a']
 			return 81
 		}
 		return NoState
@@ -580,22 +580,21 @@ var TransTab = TransitionTable{
 	// S49
 	func(r rune) int {
 		switch {
+		case r == 105: // ['i','i']
+			return 82
 		}
 		return NoState
 	},
 	// S50
 	func(r rune) int {
 		switch {
-		case r == 42: // ['*','*']
-			return 82
-		default:
-			return 50
 		}
+		return NoState
 	},
 	// S51
 	func(r rune) int {
 		switch {
-		case r == 10: // ['\n','\n']
+		case r == 42: // ['*','*']
 			return 83
 		default:
 			return 51
@@ -604,14 +603,17 @@ var TransTab = TransitionTable{
 	// S52
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
+		case r == 10: // ['\n','\n']
+			return 84
+		default:
 			return 52
 		}
-		return NoState
 	},
 	// S53
 	func(r rune) int {
 		switch {
+		case 48 <= r && r <= 57: // ['0','9']
+			return 53
 		}
 		return NoState
 	},
@@ -624,14 +626,14 @@ var TransTab = TransitionTable{
 	// S55
 	func(r rune) int {
 		switch {
-		case r == 109: // ['m','m']
-			return 84
 		}
 		return NoState
 	},
 	// S56
 	func(r rune) int {
 		switch {
+		case r == 109: // ['m','m']
+			return 85
 		}
 		return NoState
 	},
@@ -644,14 +646,6 @@ var TransTab = TransitionTable{
 	// S58
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 122: // ['a','z']
-			return 61
 		}
 		return NoState
 	},
@@ -659,13 +653,13 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
@@ -673,13 +667,13 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
@@ -687,57 +681,53 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
 	// S62
 	func(r rune) int {
 		switch {
-		case r == 91: // ['[','[']
-			return 85
-		case r == 98: // ['b','b']
-			return 86
-		case r == 100: // ['d','d']
-			return 87
-		case r == 105: // ['i','i']
-			return 88
-		case r == 115: // ['s','s']
-			return 89
-		case r == 116: // ['t','t']
-			return 90
-		case r == 117: // ['u','u']
-			return 91
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
 	// S63
 	func(r rune) int {
 		switch {
+		case r == 91: // ['[','[']
+			return 86
+		case r == 98: // ['b','b']
+			return 87
+		case r == 100: // ['d','d']
+			return 88
+		case r == 105: // ['i','i']
+			return 89
+		case r == 115: // ['s','s']
+			return 90
+		case r == 116: // ['t','t']
+			return 91
+		case r == 117: // ['u','u']
+			return 92
 		}
 		return NoState
 	},
 	// S64
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 116: // ['a','t']
-			return 61
-		case r == 117: // ['u','u']
-			return 92
-		case 118 <= r && r <= 122: // ['v','z']
-			return 61
 		}
 		return NoState
 	},
@@ -745,17 +735,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 107: // ['a','k']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 108: // ['l','l']
+		case 97 <= r && r <= 116: // ['a','t']
+			return 62
+		case r == 117: // ['u','u']
 			return 93
-		case 109 <= r && r <= 122: // ['m','z']
-			return 61
+		case 118 <= r && r <= 122: // ['v','z']
+			return 62
 		}
 		return NoState
 	},
@@ -763,17 +753,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 115: // ['a','s']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 116: // ['t','t']
+		case 97 <= r && r <= 107: // ['a','k']
+			return 62
+		case r == 108: // ['l','l']
 			return 94
-		case 117 <= r && r <= 122: // ['u','z']
-			return 61
+		case 109 <= r && r <= 122: // ['m','z']
+			return 62
 		}
 		return NoState
 	},
@@ -781,17 +771,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 102: // ['a','f']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 103: // ['g','g']
+		case 97 <= r && r <= 115: // ['a','s']
+			return 62
+		case r == 116: // ['t','t']
 			return 95
-		case 104 <= r && r <= 122: // ['h','z']
-			return 61
+		case 117 <= r && r <= 122: // ['u','z']
+			return 62
 		}
 		return NoState
 	},
@@ -799,17 +789,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 116: // ['a','t']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 117: // ['u','u']
+		case 97 <= r && r <= 102: // ['a','f']
+			return 62
+		case r == 103: // ['g','g']
 			return 96
-		case 118 <= r && r <= 122: // ['v','z']
-			return 61
+		case 104 <= r && r <= 122: // ['h','z']
+			return 62
 		}
 		return NoState
 	},
@@ -817,47 +807,53 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 109: // ['a','m']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 110: // ['n','n']
+		case 97 <= r && r <= 116: // ['a','t']
+			return 62
+		case r == 117: // ['u','u']
 			return 97
-		case 111 <= r && r <= 122: // ['o','z']
-			return 61
+		case 118 <= r && r <= 122: // ['v','z']
+			return 62
 		}
 		return NoState
 	},
 	// S70
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
-			return 39
-		case r == 92: // ['\','\']
-			return 40
-		default:
-			return 41
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 109: // ['a','m']
+			return 62
+		case r == 110: // ['n','n']
+			return 98
+		case 111 <= r && r <= 122: // ['o','z']
+			return 62
 		}
+		return NoState
 	},
 	// S71
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 55: // ['0','7']
-			return 98
+		case r == 34: // ['"','"']
+			return 40
+		case r == 92: // ['\','\']
+			return 41
+		default:
+			return 42
 		}
-		return NoState
 	},
 	// S72
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 99
-		case 65 <= r && r <= 70: // ['A','F']
-			return 99
-		case 97 <= r && r <= 102: // ['a','f']
+		case 48 <= r && r <= 55: // ['0','7']
 			return 99
 		}
 		return NoState
@@ -889,7 +885,11 @@ var TransTab = TransitionTable{
 	// S75
 	func(r rune) int {
 		switch {
-		case r == 98: // ['b','b']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 102
+		case 65 <= r && r <= 70: // ['A','F']
+			return 102
+		case 97 <= r && r <= 102: // ['a','f']
 			return 102
 		}
 		return NoState
@@ -897,7 +897,7 @@ var TransTab = TransitionTable{
 	// S76
 	func(r rune) int {
 		switch {
-		case r == 111: // ['o','o']
+		case r == 98: // ['b','b']
 			return 103
 		}
 		return NoState
@@ -905,7 +905,7 @@ var TransTab = TransitionTable{
 	// S77
 	func(r rune) int {
 		switch {
-		case r == 117: // ['u','u']
+		case r == 111: // ['o','o']
 			return 104
 		}
 		return NoState
@@ -913,7 +913,7 @@ var TransTab = TransitionTable{
 	// S78
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
+		case r == 117: // ['u','u']
 			return 105
 		}
 		return NoState
@@ -921,7 +921,7 @@ var TransTab = TransitionTable{
 	// S79
 	func(r rune) int {
 		switch {
-		case r == 114: // ['r','r']
+		case r == 116: // ['t','t']
 			return 106
 		}
 		return NoState
@@ -929,7 +929,7 @@ var TransTab = TransitionTable{
 	// S80
 	func(r rune) int {
 		switch {
-		case r == 103: // ['g','g']
+		case r == 114: // ['r','r']
 			return 107
 		}
 		return NoState
@@ -937,7 +937,7 @@ var TransTab = TransitionTable{
 	// S81
 	func(r rune) int {
 		switch {
-		case r == 110: // ['n','n']
+		case r == 103: // ['g','g']
 			return 108
 		}
 		return NoState
@@ -945,32 +945,32 @@ var TransTab = TransitionTable{
 	// S82
 	func(r rune) int {
 		switch {
-		case r == 42: // ['*','*']
-			return 82
-		case r == 47: // ['/','/']
+		case r == 110: // ['n','n']
 			return 109
-		default:
-			return 50
 		}
+		return NoState
 	},
 	// S83
 	func(r rune) int {
 		switch {
+		case r == 42: // ['*','*']
+			return 83
+		case r == 47: // ['/','/']
+			return 110
+		default:
+			return 51
 		}
-		return NoState
 	},
 	// S84
 	func(r rune) int {
 		switch {
-		case r == 112: // ['p','p']
-			return 110
 		}
 		return NoState
 	},
 	// S85
 	func(r rune) int {
 		switch {
-		case r == 93: // [']',']']
+		case r == 112: // ['p','p']
 			return 111
 		}
 		return NoState
@@ -978,10 +978,8 @@ var TransTab = TransitionTable{
 	// S86
 	func(r rune) int {
 		switch {
-		case r == 111: // ['o','o']
+		case r == 93: // [']',']']
 			return 112
-		case r == 121: // ['y','y']
-			return 113
 		}
 		return NoState
 	},
@@ -989,6 +987,8 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 111: // ['o','o']
+			return 113
+		case r == 121: // ['y','y']
 			return 114
 		}
 		return NoState
@@ -996,7 +996,7 @@ var TransTab = TransitionTable{
 	// S88
 	func(r rune) int {
 		switch {
-		case r == 110: // ['n','n']
+		case r == 111: // ['o','o']
 			return 115
 		}
 		return NoState
@@ -1004,7 +1004,7 @@ var TransTab = TransitionTable{
 	// S89
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
+		case r == 110: // ['n','n']
 			return 116
 		}
 		return NoState
@@ -1012,7 +1012,7 @@ var TransTab = TransitionTable{
 	// S90
 	func(r rune) int {
 		switch {
-		case r == 97: // ['a','a']
+		case r == 116: // ['t','t']
 			return 117
 		}
 		return NoState
@@ -1020,7 +1020,7 @@ var TransTab = TransitionTable{
 	// S91
 	func(r rune) int {
 		switch {
-		case r == 105: // ['i','i']
+		case r == 97: // ['a','a']
 			return 118
 		}
 		return NoState
@@ -1028,18 +1028,8 @@ var TransTab = TransitionTable{
 	// S92
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case r == 97: // ['a','a']
-			return 61
-		case r == 98: // ['b','b']
+		case r == 105: // ['i','i']
 			return 119
-		case 99 <= r && r <= 122: // ['c','z']
-			return 61
 		}
 		return NoState
 	},
@@ -1047,33 +1037,35 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 114: // ['a','r']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 115: // ['s','s']
+		case r == 97: // ['a','a']
+			return 62
+		case r == 98: // ['b','b']
 			return 120
-		case 116 <= r && r <= 122: // ['t','z']
-			return 61
+		case 99 <= r && r <= 122: // ['c','z']
+			return 62
 		}
 		return NoState
 	},
 	// S94
 	func(r rune) int {
 		switch {
-		case r == 40: // ['(','(']
-			return 121
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 114: // ['a','r']
+			return 62
+		case r == 115: // ['s','s']
+			return 121
+		case 116 <= r && r <= 122: // ['t','z']
+			return 62
 		}
 		return NoState
 	},
@@ -1083,31 +1075,29 @@ var TransTab = TransitionTable{
 		case r == 40: // ['(','(']
 			return 122
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
 	// S96
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 100: // ['a','d']
-			return 61
-		case r == 101: // ['e','e']
+		case r == 40: // ['(','(']
 			return 123
-		case 102 <= r && r <= 122: // ['f','z']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
@@ -1115,36 +1105,42 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 115: // ['a','s']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 116: // ['t','t']
+		case 97 <= r && r <= 100: // ['a','d']
+			return 62
+		case r == 101: // ['e','e']
 			return 124
-		case 117 <= r && r <= 122: // ['u','z']
-			return 61
+		case 102 <= r && r <= 122: // ['f','z']
+			return 62
 		}
 		return NoState
 	},
 	// S98
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 55: // ['0','7']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 115: // ['a','s']
+			return 62
+		case r == 116: // ['t','t']
 			return 125
+		case 117 <= r && r <= 122: // ['u','z']
+			return 62
 		}
 		return NoState
 	},
 	// S99
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 126
-		case 65 <= r && r <= 70: // ['A','F']
-			return 126
-		case 97 <= r && r <= 102: // ['a','f']
+		case 48 <= r && r <= 55: // ['0','7']
 			return 126
 		}
 		return NoState
@@ -1176,7 +1172,11 @@ var TransTab = TransitionTable{
 	// S102
 	func(r rune) int {
 		switch {
-		case r == 121: // ['y','y']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 129
+		case 65 <= r && r <= 70: // ['A','F']
+			return 129
+		case 97 <= r && r <= 102: // ['a','f']
 			return 129
 		}
 		return NoState
@@ -1184,7 +1184,7 @@ var TransTab = TransitionTable{
 	// S103
 	func(r rune) int {
 		switch {
-		case r == 108: // ['l','l']
+		case r == 121: // ['y','y']
 			return 130
 		}
 		return NoState
@@ -1192,7 +1192,7 @@ var TransTab = TransitionTable{
 	// S104
 	func(r rune) int {
 		switch {
-		case r == 98: // ['b','b']
+		case r == 108: // ['l','l']
 			return 131
 		}
 		return NoState
@@ -1200,38 +1200,32 @@ var TransTab = TransitionTable{
 	// S105
 	func(r rune) int {
 		switch {
+		case r == 98: // ['b','b']
+			return 132
 		}
 		return NoState
 	},
 	// S106
 	func(r rune) int {
 		switch {
-		case r == 105: // ['i','i']
-			return 132
 		}
 		return NoState
 	},
 	// S107
 	func(r rune) int {
 		switch {
+		case r == 105: // ['i','i']
+			return 133
 		}
 		return NoState
 	},
 	// S108
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
-			return 133
 		}
 		return NoState
 	},
 	// S109
-	func(r rune) int {
-		switch {
-		}
-		return NoState
-	},
-	// S110
 	func(r rune) int {
 		switch {
 		case r == 116: // ['t','t']
@@ -1239,10 +1233,16 @@ var TransTab = TransitionTable{
 		}
 		return NoState
 	},
+	// S110
+	func(r rune) int {
+		switch {
+		}
+		return NoState
+	},
 	// S111
 	func(r rune) int {
 		switch {
-		case r == 98: // ['b','b']
+		case r == 116: // ['t','t']
 			return 135
 		}
 		return NoState
@@ -1250,7 +1250,7 @@ var TransTab = TransitionTable{
 	// S112
 	func(r rune) int {
 		switch {
-		case r == 111: // ['o','o']
+		case r == 98: // ['b','b']
 			return 136
 		}
 		return NoState
@@ -1258,7 +1258,7 @@ var TransTab = TransitionTable{
 	// S113
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
+		case r == 111: // ['o','o']
 			return 137
 		}
 		return NoState
@@ -1266,7 +1266,7 @@ var TransTab = TransitionTable{
 	// S114
 	func(r rune) int {
 		switch {
-		case r == 117: // ['u','u']
+		case r == 116: // ['t','t']
 			return 138
 		}
 		return NoState
@@ -1274,7 +1274,7 @@ var TransTab = TransitionTable{
 	// S115
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
+		case r == 117: // ['u','u']
 			return 139
 		}
 		return NoState
@@ -1282,7 +1282,7 @@ var TransTab = TransitionTable{
 	// S116
 	func(r rune) int {
 		switch {
-		case r == 114: // ['r','r']
+		case r == 116: // ['t','t']
 			return 140
 		}
 		return NoState
@@ -1290,7 +1290,7 @@ var TransTab = TransitionTable{
 	// S117
 	func(r rune) int {
 		switch {
-		case r == 103: // ['g','g']
+		case r == 114: // ['r','r']
 			return 141
 		}
 		return NoState
@@ -1298,7 +1298,7 @@ var TransTab = TransitionTable{
 	// S118
 	func(r rune) int {
 		switch {
-		case r == 110: // ['n','n']
+		case r == 103: // ['g','g']
 			return 142
 		}
 		return NoState
@@ -1306,18 +1306,8 @@ var TransTab = TransitionTable{
 	// S119
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 107: // ['a','k']
-			return 61
-		case r == 108: // ['l','l']
+		case r == 110: // ['n','n']
 			return 143
-		case 109 <= r && r <= 122: // ['m','z']
-			return 61
 		}
 		return NoState
 	},
@@ -1325,96 +1315,102 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 100: // ['a','d']
+		case r == 95: // ['_','_']
 			return 61
-		case r == 101: // ['e','e']
+		case 97 <= r && r <= 107: // ['a','k']
+			return 62
+		case r == 108: // ['l','l']
 			return 144
-		case 102 <= r && r <= 122: // ['f','z']
-			return 61
+		case 109 <= r && r <= 122: // ['m','z']
+			return 62
 		}
 		return NoState
 	},
 	// S121
 	func(r rune) int {
 		switch {
-		case r == 45: // ['-','-']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 100: // ['a','d']
+			return 62
+		case r == 101: // ['e','e']
 			return 145
-		case r == 48: // ['0','0']
-			return 146
-		case 49 <= r && r <= 57: // ['1','9']
-			return 147
+		case 102 <= r && r <= 122: // ['f','z']
+			return 62
 		}
 		return NoState
 	},
 	// S122
 	func(r rune) int {
 		switch {
-		case 65 <= r && r <= 90: // ['A','Z']
+		case r == 45: // ['-','-']
+			return 146
+		case r == 48: // ['0','0']
+			return 147
+		case 49 <= r && r <= 57: // ['1','9']
 			return 148
-		case r == 95: // ['_','_']
-			return 149
-		case 97 <= r && r <= 122: // ['a','z']
-			return 150
 		}
 		return NoState
 	},
 	// S123
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
 		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
+			return 149
 		case r == 95: // ['_','_']
-			return 60
+			return 150
 		case 97 <= r && r <= 122: // ['a','z']
-			return 61
+			return 151
 		}
 		return NoState
 	},
 	// S124
 	func(r rune) int {
 		switch {
-		case r == 40: // ['(','(']
-			return 151
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
 	// S125
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
-			return 39
-		case r == 92: // ['\','\']
-			return 40
-		default:
-			return 41
+		case r == 40: // ['(','(']
+			return 152
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
+		return NoState
 	},
 	// S126
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 152
-		case 65 <= r && r <= 70: // ['A','F']
-			return 152
-		case 97 <= r && r <= 102: // ['a','f']
-			return 152
+		case r == 34: // ['"','"']
+			return 40
+		case r == 92: // ['\','\']
+			return 41
+		default:
+			return 42
 		}
-		return NoState
 	},
 	// S127
 	func(r rune) int {
@@ -1431,40 +1427,44 @@ var TransTab = TransitionTable{
 	// S128
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
-			return 39
-		case r == 92: // ['\','\']
-			return 40
-		default:
-			return 41
-		}
-	},
-	// S129
-	func(r rune) int {
-		switch {
-		case r == 116: // ['t','t']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 154
+		case 65 <= r && r <= 70: // ['A','F']
+			return 154
+		case 97 <= r && r <= 102: // ['a','f']
 			return 154
 		}
 		return NoState
 	},
+	// S129
+	func(r rune) int {
+		switch {
+		case r == 34: // ['"','"']
+			return 40
+		case r == 92: // ['\','\']
+			return 41
+		default:
+			return 42
+		}
+	},
 	// S130
 	func(r rune) int {
 		switch {
+		case r == 116: // ['t','t']
+			return 155
 		}
 		return NoState
 	},
 	// S131
 	func(r rune) int {
 		switch {
-		case r == 108: // ['l','l']
-			return 155
 		}
 		return NoState
 	},
 	// S132
 	func(r rune) int {
 		switch {
-		case r == 110: // ['n','n']
+		case r == 108: // ['l','l']
 			return 156
 		}
 		return NoState
@@ -1472,14 +1472,14 @@ var TransTab = TransitionTable{
 	// S133
 	func(r rune) int {
 		switch {
+		case r == 110: // ['n','n']
+			return 157
 		}
 		return NoState
 	},
 	// S134
 	func(r rune) int {
 		switch {
-		case r == 121: // ['y','y']
-			return 157
 		}
 		return NoState
 	},
@@ -1494,7 +1494,7 @@ var TransTab = TransitionTable{
 	// S136
 	func(r rune) int {
 		switch {
-		case r == 108: // ['l','l']
+		case r == 121: // ['y','y']
 			return 159
 		}
 		return NoState
@@ -1502,7 +1502,7 @@ var TransTab = TransitionTable{
 	// S137
 	func(r rune) int {
 		switch {
-		case r == 101: // ['e','e']
+		case r == 108: // ['l','l']
 			return 160
 		}
 		return NoState
@@ -1510,7 +1510,7 @@ var TransTab = TransitionTable{
 	// S138
 	func(r rune) int {
 		switch {
-		case r == 98: // ['b','b']
+		case r == 101: // ['e','e']
 			return 161
 		}
 		return NoState
@@ -1518,46 +1518,36 @@ var TransTab = TransitionTable{
 	// S139
 	func(r rune) int {
 		switch {
+		case r == 98: // ['b','b']
+			return 162
 		}
 		return NoState
 	},
 	// S140
 	func(r rune) int {
 		switch {
-		case r == 105: // ['i','i']
-			return 162
 		}
 		return NoState
 	},
 	// S141
 	func(r rune) int {
 		switch {
+		case r == 105: // ['i','i']
+			return 163
 		}
 		return NoState
 	},
 	// S142
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
-			return 163
 		}
 		return NoState
 	},
 	// S143
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 100: // ['a','d']
-			return 61
-		case r == 101: // ['e','e']
+		case r == 116: // ['t','t']
 			return 164
-		case 102 <= r && r <= 122: // ['f','z']
-			return 61
 		}
 		return NoState
 	},
@@ -1565,37 +1555,41 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
 			return 59
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 60
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 61
+		case 97 <= r && r <= 100: // ['a','d']
+			return 62
+		case r == 101: // ['e','e']
+			return 165
+		case 102 <= r && r <= 122: // ['f','z']
+			return 62
 		}
 		return NoState
 	},
 	// S145
 	func(r rune) int {
 		switch {
-		case r == 48: // ['0','0']
-			return 146
-		case 49 <= r && r <= 57: // ['1','9']
-			return 147
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
 	// S146
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 14
-		case 48 <= r && r <= 55: // ['0','7']
-			return 165
-		case r == 88: // ['X','X']
-			return 166
-		case r == 120: // ['x','x']
-			return 166
+		case r == 48: // ['0','0']
+			return 147
+		case 49 <= r && r <= 57: // ['1','9']
+			return 148
 		}
 		return NoState
 	},
@@ -1604,7 +1598,11 @@ var TransTab = TransitionTable{
 		switch {
 		case r == 41: // [')',')']
 			return 14
-		case 48 <= r && r <= 57: // ['0','9']
+		case 48 <= r && r <= 55: // ['0','7']
+			return 166
+		case r == 88: // ['X','X']
+			return 167
+		case r == 120: // ['x','x']
 			return 167
 		}
 		return NoState
@@ -1613,15 +1611,9 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 168
+			return 14
 		case 48 <= r && r <= 57: // ['0','9']
-			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 170
-		case r == 95: // ['_','_']
-			return 171
-		case 97 <= r && r <= 122: // ['a','z']
-			return 172
+			return 168
 		}
 		return NoState
 	},
@@ -1629,15 +1621,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 168
-		case 48 <= r && r <= 57: // ['0','9']
 			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 170
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 171
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 172
+		case 97 <= r && r <= 122: // ['a','z']
+			return 173
 		}
 		return NoState
 	},
@@ -1645,36 +1637,40 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 168
-		case 48 <= r && r <= 57: // ['0','9']
 			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 170
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 171
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 172
+		case 97 <= r && r <= 122: // ['a','z']
+			return 173
 		}
 		return NoState
 	},
 	// S151
 	func(r rune) int {
 		switch {
-		case r == 48: // ['0','0']
+		case r == 41: // [')',')']
+			return 169
+		case 48 <= r && r <= 57: // ['0','9']
+			return 170
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 171
+		case r == 95: // ['_','_']
+			return 172
+		case 97 <= r && r <= 122: // ['a','z']
 			return 173
-		case 49 <= r && r <= 57: // ['1','9']
-			return 174
 		}
 		return NoState
 	},
 	// S152
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 175
-		case 65 <= r && r <= 70: // ['A','F']
-			return 175
-		case 97 <= r && r <= 102: // ['a','f']
+		case r == 48: // ['0','0']
+			return 174
+		case 49 <= r && r <= 57: // ['1','9']
 			return 175
 		}
 		return NoState
@@ -1694,7 +1690,11 @@ var TransTab = TransitionTable{
 	// S154
 	func(r rune) int {
 		switch {
-		case r == 101: // ['e','e']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 177
+		case 65 <= r && r <= 70: // ['A','F']
+			return 177
+		case 97 <= r && r <= 102: // ['a','f']
 			return 177
 		}
 		return NoState
@@ -1710,7 +1710,7 @@ var TransTab = TransitionTable{
 	// S156
 	func(r rune) int {
 		switch {
-		case r == 103: // ['g','g']
+		case r == 101: // ['e','e']
 			return 179
 		}
 		return NoState
@@ -1718,7 +1718,7 @@ var TransTab = TransitionTable{
 	// S157
 	func(r rune) int {
 		switch {
-		case r == 62: // ['>','>']
+		case r == 103: // ['g','g']
 			return 180
 		}
 		return NoState
@@ -1726,7 +1726,7 @@ var TransTab = TransitionTable{
 	// S158
 	func(r rune) int {
 		switch {
-		case r == 116: // ['t','t']
+		case r == 62: // ['>','>']
 			return 181
 		}
 		return NoState
@@ -1734,21 +1734,21 @@ var TransTab = TransitionTable{
 	// S159
 	func(r rune) int {
 		switch {
+		case r == 116: // ['t','t']
+			return 182
 		}
 		return NoState
 	},
 	// S160
 	func(r rune) int {
 		switch {
-		case r == 123: // ['{','{']
-			return 182
 		}
 		return NoState
 	},
 	// S161
 	func(r rune) int {
 		switch {
-		case r == 108: // ['l','l']
+		case r == 123: // ['{','{']
 			return 183
 		}
 		return NoState
@@ -1756,7 +1756,7 @@ var TransTab = TransitionTable{
 	// S162
 	func(r rune) int {
 		switch {
-		case r == 110: // ['n','n']
+		case r == 108: // ['l','l']
 			return 184
 		}
 		return NoState
@@ -1764,76 +1764,68 @@ var TransTab = TransitionTable{
 	// S163
 	func(r rune) int {
 		switch {
+		case r == 110: // ['n','n']
+			return 185
 		}
 		return NoState
 	},
 	// S164
 	func(r rune) int {
 		switch {
-		case r == 40: // ['(','(']
-			return 185
-		case 48 <= r && r <= 57: // ['0','9']
-			return 58
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 59
-		case r == 95: // ['_','_']
-			return 60
-		case 97 <= r && r <= 122: // ['a','z']
-			return 61
 		}
 		return NoState
 	},
 	// S165
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 14
-		case 48 <= r && r <= 55: // ['0','7']
-			return 165
+		case r == 40: // ['(','(']
+			return 186
+		case 48 <= r && r <= 57: // ['0','9']
+			return 59
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 60
+		case r == 95: // ['_','_']
+			return 61
+		case 97 <= r && r <= 122: // ['a','z']
+			return 62
 		}
 		return NoState
 	},
 	// S166
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 186
-		case 65 <= r && r <= 70: // ['A','F']
-			return 186
-		case 97 <= r && r <= 102: // ['a','f']
-			return 186
+		case r == 41: // [')',')']
+			return 14
+		case 48 <= r && r <= 55: // ['0','7']
+			return 166
 		}
 		return NoState
 	},
 	// S167
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 14
 		case 48 <= r && r <= 57: // ['0','9']
-			return 167
+			return 187
+		case 65 <= r && r <= 70: // ['A','F']
+			return 187
+		case 97 <= r && r <= 102: // ['a','f']
+			return 187
 		}
 		return NoState
 	},
 	// S168
 	func(r rune) int {
 		switch {
+		case r == 41: // [')',')']
+			return 14
+		case 48 <= r && r <= 57: // ['0','9']
+			return 168
 		}
 		return NoState
 	},
 	// S169
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 168
-		case 48 <= r && r <= 57: // ['0','9']
-			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
-			return 170
-		case r == 95: // ['_','_']
-			return 171
-		case 97 <= r && r <= 122: // ['a','z']
-			return 172
 		}
 		return NoState
 	},
@@ -1841,15 +1833,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 168
-		case 48 <= r && r <= 57: // ['0','9']
 			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 170
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 171
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 172
+		case 97 <= r && r <= 122: // ['a','z']
+			return 173
 		}
 		return NoState
 	},
@@ -1857,15 +1849,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 168
-		case 48 <= r && r <= 57: // ['0','9']
 			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 170
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 171
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 172
+		case 97 <= r && r <= 122: // ['a','z']
+			return 173
 		}
 		return NoState
 	},
@@ -1873,15 +1865,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 168
-		case 48 <= r && r <= 57: // ['0','9']
 			return 169
-		case 65 <= r && r <= 90: // ['A','Z']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 170
-		case r == 95: // ['_','_']
+		case 65 <= r && r <= 90: // ['A','Z']
 			return 171
-		case 97 <= r && r <= 122: // ['a','z']
+		case r == 95: // ['_','_']
 			return 172
+		case 97 <= r && r <= 122: // ['a','z']
+			return 173
 		}
 		return NoState
 	},
@@ -1889,13 +1881,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 187
-		case 48 <= r && r <= 55: // ['0','7']
-			return 188
-		case r == 88: // ['X','X']
-			return 189
-		case r == 120: // ['x','x']
-			return 189
+			return 169
+		case 48 <= r && r <= 57: // ['0','9']
+			return 170
+		case 65 <= r && r <= 90: // ['A','Z']
+			return 171
+		case r == 95: // ['_','_']
+			return 172
+		case 97 <= r && r <= 122: // ['a','z']
+			return 173
 		}
 		return NoState
 	},
@@ -1903,8 +1897,12 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 187
-		case 48 <= r && r <= 57: // ['0','9']
+			return 188
+		case 48 <= r && r <= 55: // ['0','7']
+			return 189
+		case r == 88: // ['X','X']
+			return 190
+		case r == 120: // ['x','x']
 			return 190
 		}
 		return NoState
@@ -1912,11 +1910,9 @@ var TransTab = TransitionTable{
 	// S175
 	func(r rune) int {
 		switch {
+		case r == 41: // [')',')']
+			return 188
 		case 48 <= r && r <= 57: // ['0','9']
-			return 191
-		case 65 <= r && r <= 70: // ['A','F']
-			return 191
-		case 97 <= r && r <= 102: // ['a','f']
 			return 191
 		}
 		return NoState
@@ -1924,19 +1920,25 @@ var TransTab = TransitionTable{
 	// S176
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
-			return 39
-		case r == 92: // ['\','\']
-			return 40
-		default:
-			return 41
+		case 48 <= r && r <= 57: // ['0','9']
+			return 192
+		case 65 <= r && r <= 70: // ['A','F']
+			return 192
+		case 97 <= r && r <= 102: // ['a','f']
+			return 192
 		}
+		return NoState
 	},
 	// S177
 	func(r rune) int {
 		switch {
+		case r == 34: // ['"','"']
+			return 40
+		case r == 92: // ['\','\']
+			return 41
+		default:
+			return 42
 		}
-		return NoState
 	},
 	// S178
 	func(r rune) int {
@@ -1959,37 +1961,35 @@ var TransTab = TransitionTable{
 	// S181
 	func(r rune) int {
 		switch {
-		case r == 101: // ['e','e']
-			return 192
 		}
 		return NoState
 	},
 	// S182
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
+		case r == 101: // ['e','e']
 			return 193
-		case r == 10: // ['\n','\n']
-			return 193
-		case r == 13: // ['\r','\r']
-			return 193
-		case r == 32: // [' ',' ']
-			return 193
-		case r == 39: // [''',''']
-			return 194
-		case r == 48: // ['0','0']
-			return 195
-		case 49 <= r && r <= 57: // ['1','9']
-			return 196
-		case r == 125: // ['}','}']
-			return 197
 		}
 		return NoState
 	},
 	// S183
 	func(r rune) int {
 		switch {
-		case r == 101: // ['e','e']
+		case r == 9: // ['\t','\t']
+			return 194
+		case r == 10: // ['\n','\n']
+			return 194
+		case r == 13: // ['\r','\r']
+			return 194
+		case r == 32: // [' ',' ']
+			return 194
+		case r == 39: // [''',''']
+			return 195
+		case r == 48: // ['0','0']
+			return 196
+		case 49 <= r && r <= 57: // ['1','9']
+			return 197
+		case r == 125: // ['}','}']
 			return 198
 		}
 		return NoState
@@ -1997,7 +1997,7 @@ var TransTab = TransitionTable{
 	// S184
 	func(r rune) int {
 		switch {
-		case r == 103: // ['g','g']
+		case r == 101: // ['e','e']
 			return 199
 		}
 		return NoState
@@ -2005,72 +2005,58 @@ var TransTab = TransitionTable{
 	// S185
 	func(r rune) int {
 		switch {
-		case r == 45: // ['-','-']
+		case r == 103: // ['g','g']
 			return 200
-		case r == 46: // ['.','.']
-			return 201
-		case r == 48: // ['0','0']
-			return 202
-		case 49 <= r && r <= 57: // ['1','9']
-			return 203
 		}
 		return NoState
 	},
 	// S186
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 14
-		case 48 <= r && r <= 57: // ['0','9']
-			return 186
-		case 65 <= r && r <= 70: // ['A','F']
-			return 186
-		case 97 <= r && r <= 102: // ['a','f']
-			return 186
+		case r == 45: // ['-','-']
+			return 201
+		case r == 46: // ['.','.']
+			return 202
+		case r == 48: // ['0','0']
+			return 203
+		case 49 <= r && r <= 57: // ['1','9']
+			return 204
 		}
 		return NoState
 	},
 	// S187
 	func(r rune) int {
 		switch {
+		case r == 41: // [')',')']
+			return 14
+		case 48 <= r && r <= 57: // ['0','9']
+			return 187
+		case 65 <= r && r <= 70: // ['A','F']
+			return 187
+		case 97 <= r && r <= 102: // ['a','f']
+			return 187
 		}
 		return NoState
 	},
 	// S188
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 187
-		case 48 <= r && r <= 55: // ['0','7']
-			return 188
 		}
 		return NoState
 	},
 	// S189
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 204
-		case 65 <= r && r <= 70: // ['A','F']
-			return 204
-		case 97 <= r && r <= 102: // ['a','f']
-			return 204
+		case r == 41: // [')',')']
+			return 188
+		case 48 <= r && r <= 55: // ['0','7']
+			return 189
 		}
 		return NoState
 	},
 	// S190
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 187
-		case 48 <= r && r <= 57: // ['0','9']
-			return 190
-		}
-		return NoState
-	},
-	// S191
-	func(r rune) int {
-		switch {
 		case 48 <= r && r <= 57: // ['0','9']
 			return 205
 		case 65 <= r && r <= 70: // ['A','F']
@@ -2080,90 +2066,106 @@ var TransTab = TransitionTable{
 		}
 		return NoState
 	},
+	// S191
+	func(r rune) int {
+		switch {
+		case r == 41: // [')',')']
+			return 188
+		case 48 <= r && r <= 57: // ['0','9']
+			return 191
+		}
+		return NoState
+	},
 	// S192
 	func(r rune) int {
 		switch {
+		case 48 <= r && r <= 57: // ['0','9']
+			return 206
+		case 65 <= r && r <= 70: // ['A','F']
+			return 206
+		case 97 <= r && r <= 102: // ['a','f']
+			return 206
 		}
 		return NoState
 	},
 	// S193
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 193
-		case r == 10: // ['\n','\n']
-			return 193
-		case r == 13: // ['\r','\r']
-			return 193
-		case r == 32: // [' ',' ']
-			return 193
-		case r == 39: // [''',''']
-			return 194
-		case r == 48: // ['0','0']
-			return 195
-		case 49 <= r && r <= 57: // ['1','9']
-			return 196
-		case r == 125: // ['}','}']
-			return 197
 		}
 		return NoState
 	},
 	// S194
 	func(r rune) int {
 		switch {
-		case r == 92: // ['\','\']
-			return 206
-		default:
-			return 207
+		case r == 9: // ['\t','\t']
+			return 194
+		case r == 10: // ['\n','\n']
+			return 194
+		case r == 13: // ['\r','\r']
+			return 194
+		case r == 32: // [' ',' ']
+			return 194
+		case r == 39: // [''',''']
+			return 195
+		case r == 48: // ['0','0']
+			return 196
+		case 49 <= r && r <= 57: // ['1','9']
+			return 197
+		case r == 125: // ['}','}']
+			return 198
 		}
+		return NoState
 	},
 	// S195
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
+		case r == 92: // ['\','\']
+			return 207
+		default:
 			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
-		case 48 <= r && r <= 55: // ['0','7']
-			return 210
-		case r == 88: // ['X','X']
-			return 211
-		case r == 120: // ['x','x']
-			return 211
-		case r == 125: // ['}','}']
-			return 197
 		}
-		return NoState
 	},
 	// S196
 	func(r rune) int {
 		switch {
 		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
 			return 209
-		case 48 <= r && r <= 57: // ['0','9']
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case 48 <= r && r <= 55: // ['0','7']
+			return 211
+		case r == 88: // ['X','X']
+			return 212
+		case r == 120: // ['x','x']
 			return 212
 		case r == 125: // ['}','}']
-			return 197
+			return 198
 		}
 		return NoState
 	},
 	// S197
 	func(r rune) int {
 		switch {
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case 48 <= r && r <= 57: // ['0','9']
+			return 213
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
@@ -2182,46 +2184,30 @@ var TransTab = TransitionTable{
 	// S200
 	func(r rune) int {
 		switch {
-		case r == 46: // ['.','.']
-			return 201
-		case r == 48: // ['0','0']
-			return 202
-		case 49 <= r && r <= 57: // ['1','9']
-			return 203
 		}
 		return NoState
 	},
 	// S201
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 213
-		case r == 69: // ['E','E']
-			return 214
-		case r == 101: // ['e','e']
-			return 214
+		case r == 46: // ['.','.']
+			return 202
+		case r == 48: // ['0','0']
+			return 203
+		case 49 <= r && r <= 57: // ['1','9']
+			return 204
 		}
 		return NoState
 	},
 	// S202
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
-		case r == 46: // ['.','.']
-			return 216
-		case 48 <= r && r <= 55: // ['0','7']
-			return 217
-		case 56 <= r && r <= 57: // ['8','9']
-			return 218
+		case 48 <= r && r <= 57: // ['0','9']
+			return 214
 		case r == 69: // ['E','E']
-			return 219
-		case r == 88: // ['X','X']
-			return 220
+			return 215
 		case r == 101: // ['e','e']
-			return 219
-		case r == 120: // ['x','x']
-			return 220
+			return 215
 		}
 		return NoState
 	},
@@ -2229,15 +2215,21 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 215
-		case r == 46: // ['.','.']
 			return 216
-		case 48 <= r && r <= 57: // ['0','9']
-			return 203
+		case r == 46: // ['.','.']
+			return 217
+		case 48 <= r && r <= 55: // ['0','7']
+			return 218
+		case 56 <= r && r <= 57: // ['8','9']
+			return 219
 		case r == 69: // ['E','E']
-			return 219
+			return 220
+		case r == 88: // ['X','X']
+			return 221
 		case r == 101: // ['e','e']
-			return 219
+			return 220
+		case r == 120: // ['x','x']
+			return 221
 		}
 		return NoState
 	},
@@ -2245,66 +2237,74 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 187
+			return 216
+		case r == 46: // ['.','.']
+			return 217
 		case 48 <= r && r <= 57: // ['0','9']
 			return 204
-		case 65 <= r && r <= 70: // ['A','F']
-			return 204
-		case 97 <= r && r <= 102: // ['a','f']
-			return 204
+		case r == 69: // ['E','E']
+			return 220
+		case r == 101: // ['e','e']
+			return 220
 		}
 		return NoState
 	},
 	// S205
 	func(r rune) int {
 		switch {
+		case r == 41: // [')',')']
+			return 188
 		case 48 <= r && r <= 57: // ['0','9']
-			return 221
+			return 205
 		case 65 <= r && r <= 70: // ['A','F']
-			return 221
+			return 205
 		case 97 <= r && r <= 102: // ['a','f']
-			return 221
+			return 205
 		}
 		return NoState
 	},
 	// S206
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 222
-		case r == 39: // [''',''']
+		case 65 <= r && r <= 70: // ['A','F']
 			return 222
-		case 48 <= r && r <= 55: // ['0','7']
-			return 223
-		case r == 85: // ['U','U']
-			return 224
-		case r == 92: // ['\','\']
+		case 97 <= r && r <= 102: // ['a','f']
 			return 222
-		case r == 97: // ['a','a']
-			return 222
-		case r == 98: // ['b','b']
-			return 222
-		case r == 102: // ['f','f']
-			return 222
-		case r == 110: // ['n','n']
-			return 222
-		case r == 114: // ['r','r']
-			return 222
-		case r == 116: // ['t','t']
-			return 222
-		case r == 117: // ['u','u']
-			return 225
-		case r == 118: // ['v','v']
-			return 222
-		case r == 120: // ['x','x']
-			return 226
 		}
 		return NoState
 	},
 	// S207
 	func(r rune) int {
 		switch {
+		case r == 34: // ['"','"']
+			return 223
 		case r == 39: // [''',''']
+			return 223
+		case 48 <= r && r <= 55: // ['0','7']
+			return 224
+		case r == 85: // ['U','U']
+			return 225
+		case r == 92: // ['\','\']
+			return 223
+		case r == 97: // ['a','a']
+			return 223
+		case r == 98: // ['b','b']
+			return 223
+		case r == 102: // ['f','f']
+			return 223
+		case r == 110: // ['n','n']
+			return 223
+		case r == 114: // ['r','r']
+			return 223
+		case r == 116: // ['t','t']
+			return 223
+		case r == 117: // ['u','u']
+			return 226
+		case r == 118: // ['v','v']
+			return 223
+		case r == 120: // ['x','x']
 			return 227
 		}
 		return NoState
@@ -2312,18 +2312,8 @@ var TransTab = TransitionTable{
 	// S208
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
-		case r == 125: // ['}','}']
-			return 197
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
@@ -2331,19 +2321,17 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 9: // ['\t','\t']
-			return 228
+			return 209
 		case r == 10: // ['\n','\n']
-			return 228
+			return 209
 		case r == 13: // ['\r','\r']
-			return 228
+			return 209
 		case r == 32: // [' ',' ']
-			return 228
-		case r == 39: // [''',''']
-			return 229
-		case r == 48: // ['0','0']
-			return 230
-		case 49 <= r && r <= 57: // ['1','9']
-			return 231
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
@@ -2351,146 +2339,154 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 9: // ['\t','\t']
-			return 208
+			return 229
 		case r == 10: // ['\n','\n']
-			return 208
+			return 229
 		case r == 13: // ['\r','\r']
-			return 208
+			return 229
 		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
-		case 48 <= r && r <= 55: // ['0','7']
-			return 210
-		case r == 125: // ['}','}']
-			return 197
+			return 229
+		case r == 39: // [''',''']
+			return 230
+		case r == 48: // ['0','0']
+			return 231
+		case 49 <= r && r <= 57: // ['1','9']
+			return 232
 		}
 		return NoState
 	},
 	// S211
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 232
-		case 65 <= r && r <= 70: // ['A','F']
-			return 232
-		case 97 <= r && r <= 102: // ['a','f']
-			return 232
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case 48 <= r && r <= 55: // ['0','7']
+			return 211
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S212
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
 		case 48 <= r && r <= 57: // ['0','9']
-			return 212
-		case r == 125: // ['}','}']
-			return 197
+			return 233
+		case 65 <= r && r <= 70: // ['A','F']
+			return 233
+		case 97 <= r && r <= 102: // ['a','f']
+			return 233
 		}
 		return NoState
 	},
 	// S213
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
 		case 48 <= r && r <= 57: // ['0','9']
 			return 213
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S214
 	func(r rune) int {
 		switch {
-		case r == 43: // ['+','+']
-			return 233
-		case r == 45: // ['-','-']
-			return 233
+		case r == 41: // [')',')']
+			return 216
 		case 48 <= r && r <= 57: // ['0','9']
-			return 234
+			return 214
 		}
 		return NoState
 	},
 	// S215
 	func(r rune) int {
 		switch {
+		case r == 43: // ['+','+']
+			return 234
+		case r == 45: // ['-','-']
+			return 234
+		case 48 <= r && r <= 57: // ['0','9']
+			return 235
 		}
 		return NoState
 	},
 	// S216
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 235
-		case r == 69: // ['E','E']
-			return 236
-		case r == 101: // ['e','e']
-			return 236
 		}
 		return NoState
 	},
 	// S217
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
-		case r == 46: // ['.','.']
-			return 216
-		case 48 <= r && r <= 55: // ['0','7']
-			return 217
-		case 56 <= r && r <= 57: // ['8','9']
-			return 218
+		case 48 <= r && r <= 57: // ['0','9']
+			return 236
 		case r == 69: // ['E','E']
-			return 219
+			return 237
 		case r == 101: // ['e','e']
-			return 219
+			return 237
 		}
 		return NoState
 	},
 	// S218
 	func(r rune) int {
 		switch {
-		case r == 46: // ['.','.']
+		case r == 41: // [')',')']
 			return 216
-		case 48 <= r && r <= 57: // ['0','9']
+		case r == 46: // ['.','.']
+			return 217
+		case 48 <= r && r <= 55: // ['0','7']
 			return 218
+		case 56 <= r && r <= 57: // ['8','9']
+			return 219
 		case r == 69: // ['E','E']
-			return 219
+			return 220
 		case r == 101: // ['e','e']
-			return 219
+			return 220
 		}
 		return NoState
 	},
 	// S219
 	func(r rune) int {
 		switch {
-		case r == 43: // ['+','+']
-			return 237
-		case r == 45: // ['-','-']
-			return 237
+		case r == 46: // ['.','.']
+			return 217
 		case 48 <= r && r <= 57: // ['0','9']
-			return 238
+			return 219
+		case r == 69: // ['E','E']
+			return 220
+		case r == 101: // ['e','e']
+			return 220
 		}
 		return NoState
 	},
 	// S220
 	func(r rune) int {
 		switch {
+		case r == 43: // ['+','+']
+			return 238
+		case r == 45: // ['-','-']
+			return 238
 		case 48 <= r && r <= 57: // ['0','9']
-			return 239
-		case 65 <= r && r <= 70: // ['A','F']
-			return 239
-		case 97 <= r && r <= 102: // ['a','f']
 			return 239
 		}
 		return NoState
@@ -2510,27 +2506,27 @@ var TransTab = TransitionTable{
 	// S222
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
+		case 48 <= r && r <= 57: // ['0','9']
+			return 241
+		case 65 <= r && r <= 70: // ['A','F']
+			return 241
+		case 97 <= r && r <= 102: // ['a','f']
+			return 241
 		}
 		return NoState
 	},
 	// S223
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 55: // ['0','7']
-			return 241
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
 	// S224
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 242
-		case 65 <= r && r <= 70: // ['A','F']
-			return 242
-		case 97 <= r && r <= 102: // ['a','f']
+		case 48 <= r && r <= 55: // ['0','7']
 			return 242
 		}
 		return NoState
@@ -2562,18 +2558,12 @@ var TransTab = TransitionTable{
 	// S227
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
-		case r == 125: // ['}','}']
-			return 197
+		case 48 <= r && r <= 57: // ['0','9']
+			return 245
+		case 65 <= r && r <= 70: // ['A','F']
+			return 245
+		case 97 <= r && r <= 102: // ['a','f']
+			return 245
 		}
 		return NoState
 	},
@@ -2581,72 +2571,70 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 9: // ['\t','\t']
-			return 228
+			return 209
 		case r == 10: // ['\n','\n']
-			return 228
+			return 209
 		case r == 13: // ['\r','\r']
-			return 228
+			return 209
 		case r == 32: // [' ',' ']
-			return 228
-		case r == 39: // [''',''']
-			return 229
-		case r == 48: // ['0','0']
-			return 230
-		case 49 <= r && r <= 57: // ['1','9']
-			return 231
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S229
 	func(r rune) int {
 		switch {
-		case r == 92: // ['\','\']
-			return 245
-		default:
-			return 246
+		case r == 9: // ['\t','\t']
+			return 229
+		case r == 10: // ['\n','\n']
+			return 229
+		case r == 13: // ['\r','\r']
+			return 229
+		case r == 32: // [' ',' ']
+			return 229
+		case r == 39: // [''',''']
+			return 230
+		case r == 48: // ['0','0']
+			return 231
+		case 49 <= r && r <= 57: // ['1','9']
+			return 232
 		}
+		return NoState
 	},
 	// S230
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
-		case 48 <= r && r <= 55: // ['0','7']
+		case r == 92: // ['\','\']
+			return 246
+		default:
 			return 247
-		case r == 88: // ['X','X']
-			return 248
-		case r == 120: // ['x','x']
-			return 248
-		case r == 125: // ['}','}']
-			return 197
 		}
-		return NoState
 	},
 	// S231
 	func(r rune) int {
 		switch {
 		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
 			return 209
-		case 48 <= r && r <= 57: // ['0','9']
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case 48 <= r && r <= 55: // ['0','7']
+			return 248
+		case r == 88: // ['X','X']
+			return 249
+		case r == 120: // ['x','x']
 			return 249
 		case r == 125: // ['}','}']
-			return 197
+			return 198
 		}
 		return NoState
 	},
@@ -2654,41 +2642,51 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
 			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
 		case 48 <= r && r <= 57: // ['0','9']
-			return 232
-		case 65 <= r && r <= 70: // ['A','F']
-			return 232
-		case 97 <= r && r <= 102: // ['a','f']
-			return 232
+			return 250
 		case r == 125: // ['}','}']
-			return 197
+			return 198
 		}
 		return NoState
 	},
 	// S233
 	func(r rune) int {
 		switch {
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
 		case 48 <= r && r <= 57: // ['0','9']
-			return 234
+			return 233
+		case 65 <= r && r <= 70: // ['A','F']
+			return 233
+		case 97 <= r && r <= 102: // ['a','f']
+			return 233
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S234
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
 		case 48 <= r && r <= 57: // ['0','9']
-			return 234
+			return 235
 		}
 		return NoState
 	},
@@ -2696,43 +2694,43 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 215
+			return 216
 		case 48 <= r && r <= 57: // ['0','9']
 			return 235
-		case r == 69: // ['E','E']
-			return 250
-		case r == 101: // ['e','e']
-			return 250
 		}
 		return NoState
 	},
 	// S236
 	func(r rune) int {
 		switch {
-		case r == 43: // ['+','+']
-			return 251
-		case r == 45: // ['-','-']
-			return 251
+		case r == 41: // [')',')']
+			return 216
 		case 48 <= r && r <= 57: // ['0','9']
-			return 252
+			return 236
+		case r == 69: // ['E','E']
+			return 251
+		case r == 101: // ['e','e']
+			return 251
 		}
 		return NoState
 	},
 	// S237
 	func(r rune) int {
 		switch {
+		case r == 43: // ['+','+']
+			return 252
+		case r == 45: // ['-','-']
+			return 252
 		case 48 <= r && r <= 57: // ['0','9']
-			return 238
+			return 253
 		}
 		return NoState
 	},
 	// S238
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
 		case 48 <= r && r <= 57: // ['0','9']
-			return 238
+			return 239
 		}
 		return NoState
 	},
@@ -2740,12 +2738,8 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 41: // [')',')']
-			return 215
+			return 216
 		case 48 <= r && r <= 57: // ['0','9']
-			return 239
-		case 65 <= r && r <= 70: // ['A','F']
-			return 239
-		case 97 <= r && r <= 102: // ['a','f']
 			return 239
 		}
 		return NoState
@@ -2753,30 +2747,32 @@ var TransTab = TransitionTable{
 	// S240
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
-			return 39
-		case r == 92: // ['\','\']
-			return 40
-		default:
-			return 41
+		case r == 41: // [')',')']
+			return 216
+		case 48 <= r && r <= 57: // ['0','9']
+			return 240
+		case 65 <= r && r <= 70: // ['A','F']
+			return 240
+		case 97 <= r && r <= 102: // ['a','f']
+			return 240
 		}
+		return NoState
 	},
 	// S241
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 55: // ['0','7']
-			return 253
+		case r == 34: // ['"','"']
+			return 40
+		case r == 92: // ['\','\']
+			return 41
+		default:
+			return 42
 		}
-		return NoState
 	},
 	// S242
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 254
-		case 65 <= r && r <= 70: // ['A','F']
-			return 254
-		case 97 <= r && r <= 102: // ['a','f']
+		case 48 <= r && r <= 55: // ['0','7']
 			return 254
 		}
 		return NoState
@@ -2808,144 +2804,144 @@ var TransTab = TransitionTable{
 	// S245
 	func(r rune) int {
 		switch {
-		case r == 34: // ['"','"']
+		case 48 <= r && r <= 57: // ['0','9']
 			return 257
-		case r == 39: // [''',''']
+		case 65 <= r && r <= 70: // ['A','F']
 			return 257
-		case 48 <= r && r <= 55: // ['0','7']
-			return 258
-		case r == 85: // ['U','U']
-			return 259
-		case r == 92: // ['\','\']
+		case 97 <= r && r <= 102: // ['a','f']
 			return 257
-		case r == 97: // ['a','a']
-			return 257
-		case r == 98: // ['b','b']
-			return 257
-		case r == 102: // ['f','f']
-			return 257
-		case r == 110: // ['n','n']
-			return 257
-		case r == 114: // ['r','r']
-			return 257
-		case r == 116: // ['t','t']
-			return 257
-		case r == 117: // ['u','u']
-			return 260
-		case r == 118: // ['v','v']
-			return 257
-		case r == 120: // ['x','x']
-			return 261
 		}
 		return NoState
 	},
 	// S246
 	func(r rune) int {
 		switch {
+		case r == 34: // ['"','"']
+			return 258
 		case r == 39: // [''',''']
-			return 227
+			return 258
+		case 48 <= r && r <= 55: // ['0','7']
+			return 259
+		case r == 85: // ['U','U']
+			return 260
+		case r == 92: // ['\','\']
+			return 258
+		case r == 97: // ['a','a']
+			return 258
+		case r == 98: // ['b','b']
+			return 258
+		case r == 102: // ['f','f']
+			return 258
+		case r == 110: // ['n','n']
+			return 258
+		case r == 114: // ['r','r']
+			return 258
+		case r == 116: // ['t','t']
+			return 258
+		case r == 117: // ['u','u']
+			return 261
+		case r == 118: // ['v','v']
+			return 258
+		case r == 120: // ['x','x']
+			return 262
 		}
 		return NoState
 	},
 	// S247
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
-		case 48 <= r && r <= 55: // ['0','7']
-			return 247
-		case r == 125: // ['}','}']
-			return 197
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
 	// S248
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 262
-		case 65 <= r && r <= 70: // ['A','F']
-			return 262
-		case 97 <= r && r <= 102: // ['a','f']
-			return 262
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
+		case 48 <= r && r <= 55: // ['0','7']
+			return 248
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S249
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
 		case 48 <= r && r <= 57: // ['0','9']
-			return 249
-		case r == 125: // ['}','}']
-			return 197
+			return 263
+		case 65 <= r && r <= 70: // ['A','F']
+			return 263
+		case 97 <= r && r <= 102: // ['a','f']
+			return 263
 		}
 		return NoState
 	},
 	// S250
 	func(r rune) int {
 		switch {
-		case r == 43: // ['+','+']
-			return 263
-		case r == 45: // ['-','-']
-			return 263
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
 		case 48 <= r && r <= 57: // ['0','9']
-			return 264
+			return 250
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S251
 	func(r rune) int {
 		switch {
+		case r == 43: // ['+','+']
+			return 264
+		case r == 45: // ['-','-']
+			return 264
 		case 48 <= r && r <= 57: // ['0','9']
-			return 252
+			return 265
 		}
 		return NoState
 	},
 	// S252
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
 		case 48 <= r && r <= 57: // ['0','9']
-			return 252
+			return 253
 		}
 		return NoState
 	},
 	// S253
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
+		case r == 41: // [')',')']
+			return 216
+		case 48 <= r && r <= 57: // ['0','9']
+			return 253
 		}
 		return NoState
 	},
 	// S254
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 265
-		case 65 <= r && r <= 70: // ['A','F']
-			return 265
-		case 97 <= r && r <= 102: // ['a','f']
-			return 265
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
@@ -2964,8 +2960,12 @@ var TransTab = TransitionTable{
 	// S256
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
+		case 48 <= r && r <= 57: // ['0','9']
+			return 267
+		case 65 <= r && r <= 70: // ['A','F']
+			return 267
+		case 97 <= r && r <= 102: // ['a','f']
+			return 267
 		}
 		return NoState
 	},
@@ -2973,26 +2973,22 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 39: // [''',''']
-			return 227
+			return 228
 		}
 		return NoState
 	},
 	// S258
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 55: // ['0','7']
-			return 267
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
 	// S259
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 268
-		case 65 <= r && r <= 70: // ['A','F']
-			return 268
-		case 97 <= r && r <= 102: // ['a','f']
+		case 48 <= r && r <= 55: // ['0','7']
 			return 268
 		}
 		return NoState
@@ -3024,54 +3020,54 @@ var TransTab = TransitionTable{
 	// S262
 	func(r rune) int {
 		switch {
-		case r == 9: // ['\t','\t']
-			return 208
-		case r == 10: // ['\n','\n']
-			return 208
-		case r == 13: // ['\r','\r']
-			return 208
-		case r == 32: // [' ',' ']
-			return 208
-		case r == 44: // [',',',']
-			return 209
 		case 48 <= r && r <= 57: // ['0','9']
-			return 262
+			return 271
 		case 65 <= r && r <= 70: // ['A','F']
-			return 262
+			return 271
 		case 97 <= r && r <= 102: // ['a','f']
-			return 262
-		case r == 125: // ['}','}']
-			return 197
+			return 271
 		}
 		return NoState
 	},
 	// S263
 	func(r rune) int {
 		switch {
+		case r == 9: // ['\t','\t']
+			return 209
+		case r == 10: // ['\n','\n']
+			return 209
+		case r == 13: // ['\r','\r']
+			return 209
+		case r == 32: // [' ',' ']
+			return 209
+		case r == 44: // [',',',']
+			return 210
 		case 48 <= r && r <= 57: // ['0','9']
-			return 264
+			return 263
+		case 65 <= r && r <= 70: // ['A','F']
+			return 263
+		case 97 <= r && r <= 102: // ['a','f']
+			return 263
+		case r == 125: // ['}','}']
+			return 198
 		}
 		return NoState
 	},
 	// S264
 	func(r rune) int {
 		switch {
-		case r == 41: // [')',')']
-			return 215
 		case 48 <= r && r <= 57: // ['0','9']
-			return 264
+			return 265
 		}
 		return NoState
 	},
 	// S265
 	func(r rune) int {
 		switch {
+		case r == 41: // [')',')']
+			return 216
 		case 48 <= r && r <= 57: // ['0','9']
-			return 271
-		case 65 <= r && r <= 70: // ['A','F']
-			return 271
-		case 97 <= r && r <= 102: // ['a','f']
-			return 271
+			return 265
 		}
 		return NoState
 	},
@@ -3090,7 +3086,11 @@ var TransTab = TransitionTable{
 	// S267
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 55: // ['0','7']
+		case 48 <= r && r <= 57: // ['0','9']
+			return 273
+		case 65 <= r && r <= 70: // ['A','F']
+			return 273
+		case 97 <= r && r <= 102: // ['a','f']
 			return 273
 		}
 		return NoState
@@ -3098,11 +3098,7 @@ var TransTab = TransitionTable{
 	// S268
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 274
-		case 65 <= r && r <= 70: // ['A','F']
-			return 274
-		case 97 <= r && r <= 102: // ['a','f']
+		case 48 <= r && r <= 55: // ['0','7']
 			return 274
 		}
 		return NoState
@@ -3146,8 +3142,12 @@ var TransTab = TransitionTable{
 	// S272
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
+		case 48 <= r && r <= 57: // ['0','9']
+			return 278
+		case 65 <= r && r <= 70: // ['A','F']
+			return 278
+		case 97 <= r && r <= 102: // ['a','f']
+			return 278
 		}
 		return NoState
 	},
@@ -3155,19 +3155,15 @@ var TransTab = TransitionTable{
 	func(r rune) int {
 		switch {
 		case r == 39: // [''',''']
-			return 227
+			return 228
 		}
 		return NoState
 	},
 	// S274
 	func(r rune) int {
 		switch {
-		case 48 <= r && r <= 57: // ['0','9']
-			return 278
-		case 65 <= r && r <= 70: // ['A','F']
-			return 278
-		case 97 <= r && r <= 102: // ['a','f']
-			return 278
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
@@ -3186,20 +3182,20 @@ var TransTab = TransitionTable{
 	// S276
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
-		}
-		return NoState
-	},
-	// S277
-	func(r rune) int {
-		switch {
 		case 48 <= r && r <= 57: // ['0','9']
 			return 280
 		case 65 <= r && r <= 70: // ['A','F']
 			return 280
 		case 97 <= r && r <= 102: // ['a','f']
 			return 280
+		}
+		return NoState
+	},
+	// S277
+	func(r rune) int {
+		switch {
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
@@ -3254,20 +3250,20 @@ var TransTab = TransitionTable{
 	// S282
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
-		}
-		return NoState
-	},
-	// S283
-	func(r rune) int {
-		switch {
 		case 48 <= r && r <= 57: // ['0','9']
 			return 285
 		case 65 <= r && r <= 70: // ['A','F']
 			return 285
 		case 97 <= r && r <= 102: // ['a','f']
 			return 285
+		}
+		return NoState
+	},
+	// S283
+	func(r rune) int {
+		switch {
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
@@ -3286,20 +3282,20 @@ var TransTab = TransitionTable{
 	// S285
 	func(r rune) int {
 		switch {
-		case r == 39: // [''',''']
-			return 227
-		}
-		return NoState
-	},
-	// S286
-	func(r rune) int {
-		switch {
 		case 48 <= r && r <= 57: // ['0','9']
 			return 287
 		case 65 <= r && r <= 70: // ['A','F']
 			return 287
 		case 97 <= r && r <= 102: // ['a','f']
 			return 287
+		}
+		return NoState
+	},
+	// S286
+	func(r rune) int {
+		switch {
+		case r == 39: // [''',''']
+			return 228
 		}
 		return NoState
 	},
@@ -3318,8 +3314,20 @@ var TransTab = TransitionTable{
 	// S288
 	func(r rune) int {
 		switch {
+		case 48 <= r && r <= 57: // ['0','9']
+			return 289
+		case 65 <= r && r <= 70: // ['A','F']
+			return 289
+		case 97 <= r && r <= 102: // ['a','f']
+			return 289
+		}
+		return NoState
+	},
+	// S289
+	func(r rune) int {
+		switch {
 		case r == 39: // [''',''']
-			return 227
+			return 228
 		}
 		return NoState
 	},

@@ -59,5 +59,9 @@ func (c *construct) setContext(p *Pattern) {
 		for _, pp := range p.Patterns {
 			c.setContext(pp)
 		}
+	case Xor:
+		for _, pp := range p.Patterns {
+			c.setContext(pp)
+		}
 	}
 }

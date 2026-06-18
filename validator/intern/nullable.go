@@ -52,6 +52,9 @@ func Nullable(refs ast.RefLookup, p *ast.Pattern) bool {
 		return true
 	case *ast.Interleave:
 		return Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern())
+	case *ast.Xor:
+		return (Nullable(refs, v.GetLeftPattern()) || Nullable(refs, v.GetRightPattern())) &&
+			!(Nullable(refs, v.GetLeftPattern()) && Nullable(refs, v.GetRightPattern()))
 	}
 	panic(fmt.Sprintf("unknown pattern typ %T", typ))
 }
@@ -72,6 +75,20 @@ func allNullable(ps []*Pattern) bool {
 		}
 	}
 	return true
+}
+
+func xorNullable(ps []*Pattern) bool {
+	onlyone := false
+	for _, p := range ps {
+		if p.nullable {
+			if onlyone {
+				// more than one is nullable
+				return false
+			}
+			onlyone = true
+		}
+	}
+	return onlyone
 }
 
 func newNullableBits(patterns []*Pattern) sets.Bits {

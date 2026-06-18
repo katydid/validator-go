@@ -166,6 +166,8 @@ func derivCall(c Construct, p *Pattern) []*IfExpr {
 		return derivCallAll(c, p.Patterns)
 	case Interleave:
 		return derivCallAll(c, p.Patterns)
+	case Xor:
+		return derivCallAll(c, p.Patterns)
 	case ZeroOrMore:
 		return derivCall(c, p.Patterns[0])
 	case Reference:
@@ -276,6 +278,18 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		}
 		o, err := c.NewOr(orPatterns)
 		return o, rest, err
+	case Xor:
+		rest := nulls
+		xorPatterns := make([]*Pattern, len(p.Patterns))
+		var err error
+		for i := range p.Patterns {
+			xorPatterns[i], rest, err = derivReturn(c, p.Patterns[i], rest)
+			if err != nil {
+				return nil, nil, err
+			}
+		}
+		a, err := c.NewXor(xorPatterns)
+		return a, rest, err
 	case ZeroOrMore:
 		pp, rest, err := derivReturn(c, p.Patterns[0], nulls)
 		if err != nil {

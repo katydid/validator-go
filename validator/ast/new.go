@@ -381,6 +381,51 @@ func newInterleave(patterns []*Pattern) *Pattern {
 	}
 }
 
+// NewXor returns a new Xor pattern.
+// If the number of patterns provided is:
+//
+// 0, nil is returned;
+//
+// 1, the input pattern is returned;
+//
+// 2, the xored pattern is returned;
+//
+//	(pattern[0] ^ pattern[1])
+//
+// > 2, the left curried xored pattern is returned.
+//
+//	(pattern[0] ^ (pattern[1] ^ (...)))
+func NewXor(patterns ...*Pattern) *Pattern {
+	if len(patterns) == 0 {
+		return nil
+	}
+	if len(patterns) == 1 {
+		return patterns[0]
+	}
+	return &Pattern{
+		Xor: &Xor{
+			OpenParen:    newOpenParen(),
+			LeftPattern:  patterns[0],
+			Caret:        newCaret(),
+			RightPattern: newXor(patterns[1:]),
+			CloseParen:   newCloseParen(),
+		},
+	}
+}
+
+func newXor(patterns []*Pattern) *Pattern {
+	if len(patterns) == 1 {
+		return patterns[0]
+	}
+	return &Pattern{
+		Xor: &Xor{
+			LeftPattern:  patterns[0],
+			Caret:        newCaret(),
+			RightPattern: newXor(patterns[1:]),
+		},
+	}
+}
+
 // NewFunction returns a function expression given a name and a list of parameters.
 //
 //	->name(param1, param2, ...)

@@ -151,3 +151,7 @@ func newQuestionMark() *Keyword {
 func newSemiColon() *Keyword {
 	return &Keyword{Value: ";"}
 }
+
+func newCaret() *Keyword {
+	return &Keyword{Value: "^"}
+}

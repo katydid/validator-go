@@ -82,6 +82,7 @@ type Pattern struct {
 	Contains   *Contains   `json:"Contains,omitempty"`
 	Optional   *Optional   `json:"Optional,omitempty"`
 	Interleave *Interleave `json:"Interleave,omitempty"`
+	Xor        *Xor        `json:"Xor,omitempty"`
 }
 
 func (m *Pattern) GetEmpty() *Empty {
@@ -175,6 +176,13 @@ func (m *Pattern) GetInterleave() *Interleave {
 	return nil
 }
 
+func (m *Pattern) GetXor() *Xor {
+	if m != nil {
+		return m.Xor
+	}
+	return nil
+}
+
 func (this *Pattern) GetValue() interface{} {
 	if this.Empty != nil {
 		return this.Empty
@@ -214,6 +222,9 @@ func (this *Pattern) GetValue() interface{} {
 	}
 	if this.Interleave != nil {
 		return this.Interleave
+	}
+	if this.Xor != nil {
+		return this.Xor
 	}
 	return nil
 }
@@ -420,6 +431,29 @@ func (m *Interleave) GetLeftPattern() *Pattern {
 }
 
 func (m *Interleave) GetRightPattern() *Pattern {
+	if m != nil {
+		return m.RightPattern
+	}
+	return nil
+}
+
+// Xor is the ast node for the Xor pattern.
+type Xor struct {
+	OpenParen    *Keyword `json:"OpenParen,omitempty"`
+	LeftPattern  *Pattern `json:"LeftPattern,omitempty"`
+	Caret        *Keyword `json:"Caret,omitempty"`
+	RightPattern *Pattern `json:"RightPattern,omitempty"`
+	CloseParen   *Keyword `json:"CloseParen,omitempty"`
+}
+
+func (m *Xor) GetLeftPattern() *Pattern {
+	if m != nil {
+		return m.LeftPattern
+	}
+	return nil
+}
+
+func (m *Xor) GetRightPattern() *Pattern {
 	if m != nil {
 		return m.RightPattern
 	}
