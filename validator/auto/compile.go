@@ -21,21 +21,48 @@ import (
 	"github.com/katydid/validator-go/validator/sets"
 )
 
-// TODO document
-var ErrTooManyStates = errors.New("a state explosion has occured")
+// A maximum number is set for bitsets as an option, when it is exceeded the number of options to consider is too large and we recommend rather using the memoized version of katydid.
+var ErrTooBig = errors.New("a state explosion has occured")
+
+type options struct {
+	maxBitSetSize int
+	record        bool
+}
+
+type Option func(o *options)
+
+func WithMaxBitSetSize(m int) Option {
+	return func(o *options) {
+		o.maxBitSetSize = m
+	}
+}
+
+// compiles a parsed validator grammar and optimizes it for the case where the input structures are records.
+func WithRecordOpts() Option {
+	return func(o *options) {
+		o.record = true
+	}
+}
+
+func newOptions(opts ...Option) *options {
+	o := &options{
+		maxBitSetSize: 64,
+		record:        false,
+	}
+	for _, opt := range opts {
+		opt(o)
+	}
+	return o
+}
 
 // Compile compiles a parsed validator grammar ast into a visual pushdown automaton.
-func Compile(g *ast.Grammar) (*Auto, error) {
-	return compileAuto(g, false)
+func Compile(g *ast.Grammar, options ...Option) (*Auto, error) {
+	return compileAuto(g, options...)
 }
 
-// CompileRecord compiles a parsed validator grammar and optimizes it for the case where the input structures are records.
-func CompileRecord(g *ast.Grammar) (*Auto, error) {
-	return compileAuto(g, true)
-}
-
-func compileAuto(g *ast.Grammar, record bool) (*Auto, error) {
-	c, err := newCompiler(g, record)
+func compileAuto(g *ast.Grammar, opts ...Option) (*Auto, error) {
+	o := newOptions(opts...)
+	c, err := newCompiler(g, o.record, o.maxBitSetSize)
 	if err != nil {
 		return nil, err
 	}
@@ -93,8 +120,8 @@ func compile(c *compiler, patterns int) error {
 	for _, call := range allPossibleCalls {
 
 		numOfChildPatterns := len(c.patterns.Get(call.child))
-		if numOfChildPatterns > 64 {
-			return ErrTooManyStates
+		if numOfChildPatterns > c.maxBitSetSize {
+			return ErrTooBig
 		}
 
 		maxPossibleNullables := sets.NewBits(numOfChildPatterns)

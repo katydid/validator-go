@@ -40,7 +40,7 @@ func TestDependent(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	a, err := CompileRecord(g)
+	a, err := Compile(g, WithRecordOpts())
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -20,7 +20,7 @@ import (
 	"github.com/katydid/validator-go/validator/sets"
 )
 
-func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
+func newCompiler(g *ast.Grammar, record bool, maxBitSetSize int) (*compiler, error) {
 	construct := intern.NewConstructor()
 	if record {
 		construct = intern.NewConstructorOptimizedForRecords()
@@ -30,11 +30,12 @@ func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
 		return nil, err
 	}
 	m := &compiler{
-		construct: construct,
-		patterns:  NewPatternsSet(),
-		zis:       sets.NewInts(),
-		stackElms: sets.NewPairs(),
-		nullables: sets.NewBitsSet(),
+		maxBitSetSize: maxBitSetSize,
+		construct:     construct,
+		patterns:      NewPatternsSet(),
+		zis:           sets.NewInts(),
+		stackElms:     sets.NewPairs(),
+		nullables:     sets.NewBitsSet(),
 
 		calls:           []*callNode{},
 		returns:         []map[int]int{},
@@ -48,11 +49,12 @@ func newCompiler(g *ast.Grammar, record bool) (*compiler, error) {
 }
 
 type compiler struct {
-	construct intern.Construct
-	patterns  PatternsSet
-	zis       sets.Ints
-	stackElms sets.Pairs
-	nullables sets.BitsSet
+	maxBitSetSize int
+	construct     intern.Construct
+	patterns      PatternsSet
+	zis           sets.Ints
+	stackElms     sets.Pairs
+	nullables     sets.BitsSet
 
 	start           int
 	calls           []*callNode

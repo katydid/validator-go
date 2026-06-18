@@ -56,7 +56,7 @@ func TestExplosionAndSameTree(t *testing.T) {
 	// Since we know field names can't repeat the simplification can be made for record (JSON and proto) like serialization formats, but not for XML.
 	t.Logf("%v", g)
 	// CompileRecord avoids the state explosion, whereas Compile does not do the Record simplifications, which results in the state space explosion.
-	autoRecord, err := auto.CompileRecord(g)
+	autoRecord, err := auto.Compile(g, auto.WithRecordOpts())
 	if err != nil {
 		t.Fatal(err)
 	}
