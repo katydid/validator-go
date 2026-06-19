@@ -14,12 +14,32 @@
 
 package intern
 
+import "strings"
+
 func EqualPatterns(ps1, ps2 []*Pattern) bool {
 	return deriveEquals(ps1, ps2)
 }
 
 func StringPatterns(ps []*Pattern) string {
-	return "{" + joinPatterns(ps, ",") + "}"
+	if len(ps) == 0 {
+		return "{}"
+	}
+	l := 1
+	for i := range ps {
+		l += len(ps[i].String())
+		l += 1
+	}
+	var sb strings.Builder
+	sb.Grow(l)
+	sb.WriteRune('{')
+	for i := range ps {
+		sb.WriteString(ps[i].String())
+		if i != len(ps)-1 {
+			sb.WriteRune(',')
+		}
+	}
+	sb.WriteRune('}')
+	return sb.String()
 }
 
 func HashPatterns(patterns []*Pattern) uint64 {
