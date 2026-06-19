@@ -16,29 +16,47 @@ package auto
 
 import (
 	"github.com/katydid/validator-go/validator/intern"
-	"github.com/katydid/validator-go/validator/sets"
 )
 
 type PatternsSet struct {
-	set *sets.IndexedSet[[]*intern.Pattern]
+	list    [][]*intern.Pattern
+	strings map[string]int
 }
 
 func NewPatternsSet() PatternsSet {
-	return PatternsSet{sets.NewIndexedSet(intern.HashPatterns, intern.EqualPatterns)}
+	return PatternsSet{
+		list:    [][]*intern.Pattern{},
+		strings: make(map[string]int),
+	}
 }
 
-func (this PatternsSet) Get(i int) []*intern.Pattern {
-	return this.set.Get(i)
+func (this *PatternsSet) Get(i int) []*intern.Pattern {
+	return this.list[i]
 }
 
-func (this PatternsSet) Len() int {
-	return this.set.Len()
+func (this *PatternsSet) Len() int {
+	return len(this.list)
 }
 
-func (this PatternsSet) Index(patterns []*intern.Pattern) int {
-	return this.set.Index(patterns)
+func (this *PatternsSet) Index(x []*intern.Pattern) int {
+	str := intern.StringPatterns(x)
+	index, ok := this.strings[str]
+	if !ok {
+		return -1
+	}
+	return index
 }
 
-func (this *PatternsSet) Add(patterns []*intern.Pattern) int {
-	return this.set.Add(patterns)
+func (this *PatternsSet) Add(x []*intern.Pattern) int {
+	index := this.Index(x)
+	if index != -1 {
+		// item has already been added, so just return that index
+		return index
+	}
+	// add item to list
+	this.list = append(this.list, x)
+	index = len(this.list) - 1
+	str := intern.StringPatterns(x)
+	this.strings[str] = index
+	return index
 }
