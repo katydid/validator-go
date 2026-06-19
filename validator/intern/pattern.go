@@ -104,12 +104,74 @@ func (p *Pattern) GoString() string {
 	return fmt.Sprintf("&%#v", *p)
 }
 
-func joinPatterns(patterns []*Pattern, sep string) string {
-	ss := make([]string, len(patterns))
-	for i, p := range patterns {
-		ss[i] = p.String()
+func writeStrings(sb *strings.Builder, patterns []*Pattern, sep string) {
+	for i := range patterns {
+		writeString(sb, patterns[i])
+		if i != len(patterns)-1 {
+			sb.WriteString(sep)
+		}
 	}
-	return strings.Join(ss, sep)
+}
+
+func writeString(sb *strings.Builder, p *Pattern) {
+	if p.str != "" {
+		sb.WriteString(p.str)
+		return
+	}
+	switch p.Type {
+	case Empty:
+		sb.WriteString(ast.NewEmpty().String())
+	case Node:
+		if isEmpty(p.Patterns[0]) {
+			sb.WriteString(p.Func.ToExpr().String())
+		} else {
+			sb.WriteString(p.Func.ToExpr().String())
+			sb.WriteString(":")
+			sb.WriteString(p.Patterns[0].String())
+		}
+	case Concat:
+		sb.WriteString("[")
+		writeStrings(sb, p.Patterns, ", ")
+		sb.WriteString("]")
+	case Or:
+		sb.WriteString("(")
+		writeStrings(sb, p.Patterns, " | ")
+		sb.WriteString(")")
+	case And:
+		sb.WriteString("(")
+		writeStrings(sb, p.Patterns, " & ")
+		sb.WriteString(")")
+	case ZeroOrMore:
+		sb.WriteString("(")
+		writeString(sb, p.Patterns[0])
+		sb.WriteString(")*")
+	case Reference:
+		sb.WriteString("@")
+		sb.WriteString(p.Ref)
+	case Not:
+		sb.WriteString("!(")
+		writeString(sb, p.Patterns[0])
+		sb.WriteString(")")
+	case ZAny:
+		sb.WriteString(ast.NewZAny().String())
+	case Contains:
+		sb.WriteString(".")
+		writeString(sb, p.Patterns[0])
+	case Optional:
+		sb.WriteString("(")
+		writeString(sb, p.Patterns[0])
+		sb.WriteString(")?")
+	case Interleave:
+		sb.WriteString("{")
+		writeStrings(sb, p.Patterns, "; ")
+		sb.WriteString("}")
+	case Xor:
+		sb.WriteString("(")
+		writeStrings(sb, p.Patterns, " ^ ")
+		sb.WriteString(")")
+	default:
+		panic(fmt.Sprintf("unknown pattern: %d", p.Type))
+	}
 }
 
 func (p *Pattern) String() string {
@@ -119,39 +181,11 @@ func (p *Pattern) String() string {
 	if p.str != "" {
 		return p.str
 	}
-	switch p.Type {
-	case Empty:
-		return ast.NewEmpty().String()
-	case Node:
-		if isEmpty(p.Patterns[0]) {
-			return p.Func.ToExpr().String()
-		} else {
-			return p.Func.ToExpr().String() + ":" + p.Patterns[0].String()
-		}
-	case Concat:
-		return "[" + joinPatterns(p.Patterns, ", ") + "]"
-	case Or:
-		return "(" + joinPatterns(p.Patterns, " | ") + ")"
-	case And:
-		return "(" + joinPatterns(p.Patterns, " & ") + ")"
-	case ZeroOrMore:
-		return "(" + p.Patterns[0].String() + ")*"
-	case Reference:
-		return "@" + p.Ref
-	case Not:
-		return "!(" + p.Patterns[0].String() + ")"
-	case ZAny:
-		return ast.NewZAny().String()
-	case Contains:
-		return "." + p.Patterns[0].String()
-	case Optional:
-		return "(" + p.Patterns[0].String() + ")?"
-	case Interleave:
-		return "{" + joinPatterns(p.Patterns, "; ") + "}"
-	case Xor:
-		return "(" + joinPatterns(p.Patterns, " ^ ") + ")"
-	}
-	panic(fmt.Sprintf("unknown pattern: %d", p.Type))
+	var sb strings.Builder
+	writeString(&sb, p)
+	s := sb.String()
+	p.str = s
+	return p.str
 }
 
 func (p *Pattern) Equal(pp *Pattern) bool {
