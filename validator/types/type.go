@@ -44,6 +44,8 @@ func ListToSingle(typ Type) Type {
 		return SINGLE_STRING
 	case LIST_BYTES:
 		return SINGLE_BYTES
+	case LIST_TAG:
+		return SINGLE_TAG
 	}
 	panic("unreachable")
 }
@@ -63,6 +65,8 @@ func SingleToList(typ Type) Type {
 		return LIST_STRING
 	case SINGLE_BYTES:
 		return LIST_BYTES
+	case SINGLE_TAG:
+		return LIST_TAG
 	}
 	panic("unreachable")
 }
@@ -76,6 +80,7 @@ func IsSingle(typ Type) bool {
 	case SINGLE_BOOL:
 	case SINGLE_STRING:
 	case SINGLE_BYTES:
+	case SINGLE_TAG:
 	default:
 		return false
 	}

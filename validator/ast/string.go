@@ -325,6 +325,8 @@ func (this *Variable) String() string {
 		return "$string"
 	case types.SINGLE_BYTES:
 		return "$[]byte"
+	case types.SINGLE_TAG:
+		return "$tag"
 	}
 	panic(fmt.Errorf("unknown type %s", this.GetType()))
 }

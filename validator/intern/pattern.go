@@ -45,6 +45,7 @@ type Pattern struct {
 	Ref      string
 	hash     uint64
 	nullable bool
+	str      string
 }
 
 func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
@@ -71,6 +72,7 @@ func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
 		panic(fmt.Sprintf("unsupported PatternType %v", typ))
 	}
 	p.hash = makeHash(p)
+	p.str = makeString(p)
 	return p
 }
 
@@ -102,56 +104,96 @@ func (p *Pattern) GoString() string {
 	return fmt.Sprintf("&%#v", *p)
 }
 
-func joinPatterns(patterns []*Pattern, sep string) string {
-	ss := make([]string, len(patterns))
-	for i, p := range patterns {
-		ss[i] = p.String()
+func writeStrings(sb *strings.Builder, patterns []*Pattern, sep string) {
+	for i := range patterns {
+		writeString(sb, patterns[i])
+		if i != len(patterns)-1 {
+			sb.WriteString(sep)
+		}
 	}
-	return strings.Join(ss, sep)
 }
 
-func (p *Pattern) String() string {
-	if p == nil {
-		return ""
+func writeString(sb *strings.Builder, p *Pattern) {
+	if p.str != "" {
+		sb.WriteString(p.str)
+		return
 	}
 	switch p.Type {
 	case Empty:
-		return ast.NewEmpty().String()
+		sb.WriteString(ast.NewEmpty().String())
 	case Node:
 		if isEmpty(p.Patterns[0]) {
-			return p.Func.ToExpr().String()
+			sb.WriteString(p.Func.ToExpr().String())
 		} else {
-			return p.Func.ToExpr().String() + ":" + p.Patterns[0].String()
+			sb.WriteString(p.Func.ToExpr().String())
+			sb.WriteString(":")
+			sb.WriteString(p.Patterns[0].String())
 		}
 	case Concat:
-		return "[" + joinPatterns(p.Patterns, ", ") + "]"
+		sb.WriteString("[")
+		writeStrings(sb, p.Patterns, ", ")
+		sb.WriteString("]")
 	case Or:
-		return "(" + joinPatterns(p.Patterns, " | ") + ")"
+		sb.WriteString("(")
+		writeStrings(sb, p.Patterns, " | ")
+		sb.WriteString(")")
 	case And:
-		return "(" + joinPatterns(p.Patterns, " & ") + ")"
+		sb.WriteString("(")
+		writeStrings(sb, p.Patterns, " & ")
+		sb.WriteString(")")
 	case ZeroOrMore:
-		return "(" + p.Patterns[0].String() + ")*"
+		sb.WriteString("(")
+		writeString(sb, p.Patterns[0])
+		sb.WriteString(")*")
 	case Reference:
-		return "@" + p.Ref
+		sb.WriteString("@")
+		sb.WriteString(p.Ref)
 	case Not:
-		return "!(" + p.Patterns[0].String() + ")"
+		sb.WriteString("!(")
+		writeString(sb, p.Patterns[0])
+		sb.WriteString(")")
 	case ZAny:
-		return ast.NewZAny().String()
+		sb.WriteString(ast.NewZAny().String())
 	case Contains:
-		return "." + p.Patterns[0].String()
+		sb.WriteString(".")
+		writeString(sb, p.Patterns[0])
 	case Optional:
-		return "(" + p.Patterns[0].String() + ")?"
+		sb.WriteString("(")
+		writeString(sb, p.Patterns[0])
+		sb.WriteString(")?")
 	case Interleave:
-		return "{" + joinPatterns(p.Patterns, "; ") + "}"
+		sb.WriteString("{")
+		writeStrings(sb, p.Patterns, "; ")
+		sb.WriteString("}")
 	case Xor:
-		return "(" + joinPatterns(p.Patterns, " ^ ") + ")"
+		sb.WriteString("(")
+		writeStrings(sb, p.Patterns, " ^ ")
+		sb.WriteString(")")
+	default:
+		panic(fmt.Sprintf("unknown pattern: %d", p.Type))
 	}
-	panic(fmt.Sprintf("unknown pattern: %d", p.Type))
+}
+
+func makeString(p *Pattern) string {
+	var sb strings.Builder
+	writeString(&sb, p)
+	s := sb.String()
+	return s
+}
+
+func (p *Pattern) String() string {
+	if p.str == "" {
+		p.str = makeString(p)
+	}
+	return p.str
 }
 
 func (p *Pattern) Equal(pp *Pattern) bool {
 	if p.hash != pp.hash {
 		return false
+	}
+	if p.str != "" && pp.str != "" {
+		return p.str == pp.str
 	}
 	if p.Type != pp.Type {
 		return false

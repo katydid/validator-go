@@ -121,6 +121,18 @@ func DoubleConst(d float64) *ast.Expr {
 	return c
 }
 
+func TagVar() *ast.Expr {
+	v := ast.NewVar(types.SINGLE_TAG)
+	v.RightArrow = &ast.Keyword{Value: "->"}
+	return v
+}
+
+func TagConst(s string) *ast.Expr {
+	c := ast.NewTagConst(s)
+	c.RightArrow = &ast.Keyword{Value: "->"}
+	return c
+}
+
 func And(left, right *ast.Expr) *ast.Expr {
 	return ast.NewFunction("and", left, right)
 }

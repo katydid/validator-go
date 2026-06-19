@@ -145,7 +145,7 @@ func (this *compiler) getReturn(stackIndex int, nullIndex int) (int, error) {
 	if ret, ok := this.returns[stackIndex][nullIndex]; ok {
 		return ret, nil
 	}
-	stackElm := this.stackElms[stackIndex]
+	stackElm := this.stackElms.Get(stackIndex)
 	childrenZipper := stackElm.Second
 	parentPatterns := stackElm.First
 

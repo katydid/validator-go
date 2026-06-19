@@ -32,6 +32,7 @@ func FromGo(typ reflect.Type) Type {
 	case reflect.Bool:
 		return SINGLE_BOOL
 	case reflect.String:
+		// TODO: What about SINGLE_TAG
 		return SINGLE_STRING
 	case reflect.Slice:
 		elemKind := typ.Elem().Kind()

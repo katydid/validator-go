@@ -90,19 +90,21 @@ type Pair struct {
 
 // Pairs represents an indexed list of Pair pairs.
 // It reverse maps a list of Pairs into a single int.
-type Pairs []Pair
+type Pairs struct {
+	list []Pair
+	set  map[Pair]int
+}
 
 func NewPairs() Pairs {
-	return Pairs([]Pair{})
+	return Pairs{[]Pair{}, make(map[Pair]int)}
 }
 
 func (this Pairs) Index(se Pair) int {
-	for i, ise := range this {
-		if ise == se {
-			return i
-		}
+	index, ok := this.set[se]
+	if !ok {
+		return -1
 	}
-	return -1
+	return index
 }
 
 func (this *Pairs) Add(se Pair) int {
@@ -110,8 +112,14 @@ func (this *Pairs) Add(se Pair) int {
 	if index != -1 {
 		return index
 	}
-	*this = append(*this, se)
-	return len(*this) - 1
+	this.list = append(this.list, se)
+	index = len(this.list) - 1
+	this.set[se] = index
+	return index
+}
+
+func (this Pairs) Get(i int) Pair {
+	return this.list[i]
 }
 
 type IndexedSet[A any] struct {
