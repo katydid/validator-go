@@ -72,7 +72,7 @@ func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
 		panic(fmt.Sprintf("unsupported PatternType %v", typ))
 	}
 	p.hash = makeHash(p)
-	p.str = p.String()
+	p.str = makeString(p)
 	return p
 }
 
@@ -174,17 +174,17 @@ func writeString(sb *strings.Builder, p *Pattern) {
 	}
 }
 
-func (p *Pattern) String() string {
-	if p == nil {
-		return ""
-	}
-	if p.str != "" {
-		return p.str
-	}
+func makeString(p *Pattern) string {
 	var sb strings.Builder
 	writeString(&sb, p)
 	s := sb.String()
-	p.str = s
+	return s
+}
+
+func (p *Pattern) String() string {
+	if p.str == "" {
+		p.str = makeString(p)
+	}
 	return p.str
 }
 

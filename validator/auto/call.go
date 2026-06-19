@@ -37,11 +37,7 @@ func (this *compiler) newCallTree(parentPatterns int, node *ifExprs) (*callNode,
 		zipped, _ := intern.Zip(ps)
 		zippedPatterns, zipper := zipped.Patterns, zipped.Indexes
 		zipperIndex := this.zis.Add(zipper)
-		stackElement := sets.Pair{
-			First:  parentPatterns,
-			Second: zipperIndex,
-		}
-		stackIndex := this.stackElms.Add(stackElement)
+		stackIndex := this.stackElms.Add(sets.Pair{parentPatterns, zipperIndex})
 		zippedPatternIndex := this.patterns.Add(zippedPatterns)
 		return &callNode{
 			child:      zippedPatternIndex,

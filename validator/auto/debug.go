@@ -42,12 +42,12 @@ func (d *debugger) printState(prefix string, state int) {
 }
 
 func (d *debugger) printStackElm(stackElm int) {
-	s := d.stackElms[stackElm]
+	s := d.stackElms.Get(stackElm)
 	d.printState("stackElem", s.First)
 }
 
 func (d *debugger) printNulls(stackElm int, nullIndex int) {
-	nullable := sets.UnzipBits(d.nullables[nullIndex], d.zis[d.stackElms[stackElm].Second])
+	nullable := sets.UnzipBits(d.nullables[nullIndex], d.zis[d.stackElms.Get(stackElm).Second])
 	fmt.Printf("nulls: %v\n", nullable)
 }
 

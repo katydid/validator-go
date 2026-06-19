@@ -114,6 +114,10 @@ func (this *Pairs) Add(se Pair) int {
 	return len(*this) - 1
 }
 
+func (this Pairs) Get(i int) Pair {
+	return this[i]
+}
+
 type IndexedSet[A any] struct {
 	hashFunc  func(A) uint64
 	equalFunc func(A, A) bool
