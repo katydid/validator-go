@@ -14,18 +14,12 @@
 
 package intern
 
-import "strings"
-
 func EqualPatterns(ps1, ps2 []*Pattern) bool {
 	return deriveEquals(ps1, ps2)
 }
 
 func StringPatterns(ps []*Pattern) string {
-	ss := make([]string, len(ps))
-	for i := 0; i < len(ps); i++ {
-		ss[i] = ps[i].String()
-	}
-	return "{" + strings.Join(ss, ",") + "}"
+	return "{" + joinPatterns(ps, ",") + "}"
 }
 
 func HashPatterns(patterns []*Pattern) uint64 {

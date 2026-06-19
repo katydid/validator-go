@@ -45,6 +45,7 @@ type Pattern struct {
 	Ref      string
 	hash     uint64
 	nullable bool
+	str      string
 }
 
 func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
@@ -71,6 +72,7 @@ func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
 		panic(fmt.Sprintf("unsupported PatternType %v", typ))
 	}
 	p.hash = makeHash(p)
+	p.str = p.String()
 	return p
 }
 
@@ -114,6 +116,9 @@ func (p *Pattern) String() string {
 	if p == nil {
 		return ""
 	}
+	if p.str != "" {
+		return p.str
+	}
 	switch p.Type {
 	case Empty:
 		return ast.NewEmpty().String()
@@ -152,6 +157,9 @@ func (p *Pattern) String() string {
 func (p *Pattern) Equal(pp *Pattern) bool {
 	if p.hash != pp.hash {
 		return false
+	}
+	if p.str != "" && pp.str != "" {
+		return p.str == pp.str
 	}
 	if p.Type != pp.Type {
 		return false
