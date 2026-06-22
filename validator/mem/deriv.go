@@ -23,6 +23,14 @@ import (
 )
 
 func derivEnter(mem *Mem, patterns int, tree parse.Parser) (int, int, error) {
+	childPatterns, zipIndex, ok := mem.GetFieldNameCall(patterns, tree)
+	if ok {
+		return childPatterns, zipIndex, nil
+	}
+	return deriveEnterNoFieldNameCall(mem, patterns, tree)
+}
+
+func deriveEnterNoFieldNameCall(mem *Mem, patterns int, tree parse.Parser) (int, int, error) {
 	callTree, err := mem.GetCall(patterns)
 	if err != nil {
 		return 0, 0, err

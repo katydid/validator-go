@@ -49,6 +49,7 @@ type construct struct {
 	cache    map[uint64][]*Pattern
 	context  *funcs.Context
 	record   bool
+	names    map[string]struct{}
 }
 
 func NewConstructor() Construct {
@@ -57,6 +58,7 @@ func NewConstructor() Construct {
 		hashRefs: make(map[uint64][]string),
 		nullRefs: make(map[string]bool),
 		cache:    make(map[uint64][]*Pattern),
+		names:    make(map[string]struct{}),
 	}
 }
 
@@ -119,6 +121,7 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		return c.NewEmpty(), nil
 	}
 	if this.TreeNode != nil {
+		fieldNames := this.TreeNode.GetName().GetConstNames()
 		b, err := nameexpr.NameToFunc(this.TreeNode.GetName())
 		if err != nil {
 			return nil, err
@@ -127,14 +130,14 @@ func (c *construct) NewPattern(this *ast.Pattern) (*Pattern, error) {
 		if err != nil {
 			return nil, err
 		}
-		return c.NewNode(b, p)
+		return c.newNode(b, fieldNames, p)
 	}
 	if this.LeafNode != nil {
 		b, err := compose.NewBool(this.LeafNode.GetExpr())
 		if err != nil {
 			return nil, err
 		}
-		return c.NewNode(b, c.NewEmpty())
+		return c.newNode(b, nil, c.NewEmpty())
 	}
 	if this.Concat != nil {
 		concats := getConcatsFromAST(this)
@@ -290,7 +293,7 @@ func (c *construct) NewNotZAny() *Pattern {
 	return newNotZAny()
 }
 
-func (c *construct) NewNode(b funcs.Bool, child *Pattern) (*Pattern, error) {
+func (c *construct) newNode(b funcs.Bool, fieldNames map[string]struct{}, child *Pattern) (*Pattern, error) {
 	if isNotZAny(child) {
 		return c.NewNotZAny(), nil
 	}
@@ -300,7 +303,7 @@ func (c *construct) NewNode(b funcs.Bool, child *Pattern) (*Pattern, error) {
 	if c.context != nil {
 		compose.SetContext(b, c.context)
 	}
-	pp := newNodePattern(b, child)
+	pp := newNodePattern(b, fieldNames, child)
 	return c.checkRef(pp)
 }
 
@@ -379,7 +382,7 @@ func areLeaves(l, r *Pattern) bool {
 
 func (c *construct) mergeLeaves(mergeFunc func(l, r funcs.Bool) funcs.Bool, ps []*Pattern) ([]*Pattern, error) {
 	return merge(areLeaves, func(l, r *Pattern) (*Pattern, error) {
-		return c.NewNode(mergeFunc(l.Func, r.Func), c.NewEmpty())
+		return c.newNode(mergeFunc(l.Func, r.Func), unionFieldNames(l, r), c.NewEmpty())
 	}, ps)
 }
 
@@ -397,7 +400,7 @@ func (c *construct) mergeContainsOr(ps []*Pattern) ([]*Pattern, error) {
 		if err != nil {
 			return nil, err
 		}
-		pp, err := c.NewNode(l.Patterns[0].Func, o)
+		pp, err := c.newNode(l.Patterns[0].Func, unionFieldNames(l, r), o)
 		if err != nil {
 			return nil, err
 		}
@@ -418,7 +421,7 @@ func (c *construct) mergeNodesOr(ps []*Pattern) ([]*Pattern, error) {
 		if err != nil {
 			return nil, err
 		}
-		return c.NewNode(l.Func, o)
+		return c.newNode(l.Func, unionFieldNames(l, r), o)
 	}, ps)
 }
 
@@ -512,7 +515,7 @@ func (c *construct) mergeContainsAnd(ps []*Pattern) ([]*Pattern, error) {
 		if err != nil {
 			return nil, err
 		}
-		pp, err := c.NewNode(l.Patterns[0].Func, a)
+		pp, err := c.newNode(l.Patterns[0].Func, unionFieldNames(l, r), a)
 		if err != nil {
 			return nil, err
 		}
@@ -526,7 +529,7 @@ func (c *construct) mergeNodesAnd(ps []*Pattern) ([]*Pattern, error) {
 		if err != nil {
 			return nil, err
 		}
-		return c.NewNode(l.Func, a)
+		return c.newNode(l.Func, unionFieldNames(l, r), a)
 	}, ps)
 }
 

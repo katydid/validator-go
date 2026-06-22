@@ -23,23 +23,31 @@ import (
 )
 
 type options struct {
-	record bool
+	record         bool
+	fieldNameTable bool
 }
 
 type Option func(o *options)
 
-// compiles a parsed validator grammar and optimizes it for the case where the input structures are records.
-// A record can be json, a protocol buffer, a reflected go structures or any structure that have unique field names for each structure.
-// XML would be an example of a structure for which this simplification is NOT appropriate.
-func WithRecordOpts() Option {
+// compiles a parsed validator grammar and optimizes it for the case where the input structures are records, by shrinking space with extra simplification rules.
+// Do not use with XML, but JSON, Reflect and Protobufs are safe.
+func WithRecordSimplificationRules() Option {
 	return func(o *options) {
 		o.record = true
 	}
 }
 
+// Creates a lookup for strings found in field name expressions to avoid lots of comparisons with fieldnames.
+func WithFieldNameTable() Option {
+	return func(o *options) {
+		o.fieldNameTable = true
+	}
+}
+
 func newOptions(opts ...Option) *options {
 	o := &options{
-		record: false,
+		record:         false,
+		fieldNameTable: false,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -68,6 +76,9 @@ func new(g *ast.Grammar, opts ...Option) (*Mem, error) {
 		calls:     []*intern.IfExprs{},
 		returns:   [][]map[int]int{},
 	}
+	if o.fieldNameTable {
+		m.fieldNameCalls = []map[string]*callResult{}
+	}
 	m.start = m.states.Add([]*intern.Pattern{main})
 	return m, nil
 }
@@ -90,11 +101,17 @@ func (mem *Mem) SetContext(context *funcs.Context) {
 
 // Mem is the structure containing the memoized grammar.
 type Mem struct {
-	construct intern.Construct
-	states    *intern.SetOfPatterns
-	start     int
-	calls     []*intern.IfExprs // state -> (ifExprs : state -> label -> state)
-	returns   [][]map[int]int   // state -> zipIndex -> nullIndex -> state
+	construct      intern.Construct
+	states         *intern.SetOfPatterns
+	start          int
+	calls          []*intern.IfExprs // state -> (ifExprs : state -> label -> state)
+	returns        [][]map[int]int   // state -> zipIndex -> nullIndex -> state
+	fieldNameCalls []map[string]*callResult
+}
+
+type callResult struct {
+	child      int
+	stackIndex int
 }
 
 func (this *Mem) GetCall(state int) (*intern.IfExprs, error) {

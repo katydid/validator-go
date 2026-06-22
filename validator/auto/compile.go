@@ -25,9 +25,9 @@ import (
 var ErrTooBig = errors.New("a state explosion has occured")
 
 type options struct {
-	maxBitSetSize int
-	record        bool
-	enterMemStr   bool
+	maxBitSetSize  int
+	record         bool
+	fieldNameTable bool
 }
 
 type Option func(o *options)
@@ -38,25 +38,26 @@ func WithMaxBitSetSize(m int) Option {
 	}
 }
 
-// compiles a parsed validator grammar and optimizes it for the case where the input structures are records.
-func WithRecordOpts() Option {
+// compiles a parsed validator grammar and optimizes it for the case where the input structures are records, by shrinking space with extra simplification rules.
+// Do not use with XML, but JSON, Reflect and Protobufs are safe.
+func WithRecordSimplificationRules() Option {
 	return func(o *options) {
 		o.record = true
 	}
 }
 
-// creates a cache of constant string expressions, like equal and enum for entering objects to avoid lots of evaluations of predicates.
-func WithEnterMemStr() Option {
+// creates a lookup strings found in field name expressions.
+func WithFieldNameTable() Option {
 	return func(o *options) {
-		o.enterMemStr = true
+		o.fieldNameTable = true
 	}
 }
 
 func newOptions(opts ...Option) *options {
 	o := &options{
-		enterMemStr:   false,
-		maxBitSetSize: 64,
-		record:        false,
+		fieldNameTable: false,
+		maxBitSetSize:  64,
+		record:         false,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -87,7 +88,7 @@ func compileAuto(g *ast.Grammar, opts ...Option) (*Auto, error) {
 		accept:          c.accept,
 		hashedCalls:     c.hashedCalls,
 	}
-	if !o.enterMemStr {
+	if !o.fieldNameTable {
 		a.hashedCalls = nil
 	}
 	return a, nil

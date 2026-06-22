@@ -39,13 +39,14 @@ const Interleave = PatternType(13)
 const Xor = PatternType(14)
 
 type Pattern struct {
-	Type     PatternType
-	Func     funcs.Bool
-	Patterns []*Pattern
-	Ref      string
-	hash     uint64
-	nullable bool
-	str      string
+	Type       PatternType
+	Func       funcs.Bool
+	Patterns   []*Pattern
+	Ref        string
+	hash       uint64
+	nullable   bool
+	str        string
+	fieldNames map[string]struct{}
 }
 
 func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
@@ -73,15 +74,27 @@ func newOpPattern(typ PatternType, ps ...*Pattern) *Pattern {
 	}
 	p.hash = makeHash(p)
 	p.str = makeString(p)
+	p.fieldNames = unionFieldNames(ps...)
 	return p
 }
 
-func newNodePattern(b funcs.Bool, child *Pattern) *Pattern {
+func unionFieldNames(ps ...*Pattern) map[string]struct{} {
+	res := make(map[string]struct{})
+	for _, p := range ps {
+		for name, _ := range p.fieldNames {
+			res[name] = struct{}{}
+		}
+	}
+	return res
+}
+
+func newNodePattern(b funcs.Bool, fieldNames map[string]struct{}, child *Pattern) *Pattern {
 	p := &Pattern{
-		Type:     Node,
-		Func:     b,
-		Patterns: []*Pattern{child},
-		nullable: false,
+		Type:       Node,
+		Func:       b,
+		Patterns:   []*Pattern{child},
+		nullable:   false,
+		fieldNames: fieldNames,
 	}
 	p.hash = makeHash(p)
 	return p

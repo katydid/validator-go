@@ -60,7 +60,7 @@ func test(t *testing.T, name string, g *ast.Grammar, p parse.Parser, expected bo
 	var a *auto.Auto
 	var err error
 	if record {
-		a, err = auto.Compile(g, auto.WithRecordOpts())
+		a, err = auto.Compile(g, auto.WithRecordSimplificationRules())
 	} else {
 		a, err = auto.Compile(g)
 	}

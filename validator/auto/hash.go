@@ -16,45 +16,8 @@ package auto
 
 import (
 	"github.com/katydid/parser-go/parse/debug"
-	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/intern"
 )
-
-type stringCollector struct {
-	ss []string
-}
-
-func (c *stringCollector) Visit(node any) any {
-	switch t := node.(type) {
-	case *ast.Terminal:
-		if t.StringValue != nil {
-			c.ss = append(c.ss, *t.StringValue)
-		}
-	case *ast.Name:
-		if t.StringValue != nil {
-			c.ss = append(c.ss, *t.StringValue)
-		}
-	}
-	return c
-}
-
-func getStringsFromPattern(p *intern.Pattern) []string {
-	collector := &stringCollector{[]string{}}
-	if p.Func != nil {
-		expr := p.Func.ToExpr()
-		expr.Walk(collector)
-	}
-	ss := getStringsFromPatterns(p.Patterns)
-	return append(collector.ss, ss...)
-}
-
-func getStringsFromPatterns(ps []*intern.Pattern) []string {
-	strings := []string{}
-	for i := range ps {
-		strings = append(strings, getStringsFromPattern(ps[i])...)
-	}
-	return strings
-}
 
 type callResult struct {
 	child      int
@@ -63,7 +26,7 @@ type callResult struct {
 
 func (this *compiler) calcHashCalls(state int) error {
 	ps := this.patterns.Get(state)
-	names := getStringsFromPatterns(ps)
+	names := intern.GetFieldNames(ps)
 	hashed := map[string]callResult{}
 	for i := range names {
 		child, stackIndex, err := this.calls[state].eval(debug.NewStringValue(names[i]))

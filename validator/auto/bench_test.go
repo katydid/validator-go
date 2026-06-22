@@ -46,7 +46,7 @@ func bench(b *testing.B, grammar *ast.Grammar, parsers []testsuite.ResetParser, 
 	var a *auto.Auto
 	var err error
 	if record {
-		a, err = auto.Compile(grammar, auto.WithRecordOpts())
+		a, err = auto.Compile(grammar, auto.WithRecordSimplificationRules())
 	} else {
 		a, err = auto.Compile(grammar)
 	}
