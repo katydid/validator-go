@@ -54,7 +54,6 @@ func (auto *Auto) MetricNumberOfStates() int {
 func derivEnterField(auto *Auto, current int, tree parse.Parser) (int, int, error) {
 	kind, name, err := tree.Token()
 	if err == nil && auto.hashedCalls != nil && kind == parse.StringKind {
-		panic("wtf")
 		res, ok := auto.hashedCalls[current][cast.ToString(name)]
 		if ok {
 			return res.child, res.stackIndex, nil
