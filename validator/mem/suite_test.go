@@ -50,7 +50,7 @@ func test(t *testing.T, g *ast.Grammar, p parse.Parser, expected bool, desc stri
 	var m *mem.Mem
 	var err error
 	if record {
-		m, err = mem.NewRecord(g)
+		m, err = mem.New(g, mem.WithRecordOpts())
 	} else {
 		m, err = mem.New(g)
 	}

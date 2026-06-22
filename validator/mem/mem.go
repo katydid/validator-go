@@ -22,21 +22,40 @@ import (
 	"github.com/katydid/validator-go/validator/intern"
 )
 
-// New creates a new memoizable grammar.
-func New(g *ast.Grammar) (*Mem, error) {
-	return new(g, false)
+type options struct {
+	record bool
 }
 
-// New creates a new memoizable grammar which is optimized for records.
+type Option func(o *options)
+
+// compiles a parsed validator grammar and optimizes it for the case where the input structures are records.
 // A record can be json, a protocol buffer, a reflected go structures or any structure that have unique field names for each structure.
 // XML would be an example of a structure for which this simplification is NOT appropriate.
-func NewRecord(g *ast.Grammar) (*Mem, error) {
-	return new(g, true)
+func WithRecordOpts() Option {
+	return func(o *options) {
+		o.record = true
+	}
 }
 
-func new(g *ast.Grammar, record bool) (*Mem, error) {
+func newOptions(opts ...Option) *options {
+	o := &options{
+		record: false,
+	}
+	for _, opt := range opts {
+		opt(o)
+	}
+	return o
+}
+
+// New creates a new memoizable grammar.
+func New(g *ast.Grammar, opts ...Option) (*Mem, error) {
+	return new(g, opts...)
+}
+
+func new(g *ast.Grammar, opts ...Option) (*Mem, error) {
+	o := newOptions(opts...)
 	c := intern.NewConstructor()
-	if record {
+	if o.record {
 		c = intern.NewConstructorOptimizedForRecords()
 	}
 	main, err := c.AddGrammar(g)

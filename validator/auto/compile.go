@@ -27,6 +27,7 @@ var ErrTooBig = errors.New("a state explosion has occured")
 type options struct {
 	maxBitSetSize int
 	record        bool
+	enterMemStr   bool
 }
 
 type Option func(o *options)
@@ -44,8 +45,16 @@ func WithRecordOpts() Option {
 	}
 }
 
+// creates a cache of constant string expressions, like equal and enum for entering objects to avoid lots of evaluations of predicates.
+func WithEnterMemStr() Option {
+	return func(o *options) {
+		o.enterMemStr = true
+	}
+}
+
 func newOptions(opts ...Option) *options {
 	o := &options{
+		enterMemStr:   false,
 		maxBitSetSize: 64,
 		record:        false,
 	}
@@ -77,6 +86,9 @@ func compileAuto(g *ast.Grammar, opts ...Option) (*Auto, error) {
 		stateToNullable: c.stateToNullable,
 		accept:          c.accept,
 		hashedCalls:     c.hashedCalls,
+	}
+	if !o.enterMemStr {
+		a.hashedCalls = nil
 	}
 	return a, nil
 }

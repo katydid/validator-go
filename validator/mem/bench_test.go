@@ -52,7 +52,7 @@ func bench(b *testing.B, grammar *ast.Grammar, parsers []testsuite.ResetParser, 
 	var m *mem.Mem
 	var err error
 	if record {
-		m, err = mem.NewRecord(grammar)
+		m, err = mem.New(grammar, mem.WithRecordOpts())
 	} else {
 		m, err = mem.New(grammar)
 	}
