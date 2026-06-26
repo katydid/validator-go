@@ -56,8 +56,12 @@ func (this *compiler) newCallTree(parentPatterns int, node *ifExprs) (*callNode,
 	if len(stringThens) > 3 {
 		// We assume it is quicker to check in a hashmap once, than do 3 equal comparisons, but this heuristic could be tuned
 		thens := make(map[string]*callNode)
+		var err error
 		for name := range stringThens {
-			thens[name] = this.newRetNode(parentPatterns, stringThens[name].ret)
+			thens[name], err = this.newCallTree(parentPatterns, stringThens[name])
+			if err != nil {
+				return nil, err
+			}
 		}
 		els, err := this.newCallTree(parentPatterns, stringElse)
 		if err != nil {
@@ -96,9 +100,6 @@ func getThenStrings(node *ifExprs, acc map[string]*ifExprs) *ifExprs {
 	if !ok {
 		return node
 	}
-	if node.then.ret == nil {
-		return node
-	}
 	acc[name] = node.then
 	return getThenStrings(node.els, acc)
 }
@@ -127,7 +128,7 @@ func (this *callNode) eval(label parse.Token) (int, int, error) {
 		if !ok {
 			return this.els.eval(label)
 		}
-		return res.child, res.stackIndex, nil
+		return res.eval(label)
 	}
 	return this.child, this.stackIndex, nil
 }
@@ -142,7 +143,7 @@ func (this *callNode) getLeafs() []*callNode {
 		res := make([]*callNode, 0, len(this.thens)+len(els))
 		names := std.SortedKeys(this.thens)
 		for _, name := range names {
-			res = append(res, this.thens[name])
+			res = append(res, this.thens[name].getLeafs()...)
 		}
 		res = append(res, els...)
 		return res
