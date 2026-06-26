@@ -631,6 +631,7 @@ func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	}
 	if numZanys == 1 {
 		// one is already true, so rest has to be false.
+		ps = removeAllZAny(ps)
 		p, err := c.NewOr(ps)
 		if err != nil {
 			return nil, err
