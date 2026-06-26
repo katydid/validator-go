@@ -15,9 +15,7 @@
 package intern
 
 import (
-	"cmp"
 	"fmt"
-	"slices"
 	"sort"
 	"strings"
 
@@ -25,6 +23,7 @@ import (
 	"github.com/katydid/validator-go/validator/compose"
 	"github.com/katydid/validator-go/validator/funcs"
 	nameexpr "github.com/katydid/validator-go/validator/name"
+	"github.com/katydid/validator-go/validator/std"
 )
 
 type Construct interface {
@@ -692,18 +691,9 @@ func (c *construct) mergeNodesXor(ps []*Pattern) ([]*Pattern, error) {
 
 func (c *construct) String() string {
 	res := []string{}
-	for _, k := range sortedKeys(c.refs) {
+	for _, k := range std.SortedKeys(c.refs) {
 		p := c.refs[k]
 		res = append(res, p.String())
 	}
 	return strings.Join(res, "\n")
-}
-
-func sortedKeys[Map ~map[K]V, K cmp.Ordered, V any](m Map) []K {
-	ks := make([]K, 0, len(m))
-	for k := range m {
-		ks = append(ks, k)
-	}
-	slices.Sort(ks)
-	return ks
 }
