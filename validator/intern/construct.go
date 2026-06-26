@@ -617,34 +617,34 @@ func (c *construct) MergeXor(l, r *Pattern) (*Pattern, error) {
 
 func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	ps = flattenByType(ps, Xor)
-	ps = removeAllNotZAny(ps)
-	if len(ps) == 0 {
-		return c.NewNotZAny(), nil
-	}
-	if countZAnys(ps) > 1 {
-		// if there is more than one always true, then Xor is false
-		return c.NewNotZAny(), nil
-	}
+	// ps = removeAllNotZAny(ps)
+	// if len(ps) == 0 {
+	// 	return c.NewNotZAny(), nil
+	// }
+	// if countZAnys(ps) > 1 {
+	// 	// if there is more than one always true, then Xor is false
+	// 	return c.NewNotZAny(), nil
+	// }
 
-	sort.Sort(sortable(ps))
-	var err error
-	ps, err = c.mergeLeaves(funcs.Xor, ps)
-	if err != nil {
-		return nil, err
-	}
-	if c.record {
-		ps, err = c.mergeContainsXor(ps)
-		if err != nil {
-			return nil, err
-		}
-	}
-	ps, err = c.mergeNodesXor(ps)
-	if err != nil {
-		return nil, err
-	}
-	if len(ps) == 1 {
-		return ps[0], nil
-	}
+	// sort.Sort(sortable(ps))
+	// var err error
+	// ps, err = c.mergeLeaves(funcs.Xor, ps)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// if c.record {
+	// 	ps, err = c.mergeContainsXor(ps)
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// }
+	// ps, err = c.mergeNodesXor(ps)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// if len(ps) == 1 {
+	// 	return ps[0], nil
+	// }
 	pp := newOpPattern(Xor, ps...)
 	return c.checkRef(pp)
 }
