@@ -15,8 +15,11 @@
 package intern
 
 import (
+	"cmp"
 	"fmt"
+	"slices"
 	"sort"
+	"strings"
 
 	"github.com/katydid/validator-go/validator/ast"
 	"github.com/katydid/validator-go/validator/compose"
@@ -621,9 +624,18 @@ func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	if len(ps) == 0 {
 		return c.NewNotZAny(), nil
 	}
-	if countZAnys(ps) > 1 {
+	numZanys := countZAnys(ps)
+	if numZanys > 1 {
 		// if there is more than one always true, then Xor is false
 		return c.NewNotZAny(), nil
+	}
+	if numZanys == 1 {
+		// one is already true, so rest has to be false.
+		p, err := c.NewOr(ps)
+		if err != nil {
+			return nil, err
+		}
+		return c.NewNot(p)
 	}
 
 	sort.Sort(sortable(ps))
@@ -671,4 +683,22 @@ func (c *construct) mergeNodesXor(ps []*Pattern) ([]*Pattern, error) {
 		}
 		return c.newNode(l.Func, unionFieldNames(l, r), a)
 	}, ps)
+}
+
+func (c *construct) String() string {
+	res := []string{}
+	for _, k := range sortedKeys(c.refs) {
+		p := c.refs[k]
+		res = append(res, p.String())
+	}
+	return strings.Join(res, "\n")
+}
+
+func sortedKeys[Map ~map[K]V, K cmp.Ordered, V any](m Map) []K {
+	ks := make([]K, 0, len(m))
+	for k := range m {
+		ks = append(ks, k)
+	}
+	slices.Sort(ks)
+	return ks
 }
