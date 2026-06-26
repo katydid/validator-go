@@ -220,19 +220,20 @@ func Equal(l, r Comparable) bool {
 func IsSimpleEqual(f Bool) bool {
 	switch eq := f.(type) {
 	case *stringEq:
-		_, v := isVarConst(eq.V1, eq.V2)
-		return v
+		_, ok := getConst(eq.V1, eq.V2)
+		return ok
 	case *intEq:
-		_, v := isVarConst(eq.V1, eq.V2)
-		return v
+		_, ok := getConst(eq.V1, eq.V2)
+		return ok
 	case *uintEq:
-		_, v := isVarConst(eq.V1, eq.V2)
-		return v
+		_, ok := getConst(eq.V1, eq.V2)
+		return ok
 	}
 	return false
 }
 
-func isVarConst(a, b interface{}) (aConst, bool) {
+// getConst returns the const if the other input is variable.
+func getConst(a, b interface{}) (aConst, bool) {
 	if c, aok := a.(aConst); aok {
 		if _, bok := b.(aVariable); bok {
 			return c, true

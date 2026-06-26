@@ -143,8 +143,8 @@ func And(v1, v2 Bool) Bool {
 	switch vv1 := v1.(type) {
 	case *stringEq:
 		if vv2, ok := v2.(*stringEq); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return BoolConst(false)
 					}
@@ -152,8 +152,8 @@ func And(v1, v2 Bool) Bool {
 			}
 		}
 		if vv2, ok := v2.(*stringNe); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return v1
 					} else {
@@ -164,8 +164,8 @@ func And(v1, v2 Bool) Bool {
 		}
 	case *stringNe:
 		if vv2, ok := v2.(*stringEq); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return v2
 					} else {
@@ -176,8 +176,8 @@ func And(v1, v2 Bool) Bool {
 		}
 	case *intEq:
 		if vv2, ok := v2.(*intEq); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return BoolConst(false)
 					}
@@ -185,8 +185,8 @@ func And(v1, v2 Bool) Bool {
 			}
 		}
 		if vv2, ok := v2.(*intNe); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return v1
 					} else {
@@ -197,8 +197,8 @@ func And(v1, v2 Bool) Bool {
 		}
 	case *intNe:
 		if vv2, ok := v2.(*intEq); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return v2
 					} else {
@@ -209,8 +209,8 @@ func And(v1, v2 Bool) Bool {
 		}
 	case *uintEq:
 		if vv2, ok := v2.(*uintEq); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return BoolConst(false)
 					}
@@ -218,8 +218,8 @@ func And(v1, v2 Bool) Bool {
 			}
 		}
 		if vv2, ok := v2.(*uintNe); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return v1
 					} else {
@@ -230,8 +230,8 @@ func And(v1, v2 Bool) Bool {
 		}
 	case *uintNe:
 		if vv2, ok := v2.(*uintEq); ok {
-			if vvv1, ok1 := isVarConst(vv1.V1, vv1.V2); ok1 {
-				if vvv2, ok2 := isVarConst(vv2.V1, vv2.V2); ok2 {
+			if vvv1, ok1 := getConst(vv1.V1, vv1.V2); ok1 {
+				if vvv2, ok2 := getConst(vv2.V1, vv2.V2); ok2 {
 					if !Equal(vvv1, vvv2) {
 						return v2
 					} else {

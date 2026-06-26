@@ -262,8 +262,9 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 		return a, rest, err
 	case Interleave:
 		rest := nulls
-		orPatterns := make([]*Pattern, len(p.Patterns))
 		var err error
+		orPatterns := make([]*Pattern, len(p.Patterns))
+		trueIndex := -1
 		for i := range p.Patterns {
 			interleaves := make([]*Pattern, len(p.Patterns))
 			copy(interleaves, p.Patterns)
@@ -271,10 +272,16 @@ func derivReturn(c Construct, p *Pattern, nulls []bool) (*Pattern, []bool, error
 			if err != nil {
 				return nil, nil, err
 			}
+			if interleaves[i].nullable {
+				trueIndex = i
+			}
 			orPatterns[i], err = c.NewInterleave(interleaves)
 			if err != nil {
 				return nil, nil, err
 			}
+		}
+		if IsDisjoint(p.Patterns) && trueIndex > -1 {
+			return orPatterns[trueIndex], rest, nil
 		}
 		o, err := c.NewOr(orPatterns)
 		return o, rest, err
