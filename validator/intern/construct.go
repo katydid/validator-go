@@ -627,11 +627,11 @@ func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	}
 
 	sort.Sort(sortable(ps))
-	// var err error
-	// ps, err = c.mergeLeaves(funcs.Xor, ps)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	var err error
+	ps, err = c.mergeLeaves(funcs.Xor, ps)
+	if err != nil {
+		return nil, err
+	}
 	// if c.record {
 	// 	ps, err = c.mergeContainsXor(ps)
 	// 	if err != nil {
@@ -642,9 +642,9 @@ func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	// if err != nil {
 	// 	return nil, err
 	// }
-	// if len(ps) == 1 {
-	// 	return ps[0], nil
-	// }
+	if len(ps) == 1 {
+		return ps[0], nil
+	}
 	pp := newOpPattern(Xor, ps...)
 	return c.checkRef(pp)
 }
