@@ -43,6 +43,7 @@ type Construct interface {
 	NewNotZAny() *Pattern
 	NewNot(*Pattern) (*Pattern, error)
 	NewZeroOrMore(*Pattern) (*Pattern, error)
+	String() string
 }
 
 type construct struct {
