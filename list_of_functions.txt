@@ -82,3 +82,4 @@ func type(double) bool
 func type(int) bool
 func type(string) bool
 func type(uint) bool
+func xor(bool,bool) bool

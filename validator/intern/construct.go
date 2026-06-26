@@ -599,8 +599,76 @@ func (c *construct) NewInterleave(ps []*Pattern) (*Pattern, error) {
 	return c.checkRef(pp)
 }
 
+func (c *construct) MergeXor(l, r *Pattern) (*Pattern, error) {
+	var left []*Pattern
+	if l.Type == Xor {
+		left = l.Patterns
+	} else {
+		left = []*Pattern{l}
+	}
+	var right []*Pattern
+	if r.Type == Xor {
+		right = r.Patterns
+	} else {
+		right = []*Pattern{r}
+	}
+	return c.NewXor(append(left, right...))
+}
+
 func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	ps = flattenByType(ps, Xor)
+	ps = removeAllNotZAny(ps)
+	if len(ps) == 0 {
+		return c.NewNotZAny(), nil
+	}
+	if countZAnys(ps) > 1 {
+		// if there is more than one always true, then Xor is false
+		return c.NewNotZAny(), nil
+	}
+
+	sort.Sort(sortable(ps))
+	var err error
+	ps, err = c.mergeLeaves(funcs.Xor, ps)
+	if err != nil {
+		return nil, err
+	}
+	if c.record {
+		ps, err = c.mergeContainsXor(ps)
+		if err != nil {
+			return nil, err
+		}
+	}
+	ps, err = c.mergeNodesXor(ps)
+	if err != nil {
+		return nil, err
+	}
+	if len(ps) == 1 {
+		return ps[0], nil
+	}
 	pp := newOpPattern(Xor, ps...)
 	return c.checkRef(pp)
+}
+
+func (c *construct) mergeContainsXor(ps []*Pattern) ([]*Pattern, error) {
+	return merge(areContainsWithEqualNames, func(l, r *Pattern) (*Pattern, error) {
+		a, err := c.MergeXor(l.Patterns[0].Patterns[0], r.Patterns[0].Patterns[0])
+		if err != nil {
+			return nil, err
+		}
+		pp, err := c.newNode(l.Patterns[0].Func, unionFieldNames(l, r), a)
+		if err != nil {
+			return nil, err
+		}
+		return c.NewContains(pp)
+	}, ps)
+}
+
+func (c *construct) mergeNodesXor(ps []*Pattern) ([]*Pattern, error) {
+	return merge(areNodesWithEqualNames, func(l, r *Pattern) (*Pattern, error) {
+		a, err := c.MergeXor(l.Patterns[0], r.Patterns[0])
+		if err != nil {
+			return nil, err
+		}
+		return c.newNode(l.Func, unionFieldNames(l, r), a)
+	}, ps)
 }
