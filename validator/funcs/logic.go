@@ -385,3 +385,91 @@ func (this *or) Hash() uint64 {
 func init() {
 	Register("or", Or)
 }
+
+// Xor returns a new xor function with the two input functions as its parameters.
+func Xor(v1, v2 Bool) Bool {
+	if l, ok := v1.(*constBool); ok {
+		if l.v == true {
+			return BoolConst(true)
+		} else {
+			return Not(v2)
+		}
+	}
+	if r, ok := v2.(*constBool); ok {
+		if r.v == true {
+			return BoolConst(true)
+		} else {
+			return Not(v1)
+		}
+	}
+	if Equal(v1, v2) {
+		return BoolConst(false)
+	}
+	if l, ok := v1.(*not); ok {
+		if Equal(l.V1, v2) {
+			return BoolConst(true)
+		}
+	}
+	if r, ok := v2.(*not); ok {
+		if Equal(v1, r.V1) {
+			return BoolConst(true)
+		}
+	}
+	return TrimBool(&xor{
+		V1:          v1,
+		V2:          v2,
+		hash:        hashWithId(41, v1, v2),
+		hasVariable: v1.HasVariable() || v2.HasVariable(),
+	})
+}
+
+type xor struct {
+	V1          Bool
+	V2          Bool
+	hash        uint64
+	hasVariable bool
+}
+
+func (this *xor) Eval() (bool, error) {
+	v1, err := this.V1.Eval()
+	if err == nil && v1 {
+		v2, err := this.V2.Eval()
+		return err != nil || !v2, nil
+	}
+	return true, nil
+}
+
+func (this *xor) Compare(that Comparable) int {
+	if this.Hash() != that.Hash() {
+		if this.Hash() < that.Hash() {
+			return -1
+		}
+		return 1
+	}
+	if other, ok := that.(*or); ok {
+		if c := this.V1.Compare(other.V1); c != 0 {
+			return c
+		}
+		if c := this.V2.Compare(other.V2); c != 0 {
+			return c
+		}
+		return 0
+	}
+	return this.ToExpr().Compare(that.ToExpr())
+}
+
+func (this *xor) HasVariable() bool {
+	return this.hasVariable
+}
+
+func (this *xor) ToExpr() *ast.Expr {
+	return ast.NewFunction("xor", this.V1.ToExpr(), this.V2.ToExpr())
+}
+
+func (this *xor) Hash() uint64 {
+	return this.hash
+}
+
+func init() {
+	Register("xor", Xor)
+}
