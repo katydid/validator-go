@@ -632,16 +632,16 @@ func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	if err != nil {
 		return nil, err
 	}
-	// if c.record {
-	// 	ps, err = c.mergeContainsXor(ps)
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// }
-	// ps, err = c.mergeNodesXor(ps)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	if c.record {
+		ps, err = c.mergeContainsXor(ps)
+		if err != nil {
+			return nil, err
+		}
+	}
+	ps, err = c.mergeNodesXor(ps)
+	if err != nil {
+		return nil, err
+	}
 	if len(ps) == 1 {
 		return ps[0], nil
 	}
