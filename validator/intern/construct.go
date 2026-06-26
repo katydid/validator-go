@@ -617,14 +617,16 @@ func (c *construct) MergeXor(l, r *Pattern) (*Pattern, error) {
 
 func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	ps = flattenByType(ps, Xor)
-	ps1 := removeZAnyExceptOne(ps)
-	if len(ps1) != len(ps) {
+	ps = removeAllNotZAny(ps)
+	if len(ps) == 0 {
+		return c.NewNotZAny(), nil
+	}
+	if countZAnys(ps) > 1 {
 		// if there is more than one always true, then Xor is false
 		return c.NewNotZAny(), nil
 	}
-	ps = removeAllNotZAny(ps)
 
-	ps = orderedSet(ps)
+	sort.Sort(sortable(ps))
 	var err error
 	ps, err = c.mergeLeaves(funcs.Xor, ps)
 	if err != nil {
