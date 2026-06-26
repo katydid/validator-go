@@ -129,7 +129,7 @@ func compile(c *compiler, patterns int) error {
 	if err != nil {
 		return err
 	}
-	allPossibleCalls := getLeafs(callTree)
+	allPossibleCalls := callTree.getLeafs()
 	for _, call := range allPossibleCalls {
 
 		numOfChildPatterns := len(c.patterns.Get(call.child))
@@ -156,13 +156,4 @@ func compile(c *compiler, patterns int) error {
 		}
 	}
 	return nil
-}
-
-func getLeafs(callTree *callNode) []*callNode {
-	if callTree.cond == nil {
-		return []*callNode{callTree}
-	}
-	then := getLeafs(callTree.then)
-	els := getLeafs(callTree.els)
-	return append(then, els...)
 }

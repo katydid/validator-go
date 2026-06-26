@@ -22,11 +22,10 @@ import (
 )
 
 type ifExprs struct {
-	cond     funcs.Bool
-	composed compose.Bool
-	then     *ifExprs
-	els      *ifExprs
-	ret      []*intern.Pattern
+	cond funcs.Bool
+	then *ifExprs
+	els  *ifExprs
+	ret  []*intern.Pattern
 }
 
 // compileIfExprs combines several if expressions into one nested if expression with a list of return values.
@@ -59,14 +58,11 @@ func (this *ifExprs) eval(label parse.Token) ([]*intern.Pattern, error) {
 	if this.ret != nil {
 		return this.ret, nil
 	}
-	if this.composed == nil {
-		composed, err := compose.NewBoolFunc(this.cond)
-		if err != nil {
-			return nil, err
-		}
-		this.composed = composed
+	composed, err := compose.NewBoolFunc(this.cond)
+	if err != nil {
+		return nil, err
 	}
-	cond, err := this.composed.Eval(label)
+	cond, err := composed.Eval(label)
 	if err != nil {
 		return nil, err
 	}
