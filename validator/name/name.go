@@ -71,6 +71,10 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 		}
 		return funcs.Not(n), nil
 	case *ast.NameChoice:
+		set, ok := getStringSet(n)
+		if ok && len(set) > 4 {
+			return funcs.ContainsString(funcs.StringVar(), funcs.NewListOfString(set))
+		}
 		l, err := NameToFunc(v.GetLeft())
 		if err != nil {
 			return nil, err
@@ -81,10 +85,6 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 		}
 		return funcs.Or(l, r), nil
 	case *ast.NameConj:
-		set, ok := getStringSet(n)
-		if ok && len(set) > 4 {
-			return funcs.ContainsString(funcs.StringVar(), funcs.NewListOfString(set))
-		}
 		l, err := NameToFunc(v.GetLeft())
 		if err != nil {
 			return nil, err
