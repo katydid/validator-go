@@ -65,6 +65,6 @@ func (this *varTag) ToExpr() *ast.Expr {
 // TagVar returns a variable of type Tag
 func TagVar() *varTag {
 	h := uint64(17)
-	h = 31*h + 2486848561
+	h = 37*h + 2486848561
 	return &varTag{hash: h}
 }
