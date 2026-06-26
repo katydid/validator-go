@@ -390,16 +390,16 @@ func init() {
 func Xor(v1, v2 Bool) Bool {
 	if l, ok := v1.(*constBool); ok {
 		if l.v == true {
-			return BoolConst(true)
-		} else {
 			return Not(v2)
+		} else {
+			return v2
 		}
 	}
 	if r, ok := v2.(*constBool); ok {
 		if r.v == true {
-			return BoolConst(true)
-		} else {
 			return Not(v1)
+		} else {
+			return v1
 		}
 	}
 	if Equal(v1, v2) {
@@ -432,11 +432,10 @@ type xor struct {
 
 func (this *xor) Eval() (bool, error) {
 	v1, err := this.V1.Eval()
-	if err == nil && v1 {
-		v2, err := this.V2.Eval()
-		return err != nil || !v2, nil
-	}
-	return true, nil
+	true1 := err == nil && v1
+	v2, err := this.V2.Eval()
+	true2 := err == nil && v2
+	return (true1 && !true2) || (!true1 && true2), nil
 }
 
 func (this *xor) Compare(that Comparable) int {
