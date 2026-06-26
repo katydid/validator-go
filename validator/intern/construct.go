@@ -621,12 +621,12 @@ func (c *construct) NewXor(ps []*Pattern) (*Pattern, error) {
 	if len(ps) == 0 {
 		return c.NewNotZAny(), nil
 	}
-	// if countZAnys(ps) > 1 {
-	// 	// if there is more than one always true, then Xor is false
-	// 	return c.NewNotZAny(), nil
-	// }
+	if countZAnys(ps) > 1 {
+		// if there is more than one always true, then Xor is false
+		return c.NewNotZAny(), nil
+	}
 
-	// sort.Sort(sortable(ps))
+	sort.Sort(sortable(ps))
 	// var err error
 	// ps, err = c.mergeLeaves(funcs.Xor, ps)
 	// if err != nil {
