@@ -32,10 +32,10 @@ func (n *NameExpr) GetConstNames() map[string]struct{} {
 
 func (n *Name) GetConstNames() map[string]struct{} {
 	if n.StringValue != nil {
-		return map[string]struct{}{*n.StringValue: struct{}{}}
+		return map[string]struct{}{*n.StringValue: {}}
 	}
 	if n.TagValue != nil {
-		return map[string]struct{}{*n.TagValue: struct{}{}}
+		return map[string]struct{}{*n.TagValue: {}}
 	}
 	return nil
 }
