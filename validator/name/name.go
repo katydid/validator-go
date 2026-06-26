@@ -73,6 +73,7 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 	case *ast.NameChoice:
 		set, ok := getStringSet(n)
 		if ok && len(set) > 4 {
+			// This is useful for large sets of names, which happens when translating additionalProperties from JSON Schema
 			return funcs.ContainsString(funcs.StringVar(), funcs.NewListOfString(set))
 		}
 		l, err := NameToFunc(v.GetLeft())
