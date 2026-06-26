@@ -15,6 +15,7 @@
 package intern_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/katydid/validator-go/validator/ast"
@@ -314,5 +315,28 @@ func TestSimplifyRecordLeaf2(t *testing.T) {
 	t.Logf("%v", got)
 	if !want.Equal(got) {
 		t.Fatalf("want %v, but got %v", want, got)
+	}
+}
+
+func TestSimplifyNameSets(t *testing.T) {
+	c := NewConstructor()
+	p, err := c.NewPattern(ast.NewTreeNode(ast.NewAnyNameExcept(ast.NewNameChoice(
+		ast.NewStringName("a"),
+		ast.NewStringName("b"),
+		ast.NewStringName("c"),
+		ast.NewStringName("d"),
+		ast.NewStringName("e"),
+	)), ast.NewZAny()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	e := p.Func.ToExpr()
+	s := e.String()
+	want := `->not(contains($string,[]string{"a","b","c","d","e"}))`
+	if !strings.Contains(s, `contains`) {
+		t.Fatalf("expected simplification of name set to a contains expression, like %s", want)
+	}
+	if !strings.Contains(s, `[]string{"a","b","c","d","e"}`) {
+		t.Fatalf("expected simplification of name set to a contains expression, like %s", want)
 	}
 }

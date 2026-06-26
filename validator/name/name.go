@@ -71,6 +71,11 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 		}
 		return funcs.Not(n), nil
 	case *ast.NameChoice:
+		set, ok := getStringSet(n)
+		if ok && len(set) > 4 {
+			// This is useful for large sets of names, which happens when translating additionalProperties from JSON Schema
+			return funcs.ContainsString(funcs.StringVar(), funcs.NewListOfString(set))
+		}
 		l, err := NameToFunc(v.GetLeft())
 		if err != nil {
 			return nil, err
@@ -99,4 +104,20 @@ func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {
 		return compose.NewBool(f.ToExpr())
 	}
 	panic(fmt.Sprintf("unknown name expr typ %T", typ))
+}
+
+func getStringSet(n *ast.NameExpr) ([]funcs.String, bool) {
+	typ := n.GetValue()
+	switch v := typ.(type) {
+	case *ast.Name:
+		if v.StringValue == nil {
+			return nil, false
+		}
+		return []funcs.String{funcs.StringConst(v.GetStringValue())}, true
+	case *ast.NameChoice:
+		lset, lok := getStringSet(v.GetLeft())
+		rset, rok := getStringSet(v.GetRight())
+		return append(lset, rset...), lok && rok
+	}
+	return nil, false
 }
