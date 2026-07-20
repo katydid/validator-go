@@ -24,6 +24,10 @@ test:
 	go clean -testcache
 	TESTSUITE=MUST go test ./...
 
+test-purego:
+	go clean -testcache
+	TESTSUITE=MUST go test tags=purego ./...
+
 build:
 	go build ./...
 
