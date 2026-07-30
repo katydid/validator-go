@@ -29,7 +29,7 @@ func (this *compiler) calcHashCalls(state int) error {
 	names := intern.GetFieldNames(ps)
 	hashed := map[string]callResult{}
 	for i := range names {
-		child, stackIndex, err := this.calls[state].eval(debug.NewStringValue(names[i]))
+		child, stackIndex, err := this.calls[state].eval(debug.NewStringToken(names[i]))
 		if err != nil {
 			return err
 		}

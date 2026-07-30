@@ -73,14 +73,14 @@ func TestComposeContains(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	r, err := f.Eval(debug.NewStringValue("TheStreet"))
+	r, err := f.Eval(debug.NewStringToken("TheStreet"))
 	if err != nil {
 		t.Fatal(err)
 	}
 	if r != true {
 		t.Fatalf("expected true")
 	}
-	r, err = f.Eval(debug.NewStringValue("ThatStreet"))
+	r, err = f.Eval(debug.NewStringToken("ThatStreet"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -105,7 +105,7 @@ func TestComposeStringEq(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	r, err := f.Eval(debug.NewStringValue("TheStreet"))
+	r, err := f.Eval(debug.NewStringToken("TheStreet"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -189,7 +189,7 @@ func TestComposeRegex(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	r, err := f.Eval(debug.NewStringValue("a"))
+	r, err := f.Eval(debug.NewStringToken("a"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -259,7 +259,7 @@ func TestNoTrim(t *testing.T) {
 		t.Fatalf("too much trimming")
 	}
 	t.Logf("trimmed = %s", str)
-	r, err := f.Eval(debug.NewStringValue("abc"))
+	r, err := f.Eval(debug.NewStringToken("abc"))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -311,7 +311,7 @@ func TestComposeBuiltInEqual(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	r, err := f.Eval(debug.NewIntValue(124))
+	r, err := f.Eval(debug.NewIntToken(124))
 	if err != nil {
 		t.Fatal(err)
 	}

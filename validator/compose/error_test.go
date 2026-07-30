@@ -33,7 +33,7 @@ func TestNoEqualError(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if v, err := f.Eval(debug.NewStringValue("0")); err != nil {
+	if v, err := f.Eval(debug.NewStringToken("0")); err != nil {
 		t.Fatal(err)
 	} else if v {
 		t.Fatalf("expected false")
