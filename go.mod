@@ -8,8 +8,8 @@ tool github.com/goccmack/gocc
 
 require (
 	github.com/katydid/parser-go v0.9.0
-	github.com/katydid/parser-go-json v0.5.9-0.20260729111955-c0cd4d87eb02
-	github.com/katydid/parser-go-reflect v0.3.7-0.20260729111833-c2e89ce62fbc
+	github.com/katydid/parser-go-json v0.6.0
+	github.com/katydid/parser-go-reflect v0.3.7
 )
 
 require (
