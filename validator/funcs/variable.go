@@ -76,20 +76,27 @@ func (this *varUint) Eval() (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	if kind != parse.DecimalKind {
-		return 0, ErrNotUintConst{}
+	switch kind {
+	case parse.DecimalKind:
+		s := cast.ToString(v)
+		bigfloat, _, err := big.ParseFloat(s, 10, 200, big.ToNearestAway)
+		if err != nil {
+			return 0, ErrNotUintConst{}
+		}
+		u, acc := bigfloat.Uint64()
+		if acc != big.Exact {
+			return 0, ErrNotUintConst{}
+		}
+		return u, nil
+	case parse.Int64Kind:
+		i := cast.ToInt64(v)
+		if i < 0 {
+			return 0, ErrNotUintConst{}
+		}
+		return uint64(i), nil
 	}
-	// TODO: Consider supporting big Float64Kind, Int64Kind and NanosecondKind here.
-	s := cast.ToString(v)
-	bigfloat, _, err := big.ParseFloat(s, 10, 200, big.ToNearestAway)
-	if err != nil {
-		return 0, ErrNotUintConst{}
-	}
-	u, acc := bigfloat.Uint64()
-	if acc != big.Exact {
-		return 0, ErrNotUintConst{}
-	}
-	return u, nil
+	// TODO consider support Float64Kind and NanosecondsKind
+	return 0, ErrNotUintConst{}
 }
 
 func (this *varBool) Eval() (bool, error) {
