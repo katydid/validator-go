@@ -27,7 +27,7 @@ jobs:
       run: |
         cd gopath/src/github.com/katydid/validator-go
         go install -x github.com/goccmack/gocc
-        go install -x github.com/awalterschulze/goderive
+        go install -x awalterschulze.org/go/goderive
     - name: env
       run: env && go env && pwd
     - name: tree

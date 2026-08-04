@@ -18,7 +18,7 @@ all: nuke dep regenerate build test vet
 
 dep:
 	go install -v github.com/goccmack/gocc
-	go install -v github.com/awalterschulze/goderive
+	go install -v awalterschulze.org/go/goderive
 
 test:
 	go clean -testcache

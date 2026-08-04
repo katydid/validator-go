@@ -1,5 +1,5 @@
-github.com/awalterschulze/goderive v0.5.1 h1:H2XNRDw0Ordwj/pgLAVqQgDC1LQWP7L99ofOs72bjqg=
-github.com/awalterschulze/goderive v0.5.1/go.mod h1:DLlff0SRVo846CBrp8nXuXJ4mdWA92ai5CYTr+LV/II=
+awalterschulze.org/go/goderive v0.6.0 h1:P1Kp12zlNclDSvUpC0g6oebQ4jFRtXvRBF12JFnsuOE=
+awalterschulze.org/go/goderive v0.6.0/go.mod h1:PvBdmGQ0AcKJHrH1ma7JGQhtFje6ZrNPIOvG977Jr2A=
 github.com/goccmack/gocc v1.0.2 h1:PHv20lcM1Erz+kovS+c07DnDFp6X5cvghndtTXuEyfE=
 github.com/goccmack/gocc v1.0.2/go.mod h1:LXX2tFVUggS/Zgx/ICPOr3MLyusuM7EcbfkPvNsjdO8=
 github.com/katydid/parser-go v0.9.0 h1:FRX78bCvwY6xeZzIcWDJN2+BzJPI4/bDtoHOLjSQ9O8=
