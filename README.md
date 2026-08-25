@@ -31,7 +31,7 @@ func main() {
       "MonkeysSmart": true
     }`))
   ...
-  ast, err := validator.Parse(".WhatsUp == "E")
+  ast, err := validator.Parse(`.WhatsUp == "E"`)
   ...
   // creates memoizing validator that increases in speed the more it is used.
   mem, err := validator.Prepare(ast)
