@@ -23,8 +23,8 @@ import (
 )
 
 func main() {
-  data := json.NewJSONParser()
-  err := data.Init([]byte(`
+  data := json.NewParser()
+	data.Init([]byte(`
     {
       "WhatsUp": "E",
       "DragonsExist": false,
