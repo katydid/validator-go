@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 // Interpret interprets the grammar given the parser and returns whether the parser is valid given the grammar.

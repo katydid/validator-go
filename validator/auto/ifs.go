@@ -15,10 +15,10 @@
 package auto
 
 import (
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/compose"
-	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/intern"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/compose"
+	"katydid.org.za/go/validator-go/validator/funcs"
+	"katydid.org.za/go/validator-go/validator/intern"
 )
 
 type ifExprs struct {

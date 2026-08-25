@@ -17,7 +17,7 @@ package intern
 import (
 	"fmt"
 
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 // HasRecursion returns whether the grammar contains any references that does not have a TreeNode pattern in between.

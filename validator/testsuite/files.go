@@ -22,11 +22,11 @@ import (
 	goreflect "reflect"
 	"strings"
 
-	jsonparse "github.com/katydid/parser-go-json/json"
-	reflectparse "github.com/katydid/parser-go-reflect/reflect"
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator"
-	"github.com/katydid/validator-go/validator/ast"
+	jsonparse "katydid.org.za/go/parser-go-json/json"
+	reflectparse "katydid.org.za/go/parser-go-reflect/reflect"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 func exists(filename string) bool {

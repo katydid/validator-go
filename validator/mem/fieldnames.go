@@ -15,9 +15,9 @@
 package mem
 
 import (
-	"github.com/katydid/parser-go/cast"
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/intern"
+	"katydid.org.za/go/parser-go/cast"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/intern"
 )
 
 func (this *Mem) GetFieldNameCall(state int, tree parse.Parser) (int, int, bool) {

@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/compose"
-	"github.com/katydid/validator-go/validator/funcs"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/compose"
+	"katydid.org.za/go/validator-go/validator/funcs"
 )
 
 type IfExprs struct {

@@ -17,8 +17,8 @@ package intern
 import (
 	"fmt"
 
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/sets"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/sets"
 )
 
 // Nullable returns whether the input Pattern p also matches the empty string.

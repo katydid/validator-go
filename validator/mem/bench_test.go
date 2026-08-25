@@ -18,9 +18,9 @@ import (
 	"flag"
 	"testing"
 
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/mem"
-	"github.com/katydid/validator-go/validator/testsuite"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/mem"
+	"katydid.org.za/go/validator-go/validator/testsuite"
 )
 
 func BenchmarkSuite(b *testing.B) {

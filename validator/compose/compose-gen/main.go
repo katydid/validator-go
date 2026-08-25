@@ -16,7 +16,7 @@
 package main
 
 import (
-	"github.com/katydid/validator-go/gen"
+	"katydid.org.za/go/validator-go/gen"
 )
 
 const composeStr = `
@@ -88,7 +88,7 @@ func main() {
 		&composer{"Bytes", "Bytes", "SINGLE_BYTES", "Bytes", "ListOfBytes", "ListOfBytes", "LIST_BYTES"},
 		&composer{"Tag", "String", "SINGLE_TAG", "Tag", "Tags", "Strings", "LIST_TAG"},
 	},
-		`"github.com/katydid/validator-go/validator/ast"`,
-		`"github.com/katydid/validator-go/validator/funcs"`,
-		`"github.com/katydid/validator-go/validator/types"`)
+		`"katydid.org.za/go/validator-go/validator/ast"`,
+		`"katydid.org.za/go/validator-go/validator/funcs"`,
+		`"katydid.org.za/go/validator-go/validator/types"`)
 }

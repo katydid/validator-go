@@ -18,10 +18,10 @@ package name
 import (
 	"fmt"
 
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/compose"
-	"github.com/katydid/validator-go/validator/funcs"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/compose"
+	"katydid.org.za/go/validator-go/validator/funcs"
 )
 
 // EvalName evaluates a name expression given a name value.

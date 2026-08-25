@@ -3,9 +3,9 @@
 package parser
 
 import (
-	. "github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/token"
-	"github.com/katydid/validator-go/validator/types"
+	. "katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/token"
+	"katydid.org.za/go/validator-go/validator/types"
 	"strconv"
 )
 

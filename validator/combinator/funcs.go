@@ -15,8 +15,8 @@
 package combinator
 
 import (
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/types"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/types"
 )
 
 // Value represents a field value.

@@ -20,10 +20,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/katydid/parser-go-json/json"
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/intern"
+	"katydid.org.za/go/parser-go-json/json"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/funcs"
+	"katydid.org.za/go/validator-go/validator/intern"
 )
 
 // Test whether we can inject our own regex engine for the name expression.

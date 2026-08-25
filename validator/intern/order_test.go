@@ -18,7 +18,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 func TestOrderedSet(t *testing.T) {

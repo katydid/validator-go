@@ -18,7 +18,7 @@ package main
 import (
 	"strings"
 
-	"github.com/katydid/validator-go/gen"
+	"katydid.org.za/go/validator-go/gen"
 )
 
 const compareStr = `
@@ -840,7 +840,7 @@ func main() {
 		&compare{"ne", "!=", "bool", "", "Bool", "false", "not equal"},
 		&compare{"ne", "!=", "string", "", "String", "false", "not equal"},
 		&compare{"ne", "!=", "bytes", "return !bytes.Equal(v1, v2), nil", "Bytes", "false", "not equal"},
-	}, `"bytes"`, `"strings"`, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"bytes"`, `"strings"`, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(newFuncStr, "newfunc.gen.go", []interface{}{
 		"Double",
 		"Int",
@@ -868,7 +868,7 @@ func main() {
 		&conster{"Bools", "Bool", "[]bool", "%v", "bool"},
 		&conster{"Strings", "String", "[]string", "`%s`", "string"},
 		&conster{"ListOfBytes", "Bytes", "[][]byte", "%#v", "[]byte"},
-	}, `"reflect"`, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"reflect"`, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(listStr, "list.gen.go", []interface{}{
 		&list{"double", "Doubles", "Double", "float64"},
 		&list{"int", "Ints", "Int", "int64"},
@@ -876,7 +876,7 @@ func main() {
 		&list{"bool", "Bools", "Bool", "bool"},
 		&list{"string", "Strings", "String", "string"},
 		&list{"[]byte", "ListOfBytes", "Bytes", "[]byte"},
-	}, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(printStr, "print.gen.go", []interface{}{
 		&printer{"Double", "float64"},
 		&printer{"Int", "int64"},
@@ -890,7 +890,7 @@ func main() {
 		&printer{"Bools", "[]bool"},
 		&printer{"Strings", "[]string"},
 		&printer{"ListOfBytes", "[][]byte"},
-	}, `"fmt"`, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"fmt"`, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(lengthStr, "length.gen.go", []interface{}{
 		"Doubles",
 		"Ints",
@@ -900,7 +900,7 @@ func main() {
 		"ListOfBytes",
 		"String",
 		"Bytes",
-	}, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(elemStr, "elem.gen.go", []interface{}{
 		&elemer{"Doubles", "float64", "Double", "0"},
 		&elemer{"Ints", "int64", "Int", "0"},
@@ -908,7 +908,7 @@ func main() {
 		&elemer{"Bools", "bool", "Bool", "false"},
 		&elemer{"Strings", "string", "String", `""`},
 		&elemer{"ListOfBytes", "[]byte", "Bytes", "nil"},
-	}, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(rangeStr, "range.gen.go", []interface{}{
 		&ranger{"Doubles", "[]float64"},
 		&ranger{"Ints", "[]int64"},
@@ -916,7 +916,7 @@ func main() {
 		&ranger{"Bools", "[]bool"},
 		&ranger{"Strings", "[]string"},
 		&ranger{"ListOfBytes", "[][]byte"},
-	}, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(variableStr, "variable.gen.go", []interface{}{
 		&varer{"Double", "double", "float64", "0"},
 		&varer{"Int", "int", "int64", "0"},
@@ -925,7 +925,7 @@ func main() {
 		&varer{"String", "string", "string", `""`},
 		&varer{"Bytes", "[]byte", "[]byte", "nil"},
 		// Tag is manually written
-	}, `"github.com/katydid/parser-go/parse"`, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/parser-go/parse"`, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(typStr, "type.gen.go", []interface{}{
 		&typer{"Double"},
 		&typer{"Int"},
@@ -933,10 +933,10 @@ func main() {
 		&typer{"Bool"},
 		&typer{"String"},
 		&typer{"Bytes"},
-	}, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/validator-go/validator/ast"`)
 	gen(inSetStr, "inset.gen.go", []interface{}{
 		&inSeter{"Int", "ConstInts", "int64"},
 		&inSeter{"Uint", "ConstUints", "uint64"},
 		&inSeter{"String", "ConstStrings", "string"},
-	}, `"github.com/katydid/validator-go/validator/ast"`)
+	}, `"katydid.org.za/go/validator-go/validator/ast"`)
 }

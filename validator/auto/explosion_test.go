@@ -17,9 +17,9 @@ package auto_test
 import (
 	"testing"
 
-	"github.com/katydid/validator-go/validator/auto"
-	c "github.com/katydid/validator-go/validator/combinator"
-	"github.com/katydid/validator-go/validator/parser"
+	"katydid.org.za/go/validator-go/validator/auto"
+	c "katydid.org.za/go/validator-go/validator/combinator"
+	"katydid.org.za/go/validator-go/validator/parser"
 )
 
 func TestExplosionAndSameTree(t *testing.T) {

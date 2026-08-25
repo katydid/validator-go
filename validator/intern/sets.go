@@ -14,7 +14,7 @@
 
 package intern
 
-import "github.com/katydid/validator-go/validator/sets"
+import "katydid.org.za/go/validator-go/validator/sets"
 
 // SetOfPatterns represents an indexed list of list of Patterns.
 // It reverse maps a list of Patterns into a single int.

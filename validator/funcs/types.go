@@ -14,7 +14,7 @@
 
 package funcs
 
-import "github.com/katydid/validator-go/validator/ast"
+import "katydid.org.za/go/validator-go/validator/ast"
 
 type Repr interface {
 	ToExpr() *ast.Expr

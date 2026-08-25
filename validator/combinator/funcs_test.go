@@ -19,7 +19,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 func TestConst(t *testing.T) {

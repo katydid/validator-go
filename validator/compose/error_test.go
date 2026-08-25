@@ -17,10 +17,10 @@ package compose_test
 import (
 	"testing"
 
-	"github.com/katydid/parser-go/parse/debug"
-	"github.com/katydid/validator-go/validator/ast"
-	. "github.com/katydid/validator-go/validator/combinator"
-	"github.com/katydid/validator-go/validator/compose"
+	"katydid.org.za/go/parser-go/parse/debug"
+	"katydid.org.za/go/validator-go/validator/ast"
+	. "katydid.org.za/go/validator-go/validator/combinator"
+	"katydid.org.za/go/validator-go/validator/compose"
 )
 
 func TestNoEqualError(t *testing.T) {

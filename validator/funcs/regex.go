@@ -19,7 +19,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 // Regex returns a new regex function given the first parameter as the expression string that needs to compiled and the second as the regex that should be matched.

@@ -15,8 +15,8 @@
 package funcs
 
 import (
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 type varTag struct {

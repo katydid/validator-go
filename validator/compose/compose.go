@@ -18,9 +18,9 @@ package compose
 import (
 	"fmt"
 
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/types"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/funcs"
+	"katydid.org.za/go/validator-go/validator/types"
 )
 
 // Which returns the type that the expression will return.

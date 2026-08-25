@@ -17,7 +17,7 @@ package ast
 import (
 	"sort"
 
-	"github.com/katydid/validator-go/validator/types"
+	"katydid.org.za/go/validator-go/validator/types"
 )
 
 // RefLookup represents a validator grammar as a map of references.

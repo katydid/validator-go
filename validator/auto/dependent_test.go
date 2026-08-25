@@ -17,10 +17,10 @@ package auto
 import (
 	"testing"
 
-	"github.com/katydid/parser-go-json/json"
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/parser-go/parse/debug"
-	"github.com/katydid/validator-go/validator/parser"
+	"katydid.org.za/go/parser-go-json/json"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/parser-go/parse/debug"
+	"katydid.org.za/go/validator-go/validator/parser"
 )
 
 // This is a test of a translated jsonschema, that was failing with auto, but not with intern or mem.

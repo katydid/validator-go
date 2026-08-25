@@ -8,7 +8,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/katydid/validator-go/validator/token"
+	"katydid.org.za/go/validator-go/validator/token"
 )
 
 type ErrorSymbol interface {

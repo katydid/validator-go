@@ -15,8 +15,8 @@
 package compose
 
 import (
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/types"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/types"
 )
 
 // ConvertBuiltInIntoFunction converts a BuiltIn Expr into a Function Expr.

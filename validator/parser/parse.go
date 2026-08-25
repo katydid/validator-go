@@ -17,8 +17,8 @@ package parser
 import (
 	"fmt"
 
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/lexer"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/lexer"
 )
 
 type errWrongType struct {

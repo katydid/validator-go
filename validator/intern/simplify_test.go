@@ -18,9 +18,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/combinator"
-	. "github.com/katydid/validator-go/validator/intern"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/combinator"
+	. "katydid.org.za/go/validator-go/validator/intern"
 )
 
 func TestSimplify1(t *testing.T) {

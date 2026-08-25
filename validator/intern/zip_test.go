@@ -17,7 +17,7 @@ package intern
 import (
 	"testing"
 
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 func TestZip0(t *testing.T) {

@@ -17,7 +17,7 @@ package funcs
 import (
 	"testing"
 
-	"github.com/katydid/validator-go/validator/types"
+	"katydid.org.za/go/validator-go/validator/types"
 )
 
 func testGetMaker(t *testing.T, name string, params ...types.Type) {

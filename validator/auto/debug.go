@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/katydid/validator-go/validator/intern"
-	"github.com/katydid/validator-go/validator/sets"
+	"katydid.org.za/go/validator-go/validator/intern"
+	"katydid.org.za/go/validator-go/validator/sets"
 )
 
 type debugger struct {

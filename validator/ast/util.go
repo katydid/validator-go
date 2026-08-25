@@ -21,8 +21,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/katydid/validator-go/validator/token"
-	"github.com/katydid/validator-go/validator/types"
+	"katydid.org.za/go/validator-go/validator/token"
+	"katydid.org.za/go/validator-go/validator/types"
 )
 
 func ptr[A any](a A) *A {

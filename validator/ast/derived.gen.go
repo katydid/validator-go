@@ -5,7 +5,7 @@ package ast
 import (
 	"bytes"
 	"fmt"
-	types "github.com/katydid/validator-go/validator/types"
+	types "katydid.org.za/go/validator-go/validator/types"
 	"math"
 	"strings"
 )

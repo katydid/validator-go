@@ -15,7 +15,7 @@
 package sets
 
 import (
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 type sortable struct {

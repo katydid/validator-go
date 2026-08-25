@@ -13,5 +13,5 @@
 # limitations under the License.
 
 regenerate:
-	go install github.com/katydid/validator-go/validator/compose/compose-gen
+	go install katydid.org.za/go/validator-go/validator/compose/compose-gen
 	compose-gen .

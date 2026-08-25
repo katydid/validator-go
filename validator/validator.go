@@ -17,10 +17,10 @@
 package validator
 
 import (
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/mem"
-	validatorparser "github.com/katydid/validator-go/validator/parser"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/mem"
+	validatorparser "katydid.org.za/go/validator-go/validator/parser"
 )
 
 // Parse parses the validator string into an ast (abstract syntax tree)

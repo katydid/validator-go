@@ -17,11 +17,11 @@ package mem_test
 import (
 	"testing"
 
-	jsonparser "github.com/katydid/parser-go-json/json/parse"
-	"github.com/katydid/validator-go/validator/ast"
-	. "github.com/katydid/validator-go/validator/combinator"
-	"github.com/katydid/validator-go/validator/funcs"
-	"github.com/katydid/validator-go/validator/mem"
+	jsonparser "katydid.org.za/go/parser-go-json/json/parse"
+	"katydid.org.za/go/validator-go/validator/ast"
+	. "katydid.org.za/go/validator-go/validator/combinator"
+	"katydid.org.za/go/validator-go/validator/funcs"
+	"katydid.org.za/go/validator-go/validator/mem"
 )
 
 func newInjectable() *injectableInt {

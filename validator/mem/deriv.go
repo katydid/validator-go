@@ -18,8 +18,8 @@ import (
 	"errors"
 	"io"
 
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/intern"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/intern"
 )
 
 func derivEnter(mem *Mem, patterns int, tree parse.Parser) (int, int, error) {

@@ -99,9 +99,9 @@ bytes_cast_lit : _bytes '{' { _ws } [ _byte_elem { { _ws } ',' { _ws } _byte_ele
 tag_cast_lit: _tag '(' _id ')' ;
 <<
 import (
-  . "github.com/katydid/validator-go/validator/ast"
-  "github.com/katydid/validator-go/validator/types"
-  "github.com/katydid/validator-go/validator/token"
+  . "katydid.org.za/go/validator-go/validator/ast"
+  "katydid.org.za/go/validator-go/validator/types"
+  "katydid.org.za/go/validator-go/validator/token"
   "strconv"
 )
 

@@ -17,8 +17,8 @@ package funcs
 import (
 	"math/big"
 
-	"github.com/katydid/parser-go/cast"
-	"github.com/katydid/parser-go/parse"
+	"katydid.org.za/go/parser-go/cast"
+	"katydid.org.za/go/parser-go/parse"
 )
 
 type aVariable interface {

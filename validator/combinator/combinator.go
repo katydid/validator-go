@@ -18,7 +18,7 @@
 package combinator
 
 import (
-	"github.com/katydid/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/ast"
 )
 
 // G represents the validator Grammar.

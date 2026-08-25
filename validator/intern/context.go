@@ -15,8 +15,8 @@
 package intern
 
 import (
-	"github.com/katydid/validator-go/validator/compose"
-	"github.com/katydid/validator-go/validator/funcs"
+	"katydid.org.za/go/validator-go/validator/compose"
+	"katydid.org.za/go/validator-go/validator/funcs"
 )
 
 func (c *construct) SetContext(context *funcs.Context) {

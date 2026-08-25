@@ -14,7 +14,7 @@
 
 regenerate:
 	(cd bnf && ./concat.sh)
-	gocc -zip -o . -p github.com/katydid/validator-go/validator ./bnf/all.bnf
+	gocc -zip -o . -p katydid.org.za/go/validator-go/validator ./bnf/all.bnf
 	rm ./util/litconv.go && rm ./util/rune.go && rmdir util
 	gofmt -l -s -w ./parser/ ./errors/ ./lexer/ ./token/
 	(cd funcs && make regenerate)

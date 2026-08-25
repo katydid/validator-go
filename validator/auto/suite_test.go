@@ -18,11 +18,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/katydid/parser-go/parse"
-	"github.com/katydid/validator-go/validator/ast"
-	"github.com/katydid/validator-go/validator/auto"
-	"github.com/katydid/validator-go/validator/intern"
-	"github.com/katydid/validator-go/validator/testsuite"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/ast"
+	"katydid.org.za/go/validator-go/validator/auto"
+	"katydid.org.za/go/validator-go/validator/intern"
+	"katydid.org.za/go/validator-go/validator/testsuite"
 )
 
 func TestSuite(t *testing.T) {

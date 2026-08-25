@@ -17,9 +17,9 @@ package intern_test
 import (
 	"testing"
 
-	"github.com/katydid/parser-go-json/json"
-	"github.com/katydid/validator-go/validator/intern"
-	"github.com/katydid/validator-go/validator/parser"
+	"katydid.org.za/go/parser-go-json/json"
+	"katydid.org.za/go/validator-go/validator/intern"
+	"katydid.org.za/go/validator-go/validator/parser"
 )
 
 func TestXor(t *testing.T) {
