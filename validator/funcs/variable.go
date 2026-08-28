@@ -15,6 +15,7 @@
 package funcs
 
 import (
+	"math"
 	"math/big"
 
 	"katydid.org.za/go/parser-go/cast"
@@ -40,10 +41,14 @@ func (this *varDouble) Eval() (float64, error) {
 	}
 	switch kind {
 	case parse.Int64Kind:
+		var i64 int64
 		// TODO: Consider not supporting Int64Kind here
-		return float64(cast.ToInt64(v)), nil
+		cast.ToInt64Ptr(v, &i64)
+		return float64(i64), nil
 	case parse.Float64Kind:
-		return cast.ToFloat64(v), nil
+		var u64 uint64
+		cast.ToFloat64BitsPtr(v, &u64)
+		return math.Float64frombits(u64), nil
 	}
 	return 0, ErrNotDoubleConst{}
 }
@@ -58,12 +63,18 @@ func (this *varInt) Eval() (int64, error) {
 	}
 	switch kind {
 	case parse.NanosecondsKind:
-		return cast.ToInt64(v), nil
+		var i64 int64
+		cast.ToInt64Ptr(v, &i64)
+		return i64, nil
 	case parse.Int64Kind:
-		return cast.ToInt64(v), nil
+		var i64 int64
+		cast.ToInt64Ptr(v, &i64)
+		return i64, nil
 	case parse.Float64Kind:
 		// TODO: Consider not supporting Float64Kind here
-		return int64(cast.ToFloat64(v)), nil
+		var u uint64
+		cast.ToFloat64BitsPtr(v, &u)
+		return int64(math.Float64frombits(u)), nil
 	}
 	return 0, ErrNotIntConst{}
 }
@@ -78,7 +89,8 @@ func (this *varUint) Eval() (uint64, error) {
 	}
 	switch kind {
 	case parse.DecimalKind:
-		s := cast.ToString(v)
+		var s string
+		cast.ToStringPtr(v, &s)
 		bigfloat, _, err := big.ParseFloat(s, 10, 200, big.ToNearestAway)
 		if err != nil {
 			return 0, ErrNotUintConst{}
@@ -89,7 +101,8 @@ func (this *varUint) Eval() (uint64, error) {
 		}
 		return u, nil
 	case parse.Int64Kind:
-		i := cast.ToInt64(v)
+		var i int64
+		cast.ToInt64Ptr(v, &i)
 		if i < 0 {
 			return 0, ErrNotUintConst{}
 		}
@@ -125,7 +138,9 @@ func (this *varString) Eval() (string, error) {
 	}
 	switch kind {
 	case parse.StringKind:
-		return cast.ToString(v), nil
+		var s string
+		cast.ToStringPtr(v, &s)
+		return s, nil
 	}
 	return "", ErrNotStringConst{}
 }
@@ -154,7 +169,9 @@ func (this *varTag) Eval() (string, error) {
 	}
 	switch kind {
 	case parse.TagKind:
-		return cast.ToString(v), nil
+		var s string
+		cast.ToStringPtr(v, &s)
+		return s, nil
 	}
 	return "", ErrNotTagConst{}
 }

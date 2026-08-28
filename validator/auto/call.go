@@ -123,7 +123,8 @@ func (this *callNode) eval(label parse.Token) (int, int, error) {
 		if k != parse.StringKind {
 			return this.els.eval(label)
 		}
-		name := cast.ToString(v)
+		var name string
+		cast.ToStringPtr(v, &name)
 		res, ok := this.thens[name]
 		if !ok {
 			return this.els.eval(label)

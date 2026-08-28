@@ -19,7 +19,7 @@ import (
 
 	"katydid.org.za/go/parser-go-json/json"
 	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/parser-go/parse/debug"
+	"katydid.org.za/go/parser-go/parse/log"
 	"katydid.org.za/go/validator-go/validator/parser"
 )
 
@@ -40,7 +40,7 @@ func TestDependent(t *testing.T) {
 		t.Fatal(err)
 	}
 	var p parse.ParserWithInit = json.NewParser()
-	p = debug.NewLogger(p, debug.NewLineLogger())
+	p = log.WrapParserWithInit(p)
 
 	p.Init([]byte(failInput))
 	m, err := Interpret(g, true, p)

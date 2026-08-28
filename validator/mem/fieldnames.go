@@ -16,6 +16,7 @@ package mem
 
 import (
 	"katydid.org.za/go/parser-go/cast"
+	"katydid.org.za/go/parser-go/cp"
 	"katydid.org.za/go/parser-go/parse"
 	"katydid.org.za/go/validator-go/validator/intern"
 )
@@ -42,7 +43,8 @@ func (this *Mem) GetFieldNameCall(state int, tree parse.Parser) (int, int, bool)
 	if k != parse.StringKind {
 		return 0, 0, false
 	}
-	name := cast.ToString(v)
+	var name string
+	cast.ToStringPtr(v, &name)
 	r, ok := this.fieldNameCalls[state][name]
 	if !ok {
 		return 0, 0, false
@@ -53,6 +55,7 @@ func (this *Mem) GetFieldNameCall(state int, tree parse.Parser) (int, int, bool)
 			return 0, 0, false
 		}
 		r = &callResult{child: r1, stackIndex: r2}
+		name = cp.ToString(v)
 		this.fieldNameCalls[state][name] = r
 	}
 	return r.child, r.stackIndex, true
