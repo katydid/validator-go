@@ -1,11 +1,11 @@
 # validator-go
 
-[Katydid](http://katydid.github.io) is a validation language. `validator-go` is a validator for Katydid in Go.
+[Katydid](https://katydid.org.za) is a validation language. `validator-go` is a validator for Katydid in Go.
 
 [![GoDoc](https://godoc.org/katydid.org.za/go/validator-go?status.svg)](https://godoc.org/katydid.org.za/go/validator-go)
 [![Build Status](https://git.katydid.org.za/validator-go/actions/workflows/build.yml/badge.svg)](https://git.katydid.org.za/validator-go/actions)
 
-![Katydid Logo](https://cdn.rawgit.com/katydid/katydid.github.io/main/logo.png)
+![Katydid Logo](https://katydid.org.za/logo.png)
 
 Katydid consists of:
 

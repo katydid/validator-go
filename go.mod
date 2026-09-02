@@ -10,6 +10,7 @@ require (
 	katydid.org.za/go/parser-go v0.11.0
 	katydid.org.za/go/parser-go-json v0.8.0
 	katydid.org.za/go/parser-go-reflect v0.5.0
+	katydid.org.za/go/parser-go-xml v0.2.0
 )
 
 require (

@@ -13,7 +13,7 @@
 //  limitations under the License.
 
 // Package validator contains the validation language and the functions necessary for running it.
-// See katydid.github.io for the language documentation.
+// See katydid.org.za for the language documentation.
 package validator
 
 import (
