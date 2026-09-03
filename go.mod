@@ -7,10 +7,10 @@ tool awalterschulze.org/go/goderive
 tool github.com/goccmack/gocc
 
 require (
-	katydid.org.za/go/parser-go v0.11.0
-	katydid.org.za/go/parser-go-json v0.8.0
-	katydid.org.za/go/parser-go-reflect v0.5.0
-	katydid.org.za/go/parser-go-xml v0.2.1
+	katydid.org.za/go/parser-go v0.11.1
+	katydid.org.za/go/parser-go-json v0.8.1
+	katydid.org.za/go/parser-go-reflect v0.5.1
+	katydid.org.za/go/parser-go-xml v0.2.2
 )
 
 require (
