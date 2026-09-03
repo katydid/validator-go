@@ -16,5 +16,5 @@ katydid.org.za/go/parser-go-json v0.8.0 h1:K2BQEjd/nckI5p5PQD8rBn+4y6TRSFHWeR94C
 katydid.org.za/go/parser-go-json v0.8.0/go.mod h1:Ud7fvriMPPdhAYRnf+rJct8IwZ1H0U0hEJBK3qHZnkI=
 katydid.org.za/go/parser-go-reflect v0.5.0 h1:1ak4VLmMVtQj32+T48/qd5Euts8Gf5P/k7IXY+ahNUM=
 katydid.org.za/go/parser-go-reflect v0.5.0/go.mod h1:4ge7AH/LiVlEjR+Lz7yLnmTZL5DNxk6n5LoVhQnnMoU=
-katydid.org.za/go/parser-go-xml v0.2.0 h1:I2tvxZImmqPRKKs226kHUQUI3XZ1KSwqOo5nSf0dAes=
-katydid.org.za/go/parser-go-xml v0.2.0/go.mod h1:NCbXLEM2tr4f5mb0Z97aBrq7V2PzS+ajaZUkaqstZ5s=
+katydid.org.za/go/parser-go-xml v0.2.1 h1:HNSoteQ0jCosycqsMj9RdieSU8hfxOyPbiKtE0KiRKI=
+katydid.org.za/go/parser-go-xml v0.2.1/go.mod h1:NCbXLEM2tr4f5mb0Z97aBrq7V2PzS+ajaZUkaqstZ5s=
