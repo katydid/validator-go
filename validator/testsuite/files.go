@@ -43,8 +43,8 @@ func init() {
 	if gopath == "" {
 		gopath = "../../../../../../"
 	}
-	testpath = filepath.Join(gopath, "src/github.com/katydid/validator-testsuite/validator/tests")
-	benchpath = filepath.Join(gopath, "src/github.com/katydid/validator-testsuite/validator/benches")
+	testpath = filepath.Join(gopath, "src/katydid.org.za/go/validator-testsuite/validator/tests")
+	benchpath = filepath.Join(gopath, "src/katydid.org.za/go/validator-testsuite/validator/benches")
 }
 
 func TestSuiteExists() (bool, error) {
