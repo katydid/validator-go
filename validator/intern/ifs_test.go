@@ -18,8 +18,8 @@ import (
 	"reflect"
 	"testing"
 
+	"katydid.org.za/go/parser-go/debug"
 	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/parser-go/parse/debug"
 	"katydid.org.za/go/validator-go/validator/funcs"
 	"katydid.org.za/go/validator-go/validator/intern"
 )

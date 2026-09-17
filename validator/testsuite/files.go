@@ -15,6 +15,7 @@
 package testsuite
 
 import (
+	"encoding/json"
 	gojson "encoding/json"
 	"fmt"
 	"os"
@@ -25,6 +26,8 @@ import (
 	jsonparse "katydid.org.za/go/parser-go-json/json"
 	reflectparse "katydid.org.za/go/parser-go-reflect/reflect"
 	xmlparse "katydid.org.za/go/parser-go-xml/xml"
+	"katydid.org.za/go/parser-go/hedge"
+	"katydid.org.za/go/parser-go/log"
 	"katydid.org.za/go/parser-go/parse"
 	"katydid.org.za/go/validator-go/validator"
 	"katydid.org.za/go/validator-go/validator/ast"
@@ -102,7 +105,7 @@ func ReadTestSuite() ([]Test, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "json", "xml", "goreflect":
+		case "hedge", "json", "xml", "goreflect":
 		default:
 			// codec not supported
 			continue
@@ -126,7 +129,7 @@ func ReadBenchmarkSuite() ([]Bench, error) {
 	}
 	for codec, folders := range codecs {
 		switch codec {
-		case "json", "xml", "goreflect":
+		case "hedge", "json", "xml", "goreflect":
 		default:
 			// codec not supported
 			continue
@@ -193,6 +196,11 @@ func readTestFolder(path string) (*Test, error) {
 			if err != nil {
 				return nil, err
 			}
+		case "hedge":
+			p, err = newHedgeParser(filename)
+			if err != nil {
+				return nil, err
+			}
 		default:
 			// unsupported codec
 			continue
@@ -207,7 +215,7 @@ func readTestFolder(path string) (*Test, error) {
 		Grammar:  g,
 		Parser:   p,
 		Expected: expected,
-		Record:   codecName != "xml",
+		Record:   codecName != "xml" && codecName != "hedge",
 	}, nil
 }
 
@@ -285,6 +293,12 @@ func readBenchFolder(path string) (*Bench, error) {
 				return nil, err
 			}
 			parsers = append(parsers, p)
+		case "hedge":
+			p, err := newHedgeParser(filename)
+			if err != nil {
+				return nil, err
+			}
+			parsers = append(parsers, p)
 		default:
 			// unsupported codec
 			continue
@@ -294,7 +308,7 @@ func readBenchFolder(path string) (*Bench, error) {
 		Name:    name + capFirst(codecName),
 		Grammar: g,
 		Parsers: parsers,
-		Record:  true,
+		Record:  codecName != "xml" && codecName != "hedge",
 	}, nil
 }
 
@@ -317,6 +331,19 @@ func readGrammar(path string) (*ast.Grammar, error) {
 	return g, nil
 }
 
+func newHedgeParser(filename string) (ResetParser, error) {
+	bytes, err := os.ReadFile(filename)
+	if err != nil {
+		return nil, fmt.Errorf("err <%v> reading file <%s>", err, filename)
+	}
+	h := hedge.Hedge{}
+	if err := json.Unmarshal(bytes, &h); err != nil {
+		return nil, err
+	}
+	p := hedge.NewParser(h)
+	return p, nil
+}
+
 func newXMLParser(filename string) (ResetParser, error) {
 	bytes, err := os.ReadFile(filename)
 	if err != nil {
@@ -324,7 +351,7 @@ func newXMLParser(filename string) (ResetParser, error) {
 	}
 	j := xmlparse.NewParser()
 	j.Init(bytes)
-	return newResetParser(j, bytes), nil
+	return log.WrapParserWithReset(newResetParser(j, bytes)), nil
 }
 
 func newJsonParser(filename string) (ResetParser, error) {

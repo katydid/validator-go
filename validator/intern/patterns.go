@@ -14,7 +14,9 @@
 
 package intern
 
-import "strings"
+import (
+	"strings"
+)
 
 func EqualPatterns(ps1, ps2 []*Pattern) bool {
 	return deriveEquals(ps1, ps2)

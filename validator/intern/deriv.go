@@ -24,7 +24,7 @@ import (
 )
 
 // Interpret interprets the grammar given the parser and returns whether the parser is valid given the grammar.
-// Interpret uses derivatives and simplification to recusively derive the resulting grammar.
+// Interpret uses derivatives and simplification to recursively derive the resulting grammar.
 // This resulting grammar's nullability then represents the result of the function.
 // This implementation does not handle immediate recursion, see the HasRecursion function.
 func Interpret(g *ast.Grammar, record bool, parser parse.Parser) (bool, error) {
