@@ -15,8 +15,6 @@
 package auto
 
 import (
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/compose"
 	"katydid.org.za/go/validator-go/validator/funcs"
 	"katydid.org.za/go/validator-go/validator/intern"
 )
@@ -52,24 +50,6 @@ func compileIfExprs(ifs []*intern.IfExpr) *ifExprs {
 		}
 	}
 	return root
-}
-
-func (this *ifExprs) eval(label parse.Token) ([]*intern.Pattern, error) {
-	if this.ret != nil {
-		return this.ret, nil
-	}
-	composed, err := compose.NewBoolFunc(this.cond)
-	if err != nil {
-		return nil, err
-	}
-	cond, err := composed.Eval(label)
-	if err != nil {
-		return nil, err
-	}
-	if cond {
-		return this.then.eval(label)
-	}
-	return this.els.eval(label)
 }
 
 // addReturn finds the leafs and appends a return to each.

@@ -38,36 +38,26 @@ func exists(filename string) bool {
 	return err == nil
 }
 
-var testpath string
-var benchpath string
-
-func init() {
-	gopath := os.Getenv("GOPATH")
-	if gopath == "" {
-		gopath = "../../../../../../"
-	}
-	testpath = filepath.Join(gopath, "src/katydid.org.za/go/validator-testsuite/validator/tests")
-	benchpath = filepath.Join(gopath, "src/katydid.org.za/go/validator-testsuite/validator/benches")
-}
-
-func TestSuiteExists() (bool, error) {
-	if exists(testpath) {
+func TestSuiteExists(opts ...Option) (bool, error) {
+	o := newTestOptions(opts)
+	if exists(o.path) {
 		return true, nil
 	}
-	if os.Getenv("TESTSUITE") == "MUST" {
-		return false, fmt.Errorf("testsuite does not exist at %v", testpath)
+	if o.must {
+		return false, fmt.Errorf("testsuite does not exist at %v", o.path)
 	}
 	return false, nil
 }
 
-func BenchSuiteExists() (bool, error) {
-	if exists(testpath) {
+func BenchSuiteExists(opts ...Option) (bool, error) {
+	o := newBenchOptions(opts)
+	if exists(o.path) {
 		return true, nil
 	}
-	if os.Getenv("TESTSUITE") == "MUST" {
-		return false, fmt.Errorf("testsuite does not exist at %v", testpath)
+	if o.must {
+		return false, fmt.Errorf("benchsuite does not exist at %v", o.path)
 	}
-	return false, fmt.Errorf("benchsuite does not exist at %v", testpath)
+	return false, nil
 }
 
 func getFolders(path string) (map[string][]string, error) {
@@ -97,9 +87,10 @@ func getFolders(path string) (map[string][]string, error) {
 	return folders, nil
 }
 
-func ReadTestSuite() ([]Test, error) {
+func ReadTestSuite(opts ...Option) ([]Test, error) {
+	o := newTestOptions(opts)
 	tests := []Test{}
-	codecs, err := getFolders(testpath)
+	codecs, err := getFolders(o.path)
 	if err != nil {
 		return nil, err
 	}
@@ -121,9 +112,10 @@ func ReadTestSuite() ([]Test, error) {
 	return tests, nil
 }
 
-func ReadBenchmarkSuite() ([]Bench, error) {
+func ReadBenchmarkSuite(opts ...Option) ([]Bench, error) {
+	o := newBenchOptions(opts)
 	benches := []Bench{}
-	codecs, err := getFolders(benchpath)
+	codecs, err := getFolders(o.path)
 	if err != nil {
 		return nil, err
 	}

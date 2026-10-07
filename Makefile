@@ -64,3 +64,14 @@ errcheck:
 
 diff:
 	git diff --exit-code .
+
+.PHONY: cover
+cover:
+	go build -cover -o cover.bin ./cover/main.go
+	rm -rf coverdata || true
+	mkdir coverdata
+	GOCOVERDIR=coverdata ./cover.bin
+	go tool covdata percent -i=coverdata
+	go tool covdata textfmt -i=coverdata -o cover.txt
+	go tool cover -html=cover.txt
+
