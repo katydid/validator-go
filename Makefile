@@ -71,7 +71,10 @@ cover:
 	rm -rf coverdata || true
 	mkdir coverdata
 	GOCOVERDIR=coverdata ./cover.bin
-	go tool covdata percent -i=coverdata
+	go tool covdata textfmt -pkg=katydid.org.za/go/validator-go/validator/auto,katydid.org.za/go/validator-go/validator/mem,katydid.org.za/go/validator-go/validator/intern -i=coverdata -o cover.txt
+	go tool cover -func=cover.txt | grep total
 	go tool covdata textfmt -i=coverdata -o cover.txt
-	go tool cover -html=cover.txt
+	grep -v -E '\.pb\.go|\.gen.go|validator\/parser|validator\/errors|validator\/token|validator\/lexer|validator\/testsuite|validator\/ast|validator-go\/cover' cover.txt > cover.filtered.txt
+	go tool cover -func=cover.filtered.txt | grep total
+	go tool cover -html=cover.filtered.txt
 

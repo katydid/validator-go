@@ -1,5 +1,6 @@
 cover.bin
 cover.txt
+cover.filtered.txt
 coverdata
 *.test
 _*
