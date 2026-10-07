@@ -15,7 +15,8 @@
 package auto
 
 import (
-	"katydid.org.za/go/parser-go/parse/debug"
+	"katydid.org.za/go/parser-go/cast"
+	"katydid.org.za/go/parser-go/parse"
 	"katydid.org.za/go/validator-go/validator/intern"
 )
 
@@ -29,7 +30,7 @@ func (this *compiler) calcHashCalls(state int) error {
 	names := intern.GetFieldNames(ps)
 	hashed := map[string]callResult{}
 	for i := range names {
-		child, stackIndex, err := this.calls[state].eval(debug.NewStringToken(names[i]))
+		child, stackIndex, err := this.calls[state].eval(&stringToken{names[i]})
 		if err != nil {
 			return err
 		}
@@ -37,4 +38,12 @@ func (this *compiler) calcHashCalls(state int) error {
 	}
 	this.hashedCalls = append(this.hashedCalls, hashed)
 	return nil
+}
+
+type stringToken struct {
+	v string
+}
+
+func (v *stringToken) Token() (parse.Kind, []byte, error) {
+	return parse.StringKind, cast.FromStringPtr(&v.v, func(size int) []byte { return make([]byte, size) }), nil
 }

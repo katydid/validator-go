@@ -18,8 +18,8 @@ import (
 	"testing"
 
 	"katydid.org.za/go/parser-go-json/json"
+	"katydid.org.za/go/parser-go/log"
 	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/parser-go/parse/log"
 	"katydid.org.za/go/validator-go/validator/parser"
 )
 
