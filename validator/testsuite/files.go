@@ -95,9 +95,7 @@ func ReadTestSuite(opts ...Option) ([]Test, error) {
 		return nil, err
 	}
 	for codec, folders := range codecs {
-		switch codec {
-		case "hedge", "json", "xml", "goreflect":
-		default:
+		if _, ok := o.codecs[codec]; !ok {
 			// codec not supported
 			continue
 		}
@@ -120,9 +118,7 @@ func ReadBenchmarkSuite(opts ...Option) ([]Bench, error) {
 		return nil, err
 	}
 	for codec, folders := range codecs {
-		switch codec {
-		case "hedge", "json", "xml", "goreflect":
-		default:
+		if _, ok := o.codecs[codec]; !ok {
 			// codec not supported
 			continue
 		}

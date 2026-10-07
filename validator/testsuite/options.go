@@ -93,10 +93,12 @@ func Must() Option {
 	}
 }
 
-func OnlyHedgeCodec() Option {
+func OnlyHedgeJSONXMLCodec() Option {
 	return func(o *options) {
 		o.codecs = map[string]struct{}{
 			"hedge": {},
+			"json":  {},
+			"xml":   {},
 		}
 	}
 }

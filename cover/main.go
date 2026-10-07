@@ -29,7 +29,7 @@ import (
 func main() {
 	opts := []testsuite.Option{
 		testsuite.Must(),
-		testsuite.OnlyHedgeCodec(),
+		testsuite.OnlyHedgeJSONXMLCodec(),
 		testsuite.WithPath("../../../../src/katydid.org.za/go/validator-testsuite/validator/tests"),
 	}
 	exists, err := testsuite.TestSuiteExists(opts...)
