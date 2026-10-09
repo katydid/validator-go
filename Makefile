@@ -74,4 +74,6 @@ cover:
 	go tool covdata textfmt -pkg=katydid.org.za/go/validator-go/validator/auto,katydid.org.za/go/validator-go/validator/mem,katydid.org.za/go/validator-go/validator/intern -i=coverdata -o cover.txt
 	go tool cover -func=cover.txt | grep total
 	go tool covdata textfmt -i=coverdata -o cover.txt
+
+coverhtml: cover
 	go tool cover -html=cover.txt
