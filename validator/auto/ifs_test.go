@@ -12,21 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package intern
+package auto
 
 import (
-	"fmt"
-	"strings"
+	"katydid.org.za/go/parser-go/parse"
+	"katydid.org.za/go/validator-go/validator/compose"
+	"katydid.org.za/go/validator-go/validator/intern"
 )
 
-func printState(prefix string, state []*Pattern) {
-	fmt.Printf("%s: %s\n", prefix, patternsString(state))
-}
-
-func patternsString(ps []*Pattern) string {
-	ss := make([]string, len(ps))
-	for i := range ps {
-		ss[i] = ps[i].String()
+func (this *ifExprs) eval(label parse.Token) ([]*intern.Pattern, error) {
+	if this.ret != nil {
+		return this.ret, nil
 	}
-	return strings.Join(ss, ",")
+	composed, err := compose.NewBoolFunc(this.cond)
+	if err != nil {
+		return nil, err
+	}
+	cond, err := composed.Eval(label)
+	if err != nil {
+		return nil, err
+	}
+	if cond {
+		return this.then.eval(label)
+	}
+	return this.els.eval(label)
 }

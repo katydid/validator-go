@@ -18,28 +18,10 @@ package name
 import (
 	"fmt"
 
-	"katydid.org.za/go/parser-go/parse"
 	"katydid.org.za/go/validator-go/validator/ast"
 	"katydid.org.za/go/validator-go/validator/compose"
 	"katydid.org.za/go/validator-go/validator/funcs"
 )
-
-// EvalName evaluates a name expression given a name value.
-func EvalName(nameExpr *ast.NameExpr, name parse.Token) bool {
-	f, err := NameToFunc(nameExpr)
-	if err != nil {
-		panic(err)
-	}
-	b, err := compose.NewBoolFunc(f)
-	if err != nil {
-		panic(err)
-	}
-	v, err := b.Eval(name)
-	if err != nil {
-		panic(err)
-	}
-	return v
-}
 
 // NameToFunc compiles a parsed name expression into a function.
 func NameToFunc(n *ast.NameExpr) (funcs.Bool, error) {

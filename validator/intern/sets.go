@@ -92,17 +92,6 @@ type Patterns struct {
 	ZippedIndexesIndex  int
 }
 
-func NewPatterns(ps []*Pattern, zipped *ZippedPatterns) *Patterns {
-	return &Patterns{
-		Patterns:  ps,
-		hash:      HashPatterns(ps),
-		escapable: Escapable(ps),
-		accept:    len(ps) == 1 && ps[0].nullable,
-		nulls:     newNullableBits(ps),
-		zipped:    zipped,
-	}
-}
-
 func (this *Patterns) IsAccept() bool {
 	return this.accept
 }

@@ -43,3 +43,13 @@ func main() {
   }
 }
 ```
+
+## Test Suite
+
+See [instructions for how to set up the language agnostic test suite](https://git.katydid.org.za/validator-testsuite).
+
+These are the running instructions for various outputs:
+
+* Test suite: `make test`
+* Test coverage percentage: `make cover`, at the time of writing it is 85.5%
+* Test coverage per file: `make coverhtml`

@@ -15,9 +15,6 @@
 package intern
 
 import (
-	"fmt"
-	"strings"
-
 	"katydid.org.za/go/parser-go/parse"
 	"katydid.org.za/go/validator-go/validator/compose"
 	"katydid.org.za/go/validator-go/validator/funcs"
@@ -40,96 +37,8 @@ func NewIfExprs(ifs []*IfExpr) *IfExprs {
 	return &IfExprs{prev: funcs.BoolConst(true), ifs: ifs}
 }
 
-func CompileIfExprs(set *SetOfPatterns, ifs []*IfExpr) (*IfExprs, error) {
-	ifExprs := NewIfExprs(ifs)
-	if err := ifExprs.compileAll(set); err != nil {
-		return nil, err
-	}
-	return ifExprs, nil
-}
-
-func (node *IfExprs) GetRes(set *SetOfPatterns) (*Patterns, error) {
-	if len(node.ifs) > 0 {
-		if err := node.compileRes(set); err != nil {
-			return nil, err
-		}
-		return set.Get(node.res), nil
-	}
-	return nil, nil
-}
-
-func (node *IfExprs) GetAllRes(set *SetOfPatterns) ([]int, error) {
-	if len(node.ifs) > 0 {
-		if err := node.compileRes(set); err != nil {
-			return nil, err
-		}
-		return []int{node.res}, nil
-	}
-	thens, err := node.Thn.GetAllRes(set)
-	if err != nil {
-		return nil, err
-	}
-	elses, err := node.Els.GetAllRes(set)
-	if err != nil {
-		return nil, err
-	}
-	ress := []int{}
-	ress = append(ress, thens...)
-	ress = append(ress, elses...)
-	return ress, nil
-}
-
-func (node *IfExprs) compileAll(set *SetOfPatterns) error {
-	if err := node.compileRes(set); err != nil {
-		return err
-	}
-	if err := node.compileCond(); err != nil {
-		return err
-	}
-	if node.Cond == nil {
-		if err := node.compileRes(set); err != nil {
-			return err
-		}
-		return nil
-	}
-	if err := node.compileThn(); err != nil {
-		return err
-	}
-	if node.Thn != nil {
-		if err := node.Thn.compileAll(set); err != nil {
-			return err
-		}
-	}
-	if err := node.compileEls(); err != nil {
-		return err
-	}
-	if node.Els != nil {
-		if err := node.Els.compileAll(set); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 func (ifExprs *IfExprs) Eval(set *SetOfPatterns, label parse.Token) (int, error) {
 	return ifExprs.eval(set, label)
-}
-
-func (this *IfExprs) String() string {
-	if this == nil {
-		return "...\n"
-	}
-	if len(this.ifs) == 0 {
-		ss := make([]string, len(this.ps))
-		for i := range this.ps {
-			ss[i] = this.ps[i].String()
-		}
-		return fmt.Sprintf("%s\n", strings.Join(ss, ","))
-	}
-	if this.f == nil {
-		return "...\n"
-	}
-	return "if (" + this.f.ToExpr().String() + ") then {\n" + this.Thn.String() + "} else {\n" + this.Els.String() + "}"
 }
 
 var falseConst = funcs.BoolConst(false)

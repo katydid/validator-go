@@ -23,12 +23,3 @@ func GetFieldNames(ps []*Pattern) []string {
 	}
 	return strings
 }
-
-func InFieldNames(ps []*Pattern, name string) bool {
-	for _, p := range ps {
-		if _, ok := p.fieldNames[name]; ok {
-			return true
-		}
-	}
-	return false
-}

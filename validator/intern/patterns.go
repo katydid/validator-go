@@ -18,10 +18,6 @@ import (
 	"strings"
 )
 
-func EqualPatterns(ps1, ps2 []*Pattern) bool {
-	return deriveEquals(ps1, ps2)
-}
-
 func StringPatterns(ps []*Pattern) string {
 	if len(ps) == 0 {
 		return "{}"
