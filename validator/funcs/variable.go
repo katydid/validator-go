@@ -153,7 +153,7 @@ func (this *varBytes) Eval() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if kind != parse.StringKind {
+	if kind != parse.BytesKind {
 		return nil, ErrNotBytesConst{}
 	}
 	return v, nil
