@@ -15,13 +15,13 @@
 package auto
 
 import (
-	"katydid.org.za/go/parser-go/cast"
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/compose"
-	"katydid.org.za/go/validator-go/validator/funcs"
-	"katydid.org.za/go/validator-go/validator/intern"
-	"katydid.org.za/go/validator-go/validator/sets"
-	"katydid.org.za/go/validator-go/validator/std"
+	"go.katydid.org.za/parser-go/cast"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/compose"
+	"go.katydid.org.za/validator-go/validator/funcs"
+	"go.katydid.org.za/validator-go/validator/intern"
+	"go.katydid.org.za/validator-go/validator/sets"
+	"go.katydid.org.za/validator-go/validator/std"
 )
 
 // callNode represents a node in the call tree.

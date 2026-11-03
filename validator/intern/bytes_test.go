@@ -17,9 +17,9 @@ package intern_test
 import (
 	"testing"
 
-	"katydid.org.za/go/parser-go/hedge"
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/intern"
+	"go.katydid.org.za/parser-go/hedge"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/intern"
 )
 
 func TestBytes(t *testing.T) {

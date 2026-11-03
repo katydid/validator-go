@@ -18,8 +18,8 @@ import (
 	"strings"
 	"testing"
 
-	"katydid.org.za/go/parser-go/debug"
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/parser-go/debug"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 func ptr[A any](a A) *A {

@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"strings"
 
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/funcs"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/funcs"
 )
 
 type PatternType int

@@ -19,7 +19,7 @@ import (
 	"sort"
 	"testing"
 
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 func Zip(patterns []*ast.Pattern) ([]*ast.Pattern, []int) {

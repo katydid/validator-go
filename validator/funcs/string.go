@@ -17,7 +17,7 @@ package funcs
 import (
 	"strings"
 
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 // ToLower returns a toLower function with the input function as its parameter.

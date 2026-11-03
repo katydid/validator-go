@@ -18,7 +18,7 @@ all: nuke dep regenerate build test vet
 
 dep:
 	go install -v github.com/goccmack/gocc
-	go install -v awalterschulze.org/go/goderive
+	go install -v go.awalterschulze.org/goderive
 
 test:
 	go clean -testcache
@@ -71,7 +71,7 @@ cover:
 	rm -rf coverdata || true
 	mkdir coverdata
 	GOCOVERDIR=coverdata ./cover.bin
-	go tool covdata textfmt -pkg=katydid.org.za/go/validator-go/validator/auto,katydid.org.za/go/validator-go/validator/mem,katydid.org.za/go/validator-go/validator/intern -i=coverdata -o cover.txt
+	go tool covdata textfmt -pkg=go.katydid.org.za/validator-go/validator/auto,go.katydid.org.za/validator-go/validator/mem,go.katydid.org.za/validator-go/validator/intern -i=coverdata -o cover.txt
 	go tool cover -func=cover.txt | grep total
 	go tool covdata textfmt -i=coverdata -o cover.txt
 

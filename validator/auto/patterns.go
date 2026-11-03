@@ -15,7 +15,7 @@
 package auto
 
 import (
-	"katydid.org.za/go/validator-go/validator/intern"
+	"go.katydid.org.za/validator-go/validator/intern"
 )
 
 type PatternsSet struct {

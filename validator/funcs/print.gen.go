@@ -3,7 +3,7 @@ package funcs
 
 import (
 	"fmt"
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 type printDouble struct {

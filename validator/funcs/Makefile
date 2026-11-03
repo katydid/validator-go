@@ -13,7 +13,7 @@
 # limitations under the License.
 
 regenerate:
-	go install katydid.org.za/go/validator-go/validator/funcs/funcs-gen
+	go install go.katydid.org.za/validator-go/validator/funcs/funcs-gen
 	funcs-gen ./
 	goderive .
 	gofmt -l -s -w *.gen.go

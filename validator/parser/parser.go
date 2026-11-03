@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "katydid.org.za/go/validator-go/validator/errors"
-	"katydid.org.za/go/validator-go/validator/token"
+	parseError "go.katydid.org.za/validator-go/validator/errors"
+	"go.katydid.org.za/validator-go/validator/token"
 )
 
 const (

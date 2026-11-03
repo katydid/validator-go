@@ -15,9 +15,9 @@
 package auto
 
 import (
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/compose"
-	"katydid.org.za/go/validator-go/validator/intern"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/compose"
+	"go.katydid.org.za/validator-go/validator/intern"
 )
 
 func (this *ifExprs) eval(label parse.Token) ([]*intern.Pattern, error) {

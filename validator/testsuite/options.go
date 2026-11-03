@@ -16,7 +16,6 @@ package testsuite
 
 import (
 	"os"
-	"path/filepath"
 )
 
 type options struct {
@@ -25,17 +24,8 @@ type options struct {
 	codecs map[string]struct{}
 }
 
-var testpath string
-var benchpath string
-
-func init() {
-	gopath := os.Getenv("GOPATH")
-	if gopath == "" {
-		gopath = "../../../../../../"
-	}
-	testpath = filepath.Join(gopath, "src/katydid.org.za/go/validator-testsuite/validator/tests")
-	benchpath = filepath.Join(gopath, "src/katydid.org.za/go/validator-testsuite/validator/benches")
-}
+var testpath = "../../../validator-testsuite/validator/tests"
+var benchpath = "../../../validator-testsuite/validator/benches"
 
 func newDefaultTestOptions() *options {
 	return &options{

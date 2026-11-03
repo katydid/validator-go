@@ -15,9 +15,9 @@
 package auto
 
 import (
-	"katydid.org.za/go/parser-go/cast"
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/intern"
+	"go.katydid.org.za/parser-go/cast"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/intern"
 )
 
 type callResult struct {

@@ -2,8 +2,8 @@
 package funcs
 
 import (
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 type varDouble struct {

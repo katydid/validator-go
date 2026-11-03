@@ -18,19 +18,19 @@ import (
 	"fmt"
 	"strings"
 
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/auto"
-	"katydid.org.za/go/validator-go/validator/intern"
-	"katydid.org.za/go/validator-go/validator/mem"
-	"katydid.org.za/go/validator-go/validator/testsuite"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/auto"
+	"go.katydid.org.za/validator-go/validator/intern"
+	"go.katydid.org.za/validator-go/validator/mem"
+	"go.katydid.org.za/validator-go/validator/testsuite"
 )
 
 func main() {
 	opts := []testsuite.Option{
 		testsuite.Must(),
 		testsuite.OnlyHedgeJSONXMLCodec(),
-		testsuite.WithPath("../../../../src/katydid.org.za/go/validator-testsuite/validator/tests"),
+		testsuite.WithPath("../../validator-testsuite/validator/tests"),
 	}
 	exists, err := testsuite.TestSuiteExists(opts...)
 	if !exists {

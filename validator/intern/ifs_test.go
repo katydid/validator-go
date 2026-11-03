@@ -18,10 +18,10 @@ import (
 	"reflect"
 	"testing"
 
-	"katydid.org.za/go/parser-go/debug"
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/funcs"
-	"katydid.org.za/go/validator-go/validator/intern"
+	"go.katydid.org.za/parser-go/debug"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/funcs"
+	"go.katydid.org.za/validator-go/validator/intern"
 )
 
 var (

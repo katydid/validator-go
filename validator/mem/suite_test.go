@@ -17,11 +17,11 @@ package mem_test
 import (
 	"testing"
 
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/intern"
-	"katydid.org.za/go/validator-go/validator/mem"
-	"katydid.org.za/go/validator-go/validator/testsuite"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/intern"
+	"go.katydid.org.za/validator-go/validator/mem"
+	"go.katydid.org.za/validator-go/validator/testsuite"
 )
 
 func TestSuite(t *testing.T) {

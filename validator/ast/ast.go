@@ -14,7 +14,7 @@
 
 package ast
 
-import types "katydid.org.za/go/validator-go/validator/types"
+import types "go.katydid.org.za/validator-go/validator/types"
 
 // Grammar is the ast node representing the whole grammar.
 type Grammar struct {

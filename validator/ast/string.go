@@ -20,7 +20,7 @@ import (
 	"strconv"
 	"strings"
 
-	"katydid.org.za/go/validator-go/validator/types"
+	"go.katydid.org.za/validator-go/validator/types"
 )
 
 // String returns the validator string representation of the Grammar instance.

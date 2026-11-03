@@ -2,7 +2,7 @@
 
 [Katydid](https://katydid.org.za) is a validation language. `validator-go` is a validator for Katydid in Go.
 
-[![GoDoc](https://godoc.org/katydid.org.za/go/validator-go?status.svg)](https://godoc.org/katydid.org.za/go/validator-go)
+[![GoDoc](https://godoc.org/go.katydid.org.za/validator-go?status.svg)](https://godoc.org/go.katydid.org.za/validator-go)
 [![Build Status](https://git.katydid.org.za/validator-go/actions/workflows/build.yml/badge.svg)](https://git.katydid.org.za/validator-go/actions)
 
 ![Katydid Logo](https://katydid.org.za/logo.png)
@@ -18,8 +18,8 @@ Katydid consists of:
 package main
 
 import (
-  "katydid.org.za/go/validator-go/validator"
-  "katydid.org.za/go/parser-go-json/json"
+  "go.katydid.org.za/validator-go/validator"
+  "go.katydid.org.za/parser-go-json/json"
 )
 
 func main() {

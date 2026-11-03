@@ -15,9 +15,9 @@
 package auto
 
 import (
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/intern"
-	"katydid.org.za/go/validator-go/validator/sets"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/intern"
+	"go.katydid.org.za/validator-go/validator/sets"
 )
 
 func newCompiler(g *ast.Grammar, record bool, maxBitSetSize int) (*compiler, error) {

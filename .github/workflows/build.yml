@@ -9,55 +9,55 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        path: gopath/src/katydid.org.za/go/validator-go
+        path: gopath/src/go.katydid.org.za/validator-go
     - name: Checkout testsuite
       uses: actions/checkout@v4
       with:
         repository: katydid/validator-testsuite
-        path: gopath/src/katydid.org.za/go/validator-testsuite
+        path: gopath/src/go.katydid.org.za/validator-testsuite
     - name: Setup Go
       uses: actions/setup-go@v3
       with:
         go-version: 1.26
     - name: Fetch dependencies
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         go mod download -x
     - name: Install tools
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         go install -x github.com/goccmack/gocc
-        go install -x awalterschulze.org/go/goderive
+        go install -x go.awalterschulze.org/goderive
     - name: env
       run: env && go env && pwd
     - name: tree
       run: tree
     - name: Generate
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         PATH=$HOME/bin:$PATH make regenerate
     - name: Build
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         make build
     - name: Test
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         make test
     - name: Test PureGo
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         make test-purego
     - name: Vet
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         make vet
     - name: Checklicencse
       uses: awalterschulze/checklicense@v1.0.6
       with:
-        path: gopath/src/katydid.org.za/go/validator-go
+        path: gopath/src/go.katydid.org.za/validator-go
         ignores: doc.go .svg .txt bnf
     - name: Diff
       run: |
-        cd gopath/src/katydid.org.za/go/validator-go
+        cd gopath/src/go.katydid.org.za/validator-go
         make diff

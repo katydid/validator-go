@@ -17,9 +17,9 @@ package compose
 import (
 	"reflect"
 
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/funcs"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/funcs"
 )
 
 // Bool is an interface that represents a function, that given a value for a variable returns a boolean or an error.

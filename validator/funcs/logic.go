@@ -15,7 +15,7 @@
 package funcs
 
 import (
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 // Not returns a new not function with the input function as its parameter.

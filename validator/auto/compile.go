@@ -17,8 +17,8 @@ package auto
 import (
 	"errors"
 
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/sets"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/sets"
 )
 
 // A maximum number is set for bitsets as an option, when it is exceeded the number of options to consider is too large and we recommend rather using the memoized version of katydid.

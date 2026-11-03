@@ -17,7 +17,7 @@ package funcs
 import (
 	"time"
 
-	"katydid.org.za/go/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 // Now returns a new now function.

@@ -15,10 +15,10 @@
 package mem
 
 import (
-	"katydid.org.za/go/parser-go/cast"
-	"katydid.org.za/go/parser-go/cp"
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator/intern"
+	"go.katydid.org.za/parser-go/cast"
+	"go.katydid.org.za/parser-go/cp"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator/intern"
 )
 
 func (this *Mem) GetFieldNameCall(state int, tree parse.Parser) (int, int, bool) {

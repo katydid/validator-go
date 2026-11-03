@@ -17,8 +17,8 @@ package auto_test
 import (
 	"testing"
 
-	"katydid.org.za/go/validator-go/validator/auto"
-	"katydid.org.za/go/validator-go/validator/parser"
+	"go.katydid.org.za/validator-go/validator/auto"
+	"go.katydid.org.za/validator-go/validator/parser"
 )
 
 func benchCompile(b *testing.B, str string) {

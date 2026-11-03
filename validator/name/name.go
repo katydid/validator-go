@@ -18,9 +18,9 @@ package name
 import (
 	"fmt"
 
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/compose"
-	"katydid.org.za/go/validator-go/validator/funcs"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/compose"
+	"go.katydid.org.za/validator-go/validator/funcs"
 )
 
 // NameToFunc compiles a parsed name expression into a function.

@@ -17,7 +17,7 @@ package parser_test
 import (
 	"testing"
 
-	"katydid.org.za/go/validator-go/validator/parser"
+	"go.katydid.org.za/validator-go/validator/parser"
 )
 
 func TestParse(t *testing.T) {

@@ -17,7 +17,7 @@ package intern
 import (
 	"testing"
 
-	"katydid.org.za/go/validator-go/validator/sets"
+	"go.katydid.org.za/validator-go/validator/sets"
 )
 
 func TestSetsAddIndex(t *testing.T) {

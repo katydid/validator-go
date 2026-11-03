@@ -19,11 +19,11 @@ import (
 	"sort"
 	"strings"
 
-	"katydid.org.za/go/validator-go/validator/ast"
-	"katydid.org.za/go/validator-go/validator/compose"
-	"katydid.org.za/go/validator-go/validator/funcs"
-	nameexpr "katydid.org.za/go/validator-go/validator/name"
-	"katydid.org.za/go/validator-go/validator/std"
+	"go.katydid.org.za/validator-go/validator/ast"
+	"go.katydid.org.za/validator-go/validator/compose"
+	"go.katydid.org.za/validator-go/validator/funcs"
+	nameexpr "go.katydid.org.za/validator-go/validator/name"
+	"go.katydid.org.za/validator-go/validator/std"
 )
 
 type Construct interface {

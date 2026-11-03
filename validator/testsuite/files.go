@@ -23,14 +23,14 @@ import (
 	goreflect "reflect"
 	"strings"
 
-	jsonparse "katydid.org.za/go/parser-go-json/json"
-	reflectparse "katydid.org.za/go/parser-go-reflect/reflect"
-	xmlparse "katydid.org.za/go/parser-go-xml/xml"
-	"katydid.org.za/go/parser-go/hedge"
-	"katydid.org.za/go/parser-go/log"
-	"katydid.org.za/go/parser-go/parse"
-	"katydid.org.za/go/validator-go/validator"
-	"katydid.org.za/go/validator-go/validator/ast"
+	jsonparse "go.katydid.org.za/parser-go-json/json"
+	reflectparse "go.katydid.org.za/parser-go-reflect/reflect"
+	xmlparse "go.katydid.org.za/parser-go-xml/xml"
+	"go.katydid.org.za/parser-go/hedge"
+	"go.katydid.org.za/parser-go/log"
+	"go.katydid.org.za/parser-go/parse"
+	"go.katydid.org.za/validator-go/validator"
+	"go.katydid.org.za/validator-go/validator/ast"
 )
 
 func exists(filename string) bool {

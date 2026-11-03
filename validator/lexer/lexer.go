@@ -6,7 +6,7 @@ import (
 	"os"
 	"unicode/utf8"
 
-	"katydid.org.za/go/validator-go/validator/token"
+	"go.katydid.org.za/validator-go/validator/token"
 )
 
 const (
